@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="ace_view_pos_config_form">
+        <field name="name">pos.config.form.view.inherit</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <center>
+                    <h1>
+                        <ul>POS Laundry</ul>
+                    </h1>
+                </center>
+                <div class="row mt16 o_settings_container" id="pos_report_days">
+                    <div class="col-12 col-lg-6 o_setting_box" id="partial_pay">
+                        <div class="o_setting_left_pane">
+                            <field name="enable_partial_payment"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="enable_partial_payment"/>
+                            <div class="text-muted" id="reorder_order">
+                                Partially Pay for order
+                            </div>
+                            <div class="content-group mt16"
+                                 attrs="{'invisible' : [('enable_partial_payment', '=', False)]}">
+                                <div class="row mt16">
+                                    <label string="Last Days" for="last_days" class="col-md-3 o_light_label"/>
+                                    <field name="last_days"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Record Per Page" for="record_per_page"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="record_per_page"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Paid Amount Product" for="prod_for_payment"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="prod_for_payment" attrs="{'invisible':[('enable_partial_payment','=',False)],
+                                        'required':[('enable_partial_payment','=',True)]}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="partial_payment_income_account" class="col-md-3 o_light_label"/>
+                                    <field name="partial_payment_income_account"
+                                           domain="[('user_type_id.internal_group','=','income')]"
+                                           attrs="{'invisible':[('enable_partial_payment','=',False)], 'required':[('enable_partial_payment','=',True)]}"
+                                           options="{'no_create_edit': True, 'no_open': True}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="enable_pos_report_days">
+                        <div class="o_setting_left_pane">
+                            <field name="enable_pos_report_days"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="enable_pos_report_days" string="POS Report Days"/>
+                            <div class="text-muted" id="enable_pos_report_days">
+                                POS Report Days
+                            </div>
+                            <div class="content-group mt16"
+                                 attrs="{'invisible' : [('enable_pos_report_days', '=', False)]}">
+                                <div class="row mt16">
+                                    <label string="Overdue Order Days" for="overdue_order_days"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="overdue_order_days"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Late Pickup Days" for="late_pickup_order_days"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="late_pickup_order_days"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="default_delivery_state">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Default Delivery State" for="default_delivery_state"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="default_delivery_state" required="1"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="adjustment_product">
+                        <div class="o_setting_left_pane">
+                            <field name="enable_customer_adjustment"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="enable_customer_adjustment"/>
+                            <div class="text-muted">
+                                Enable Customer Adjustment.
+                            </div>
+                            <div class="content-group"
+                                 attrs="{'invisible' : [('enable_customer_adjustment', '=', False)]}">
+                                <div class="row mt16">
+                                    <label string="Adjustment Product" for="adjustment_product"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="adjustment_product"
+                                           attrs="{'invisible':[('enable_customer_adjustment','=',False)],'required':[('enable_customer_adjustment','=',True)]}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Adjustment Account" for="acc_for_adjustment"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="acc_for_adjustment"
+                                           options="{'no_create': True, 'no_create_edit':True}"
+                                           attrs="{'invisible':[('enable_customer_adjustment','=',False)],'required':[('enable_customer_adjustment','=',True)]}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Adjustment Payment Method" for="jr_for_adjustment"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="jr_for_adjustment" domain="[('allow_for_adjustment','=',True)]"
+                                           options="{'no_create': True, 'no_create_edit':True}"
+                                           attrs="{'invisible':[('enable_customer_adjustment','=',False)],'required':[('enable_customer_adjustment','=',True)]}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="free_rack_from_order">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Free Rack From Order State" for="free_rack_from_order"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="free_rack_from_order" required="1"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="enable_membership_card"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="enable_membership_card"/>
+                            <div class="text-muted">
+                                Enable to use Membership Card in POS Interface.
+                            </div>
+                            <div class="content-group" attrs="{'invisible' : [('enable_membership_card', '=', False)]}">
+                                <div class="row mt16">
+                                    <label string="Product" for="membership_card_product_id"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="membership_card_product_id" domain="[('available_in_pos','=','True')]"
+                                           attrs="{'invisible':[('enable_membership_card','=',False)],'required':[('enable_membership_card','=',True)]}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Journal" for="enable_journal_id" class="col-md-3 o_light_label"/>
+                                    <field name="enable_journal_id"
+                                           attrs="{'invisible' : [('enable_membership_card', '=', False)],'required':[('enable_membership_card', '=', True)]}"
+                                           domain="[('allow_for_membership_card','=',True)]"
+                                           context="{'payment_method_ids': payment_method_ids, 'voucher': True}"
+                                           options="{'no_create':True}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Manual Card Number" for="manual_card_number"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="manual_card_number"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Default Expire Month" for="default_exp_date"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="default_exp_date"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Enable Confirmation Message" for="msg_before_card_pay"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="msg_before_card_pay"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="membership_amount" class="col-md-3 o_light_label"/>
+                                    <field name="membership_amount" widget="many2many_tags"
+                                           attrs="{'required':[('enable_membership_card', '=', True)]}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="default_customer_credit_limit">
+                        <div class="o_setting_right_pane">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Customer Credit Limit" for="default_customer_credit_limit"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="default_customer_credit_limit" required="1"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="enable_order_screen">
+                        <div class="o_setting_left_pane">
+                            <field name="enable_order_screen"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="enable_order_screen" string="Order Screen"/>
+                            <div class="text-muted" id="enable_order_screen">
+                                Order Screen
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ace_view_pos_payment_method_form" model="ir.ui.view">
+        <field name="name">pos.payment.method.form.view.inherit</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+        <field name="arch" type="xml">
+            <field name="is_cash_count" position="before">
+                <field name="allow_for_membership_card"/>
+                <field name="allow_for_adjustment"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_customer_preference,access_v,model_customer_preference,base.group_user,1,1,1,1
+access_pos_order_rack,access_v,model_pos_order_rack,base.group_user,1,1,1,1
+access_membership_card,access_membership_card,model_membership_card,base.group_user,1,1,1,1
+access_membership_card_use,access_membership_card_use,model_membership_card_use,base.group_user,1,1,1,1
+access_membership_card_recharge,access_membership_card_recharge,model_membership_card_recharge,base.group_user,1,1,1,1
+access_membership_card_type,access_membership_card_type,model_membership_card_type,base.group_user,1,1,1,1
+access_membership_amount,access_membership_amount,model_membership_amount,base.group_user,1,1,1,1
+access_pos_order_delivery_state,access_pos_order_delivery_state,model_pos_order_delivery_state,base.group_user,1,1,1,1
+access_adjustment_reason,access_adjustment_reason,model_adjustment_reason,base.group_user,1,1,1,1
+access_customer_adjustment,access_customer_adjustment,model_customer_adjustment,base.group_user,1,1,1,1

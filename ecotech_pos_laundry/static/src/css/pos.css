@@ -1,0 +1,892 @@
+.paging-nav {
+  text-align: right;
+  padding-top: 2px;
+}
+.order-count{
+    margin-left: 20px !important;
+    margin-top: 15px !important;
+    font-size: 35px;
+    font-weight: 900;
+}
+
+.paging-nav a {
+  margin: auto 1px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 14px;
+  background: #91b9e6;
+  color: white;
+  border-radius: 3px;
+}
+
+.paging-nav .selected-page {
+  background: #187ed5;
+  font-weight: bold;
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: 60px 60px;
+  padding-left:25px;
+  width:93%;
+}
+.grid-wrapper div {
+  background-color: #ffa94d;
+}
+#customer_adjustment{
+    width:90%;
+    border-collapse: separate;
+    border-spacing: 10px;
+    text-align:left;
+}
+/* The grid: Three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 50px;
+  text-align: center;
+  font-size: 25px;
+  cursor: pointer;
+  color: white;
+}
+
+.containerTab {
+  padding: 0px;
+  color: black;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Closable button inside the container tab */
+.remove-rack {
+  float: right;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.pos .customer-adjustment-list-screen .customer-adjustment-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .customer-adjustment-list-screen .customer-adjustment-list th, .pos .customer-adjustment-list-screen .customer-adjustment-list td
+{
+    padding: 0px 5px;
+}
+.pos .customer-adjustment-list-screen .customer-adjustment-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+.pos .customer-adjustment-list-screen .customer-adjustment-list thead>tr, .pos .customer-adjustment-list-screen .customer-adjustment-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+.pos .customer-adjustment-list-screen .customer-adjustment-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+.pos .customer-adjustment-list-screen .customer-adjustment-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+.pos .customer-adjustment-list-screen .customer-adjustment-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+.pos .customer-adjustment-list-screen .searchbox {
+    right: auto;
+    margin-left: -150px;
+    margin-top: 8px;
+    left: 90%;
+}
+/*Customer Preferences*/
+.pos .customer-preference-screen .pos-preference-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .customer-preference-screen .pos-preference-list th, .pos .pos-preference-screen .pos-preference-list td
+{
+    padding: 0px 5px;
+}
+.pos .customer-preference-screen .pos-preference-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+.pos .customer-preference-screen .pos-preference-list thead>tr, .pos .customer-preference-screen .pos-preference-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+.pos .customer-preference-screen .pos-preference-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+.pos .customer-preference-screen .pos-preference-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+.pos .customer-preference-screen .pos-preference-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+
+.pos .customer-preference-screen .searchbox {
+    right: auto;
+    margin-left: -150px;
+    margin-top: 8px;
+    left: 90%;
+}
+.pos .customer-preference-screen .searchbox input {
+    width: 120px;
+}
+/*The PosReportList List Screen */
+.pos .pos-report-screen .pos-report-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .pos-report-screen .pos-report-list th, .pos .pos-report-screen .pos-report-list td
+{
+    padding: 0px 5px;
+}
+.pos .pos-report-screen .pos-report-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+.pos .pos-report-screen .pos-report-list thead>tr, .pos .pos-report-screen .pos-report-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+.pos .pos-report-screen .pos-report-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+.pos .pos-report-screen .pos-report-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+.pos .pos-report-screen .pos-report-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+
+.pos .pos-report-screen .searchbox {
+    right: auto;
+    margin-left: -150px;
+    margin-top: 8px;
+    left: 90%;
+}
+.pos .pos-report-screen .searchbox input {
+    width: 120px;
+}
+.screen .top-content .button.promise_today {
+    left: 0px;
+    margin-left: 136px;
+}
+
+.screen .top-content .button.over_due {
+    left: 0px;
+    margin-left: 236px;
+}
+
+.screen .top-content .button.late_for_pickup {
+    left: 0px;
+    margin-left: 357px;
+}
+/*The OrderList List Screen */
+.pos .orderlist-screen .order-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .orderlist-screen .order-list .order-line{
+    cursor: pointer;
+}
+.pos .orderlist-screen .order-list th, .pos .orderlist-screen .order-list td
+{
+    padding: 0px 5px;
+}
+
+.pos .orderlist-screen .order-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+
+.pos .orderlist-screen .order-list thead>tr, .pos .orderlist-screen .order-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+
+.pos .orderlist-screen .order-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+
+.pos .orderlist-screen .order-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+
+.pos .orderlist-screen .order-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+
+.screen .top-content .filter {
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.screen .top-content .button.paid {
+    left: 0px;
+    margin-left: 136px;
+}
+
+.screen .top-content .button.draft {
+    left: 0px;
+    margin-left: 236px;
+}
+
+.screen .top-content .button.posted {
+    left: 0px;
+    margin-left: 357px;
+}
+
+.screen .top-content .button.date {
+    left: 0px;
+    margin-left: 536px;
+    z-index: 100;
+}
+
+.screen .top-content .button.not-selected {
+    background: rgb(230, 230, 230);
+    color: #000;
+}
+
+.screen .top-content .button.selected {
+    background: #088000;
+    color: #FFF;
+}
+
+.pos .orderlist-screen .searchbox {
+    right: auto;
+    margin-left: -150px;
+    margin-top: 8px;
+    left: 92%;
+}
+
+.screen .top-content .button.not-selected {
+    background: rgb(230, 230, 230);
+}
+
+.pos .orderlist-screen .searchbox input {
+    width: 120px;
+}
+
+.screen .top-content .date-filter input {
+    margin-top: 13px;
+    margin-left: 72px;
+    width: 150px;
+    height: 27px
+}
+
+
+.screen .top-content .date-filter i {
+    height: 20px;
+}
+
+#pagination {
+    margin-top: 20px;
+    float: left;
+}
+
+#pagination div {
+    display: inline-block;
+}
+
+.popup-reorder-product {
+    padding: 3px !important;
+    border-radius: 5px !important;
+    background: rgba(255, 255, 255, 0.5);
+    width:819px !important;
+}
+
+.popup-reorder-product .title {
+    margin: 0;
+    padding: 20px;
+    border-radius: 3px 3px 0px 0px;
+    border-bottom: solid 3px rgba(110, 200, 155, 1) !important;
+}
+
+.popup-reorder-product .popup-product-list {
+    border-spacing: 0.5rem;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.popup-reorder-product .popup-product-list thead tr {
+    font-size: 18px;
+}
+
+.popup-reorder-product .popup-product-list table{
+    overflow-y: auto;
+}
+
+.popup-reorder-product .popup-product-list tbody tr {
+    font-size: 14px;
+    font-weight: normal !important;
+    line-height: 3rem;
+}
+
+.popup-reorder-product .popup-product-list tbody tr:nth-child(even) {
+    background: rgb(230, 230, 230);
+}
+
+.popup-reorder-product .header .btn {
+    cursor: pointer;
+    float: right;
+    border:none !important;
+    background: none !important;
+}
+
+.popup-reorder-product .footer .save .icon {
+    float: left;
+}
+
+.popup-reorder-product .footer .save .text {
+    float: left;
+    margin-left: 8px;
+    margin-top: -5px;
+}
+.rotate {
+    transform: rotate(-360deg);
+    transition: .7s;
+}
+.rotate-reset {
+    transform: rotate(0deg);
+    transition: .7s;
+}
+/* ORDER DETAIL SCREEN */
+.orderdetail-screen .order-details{
+    padding: 16px;
+    border-bottom: solid 5px rgb(110,200,155);
+}
+.orderdetail-screen .order-name {
+    font-size: 32px;
+    line-height: 64px;
+    margin-bottom: 16px;
+}
+.orderdetail-screen .order-details-box{
+    font-size: 16px;
+}
+.orderdetail-screen .order-details-left{
+    width: 50%;
+    float: left;
+}
+
+.orderdetail-screen .order-details-right{
+    width: 50%;
+    float: right;
+}
+.orderdetail-screen .order-detail{
+    line-height: 24px;
+}
+.orderdetail-screen .order-detail > .label {
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;
+    text-align: left;
+    margin-right: 8px;
+}
+.orderdetail-screen .top-content .button.delivered {
+    left: 0px;
+    margin-left: 162px;
+}
+.orderdetail-screen .top-content .button.pay_delivered {
+    left: 0px;
+    margin-left: 310px;
+}
+.orderdetail-screen .top-content .button.payer {
+    left: 0px;
+    margin-left: 505px;
+}
+.orderdetail-screen .paymentline-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .orderdetail-screen .paymentline-list th, .pos .orderdetail-screen .paymentline-list td
+{
+    padding: 0px 5px;
+}
+
+.pos .orderdetail-screen .paymentline-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+
+.pos .orderdetail-screen .paymentline-list thead>tr, .pos .orderdetail-screen .paymentline-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+
+.pos .orderdetail-screen .paymentline-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+
+.pos .orderdetail-screen .paymentline-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+
+.pos .orderdetail-screen .paymentline-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+.screen .top-content .button.pay {
+    right: 0px;
+    margin-right: 16px;
+}
+#client_list_header_buttons {
+    height: 64px;
+    position: absolute; top: 0; right: 165px; left: 50%;
+}
+.screen .top-content .client_history_button {
+    float: left;
+    font-size: 15px;
+    margin-right: 0;
+    position: static !important;
+}
+.pos .clientlist-screen .searchbox {
+    left: 30%;
+}
+
+.pos .clientlist-screen .button.new-customer {
+    left: 30%;
+}
+
+.pos .clientlist-screen .client-picture {
+    margin-right: 26px;
+}
+
+.pos .clientlist-screen .client-detail > .label {
+    width: 85px;
+}
+/*The Membership Card OrderList List Screen */
+.pos .membership-list-screen .membership-card-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .membership-list-screen .membership-card-list th, .pos .membership-list-screen .membership-card-list td
+{
+    padding: 0px 5px;
+}
+.pos .membership-list-screen .membership-card-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+.pos .membership-list-screen .membership-card-list thead>tr, .pos .membership-list-screen .membership-card-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+.pos .membership-list-screen .membership-card-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+.pos .membership-list-screen .membership-card-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+.pos .membership-list-screen .membership-card-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+.screen .top-content .filter {
+    margin-left: 10px;
+    margin-top: 15px;
+}
+.screen .top-content .button.create {
+    left: 0px;
+    margin-left: 136px;
+}
+.screen .top-content .button.draft {
+    left: 0px;
+    margin-left: 236px;
+}
+.screen .top-content .button.posted {
+    left: 0px;
+    margin-left: 336px;
+}
+.screen .top-content .button.date {
+    left: 0px;
+    margin-left: 536px;
+    z-index: 100;
+}
+.screen .top-content .button.not-selected {
+    background: rgb(230, 230, 230);
+    color: #000;
+}
+.screen .top-content .button.selected {
+    background: #088000;
+    color: #FFF;
+}
+.pos .membership-list-screen .searchbox {
+    right: auto;
+    margin-left: -150px;
+    margin-top: 8px;
+    left: 90%;
+}
+.screen .top-content .button.not-selected {
+    background: rgb(230, 230, 230);
+}
+.pos .membership-list-screen .searchbox input {
+    width: 120px;
+}
+.screen .top-content .date-filter input {
+    margin-top: 13px;
+    margin-left: 12px;
+    width: 150px;
+    height: 27px
+}
+.screen .top-content .date-filter i {
+    height: 20px;
+}
+#pagination {
+    margin-bottom: 20px;
+    float: center;
+    position: fixed;
+}
+#pagination div {
+    display: inline-block;
+}
+.popup-reorder-product {
+    padding: 3px !important;
+    border-radius: 5px !important;
+    background: rgba(255, 255, 255, 0.5);
+    width:819px !important;
+}
+.popup-reorder-product .title {
+    margin: 0;
+    padding: 20px;
+    border-radius: 3px 3px 0px 0px;
+    border-bottom: solid 3px rgba(110, 200, 155, 1) !important;
+}
+.popup-reorder-product .popup-product-list {
+    border-spacing: 0.5rem;
+    border-collapse: collapse;
+    width: 100%;
+}
+.popup-reorder-product .popup-product-list thead tr {
+    font-size: 18px;
+}
+.popup-reorder-product .popup-product-list table{
+    overflow-y: auto;
+}
+.popup-reorder-product .popup-product-list tbody tr {
+    font-size: 14px;
+    font-weight: normal !important;
+    line-height: 3rem;
+}
+.popup-reorder-product .popup-product-list tbody tr:nth-child(even) {
+    background: rgb(230, 230, 230);
+}
+.popup-reorder-product .header .btn {
+    cursor: pointer;
+    float: right;
+    border:none !important;
+    background: none !important;
+}
+.popup-reorder-product .footer .save .icon {
+    float: left;
+}
+.popup-reorder-product .footer .save .text {
+    float: left;
+    margin-left: 8px;
+    margin-top: -5px;
+}
+.rotate {
+    transform: rotate(-360deg);
+    transition: .7s;
+}
+.rotate-reset {
+    transform: rotate(0deg);
+    transition: .7s;
+}
+.pos .popup-textinput.common
+{
+    font-size: 18px;
+    font-weight: normal;
+    font-family: 'Lato';
+    font-family: Lato;
+    color: #555555;
+}
+.pos .popup-textinput.common .title
+{
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.pos .popup .button.commonbutton{
+    float:right;
+    width: 110px;
+    height: 40px;
+    line-height:40px;
+    text-align:center;
+    border-radius: 2px;
+    margin-top:10px;
+    margin-right:10px;
+    font-size:   14px;
+    font-weight: bold;
+    font-family: 'Lato';
+    font-family: Lato;
+    cursor: pointer;
+    border: solid 1px rgba(60,60,60,0.1);
+    background: rgba(0,0,0,0.05);
+}
+.disable_tag{
+    pointer-events:none;
+}
+.ui-autocomplete {
+    max-height: 150px;
+    height: auto;
+    min-height:0px;
+    width: 150px;
+    background: #ffffff;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1000 !important;
+}
+object{
+    margin-left: 0px !important;
+}
+
+.membership_card table{
+    border-spacing: 10px;
+    border-collapse: separate;
+}
+.membership_card table tr td{
+    font-weight: normal;
+    text-align: left !important;
+    font-size: 18px;
+}
+.membership_card table tr td:last-child *{
+    width: 100% !important;
+}
+.membership_card table tr td input{
+    min-height: 0px !important;
+    height: 30px !important;
+    font-size: 18px !important;
+    padding: 0px !important;
+    padding-left: 10px !important;
+}
+.create_membership_card{
+    width: 500px !important;
+    height: 435px !important;
+}
+.edit_membership_card{
+    height: 365px !important;
+}
+.edit_membership_card table{
+    border-spacing: 28px;
+}
+.membership_gift_card table{
+    border-spacing: 22px;
+}
+.membership_gift_card table tr td input{
+    font-size: 18px !important;
+}
+.exchange_membership_card{
+    width: 400px !important;
+    height: 271px !important;
+}
+.exchange_membership_card table{
+    border-spacing: 22px;
+}
+.redeem_membership_card table{
+    border-spacing: 22px;
+}
+
+.pos .pos-label-container {
+    font-size: 0.75em;
+    l
+    text-align: center;
+    direction: ltr;
+}
+.pos-label-print {
+    width: 512px;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: left;
+    direction: ltr;
+    font-size: 28px;
+    color: #000000;
+}
+.pos .pos-label-container > div {
+    line-height: 1em;
+    text-align: left;
+    width: 90%;
+    background-color:
+    white;
+    margin-left: 11.5em;
+    margin-top: 1em;
+    padding: 8px;
+    font-size: 12px;
+    padding-bottom: 30px;
+    display: inline-block;
+    border: solid 1px
+    rgb(220,220,220);
+}
+
+.pos .pos-receipt-container {
+    font-size: 0.75em;
+    text-align: center;
+    direction: ltr;
+}
+
+.pos .pos-receipt-container > div {
+    text-align: left;
+    background-color: white;
+    width: 60%;
+    margin: 20px;
+    padding: 15px;
+    font-size: 16px;
+    padding-bottom:30px;
+    display: inline-block;
+    border: solid 1px rgb(220,220,220);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.pos .pos-label-container {
+        text-align: left;
+    }
+.pos-receipt-print {
+    width: 512px;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: left;
+    direction: ltr;
+    font-size: 28px;
+    color: #000000;
+}
+
+.pos-receipt .pos-receipt-right-align {
+    float: right;
+}
+
+.pos-receipt .pos-receipt-center-align {
+    text-align: center;
+}
+
+.pos-receipt .pos-receipt-left-padding {
+    padding-left: 2em;
+}
+
+.pos-receipt .pos-receipt-logo {
+    width: 66%;
+    display: block;
+    margin: 0 auto;
+}
+
+.pos-receipt .pos-receipt-contact {
+    text-align: center;
+    line-height: 1em;
+    font-size: 76%;
+}
+
+.pos-receipt .orderline-table{
+    line-height: 1.5em;
+    font-size: 85%;
+    margin-bottom: 0.7em;
+    width: 100%;
+}
+
+.pos-receipt .orderline-table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.pos-receipt .orderline-table  th {
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.pos-receipt .orderline-table  tr:last-child {
+    border-bottom: 2px solid black;
+}
+
+.pos-receipt .pos-receipt-order-data {
+    text-align: center;
+    font-size: 75%;
+}
+
+.pos-receipt .pos-receipt-amount {
+    font-size: 125%;
+    padding-left: 6em;
+}
+
+.pos-receipt .pos-receipt-title {
+    font-weight: bold;
+    font-size: 125%;
+    text-align: center;
+}
+
+.pos-receipt .pos-receipt-header {
+    font-size: 125%;
+    text-align: center;
+}
+
+.pos-receipt .pos-order-receipt-cancel {
+    color: red;
+}
+
+.pos-payment-terminal-receipt {
+    text-align: center;
+    font-size: 75%;
+}
+.pos-receipt .pos-receipt-table{
+    font-size: 87%;
+    line-height: 1.6em;
+}
+.pos-receipt br{
+    display:none;
+}
+
+.pos-receipt .pos-footer-text{
+    font-size: 85%;
+    line-height: 1em;
+}
+.pos-receipt .pos-footer-text br{
+    display:block;
+}
+
+//last
+.pos .pos-receipt-container {
+    font-size: 0.75em;
+    text-align: center;
+    direction: ltr;
+    width: 40%;
+}
+

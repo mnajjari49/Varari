@@ -1,0 +1,1319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ShowOrderList">
+        <div class="control-button show_order_list">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            Orders
+        </div>
+    </t>
+
+     <t t-name="SaveDraftButton">
+        <div class="control-button js_save_draft_order">
+            <li class="fa fa-file-text"></li>
+            Draft
+        </div>
+    </t>
+
+    <t t-name="PosReportButton">
+        <div class="control-button js_save_draft_order">
+            <li class="fa fa-file-text"></li>
+            POS Reports
+        </div>
+    </t>
+    <t t-name="PromiseDatePopupWidget">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-rack">
+                <header class="title">Set Promise Date </header>
+                <main class="body">
+                    <div>
+                        <input type="text" id="set_promise_date" style="width:65%"/>
+                    </div>
+                    <br/>
+                </main>
+                <footer class="footer">
+                    <div class="button confirm">
+                        Apply
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+    <t t-name="renderRack">
+        <t t-foreach="rack" t-as="rack">
+            <div id="b1" class="containerTab" style="background:green">
+              <span class="remove-rack" t-att-data-id="rack.id">
+                  x
+              </span>
+                    <p><t t-esc="rack.name"/></p>
+            </div>
+        </t>
+    </t>
+    <t t-name="RackSelectionPopupWidget">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-rack">
+                <header class="title">Rack for Order-<t t-esc="widget.order_ref"/> </header>
+                <main class="body">
+                    <div>
+                        <input type="text" id="rack_selection" style="width:90%"/>
+<!--                        <span class="button add_rack" style="margin-top:1px">-->
+<!--                            Add-->
+<!--                        </span>-->
+                    </div>
+                    <br/>
+                    <div class="grid-wrapper racklist">
+                        <t t-if="widget.rack">
+                            <t t-foreach="widget.rack" t-as="rack">
+                                <div id="b1" class="containerTab" style="background:green">
+                                  <span class="remove-rack" t-att-data-id="rack.id">
+                                      x
+                                  </span>
+                                        <p><t t-esc="rack.name"/></p>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                </main>
+                <footer class="footer">
+                <div class="button confirm">
+                        Apply
+                    </div>
+                    <div class="button cancel">
+                        Close
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+    <t t-name="CustomerPreferencesWidget">
+        <div class="customer-preference-screen screen">
+            <t t-name="CustomerPreferencesWidget">
+            <div class="screen-content">
+                <section class="top-content">
+                    <span class='button back'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Back
+                    </span>
+                    <span class='button create'>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Create Preference
+                    </span>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y' style="height: 600px;">
+                                    <table class='pos-preference-list'>
+                                        <thead>
+                                            <tr>
+                                                <th style="width:30%">Preference</th>
+                                                <th style="width:50%">Description</th>
+                                                <th style="width:10%">Edit</th>
+                                                <th style="width:10%">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class='preference-list-contents'>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </t>
+        </div>
+    </t>
+    <t t-name="preferenceList">
+        <tr class='order-line'>
+            <td style="padding-left:20px;"><t t-esc='preference.name' /></td>
+            <td style="padding-left:10px;"><t t-esc='preference.description || ""' /></td>
+            <td class="order_operation_button">
+                <span id="edit_preference" t-att-data-id='preference.id' title="Pay" style="cursor:pointer;font-size: 27px;">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </span>
+            </td>
+            <td align="center" class="order_operation_button" t-att-data-operation="reorder">
+                <span id="del_preference" t-att-data-id='preference.id' title="Remove" style="cursor:pointer;font-size: 27px;">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </span>
+            </td>
+        </tr>
+    </t>
+    <t t-name="ConfirmRemovePreferencePopupWidget">
+        <div role="dialog" class="modal-dialog">
+            <div class="popup popup-confirm-predernce">
+                <header class="title"><t t-esc=" widget.options.title || 'Confirm ?' " /></header>
+                <main class="body"><t t-esc="  widget.options.body || '' "/></main>
+                <footer class="footer">
+                    <div class="button confirm">
+                        Confirm
+                    </div>
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </t>
+    <t t-name="PosReportScreenWidget">
+        <div class="pos-report-screen screen">
+            <div class="screen-content">
+                <section class="top-content">
+                    <span class='button back' style="margin-left:5px">
+                        <i class='fa fa-angle-double-left'></i>
+                        Back
+                    </span>
+                    <span class='button promise_today selected' style="margin-left:100px">
+                        <i class='fa fa-credit-card'></i>
+                        Promised Today
+                    </span>
+                    <span class='button over_due' style="left:65px;">
+                        <i class='fa fa-file-text'></i>
+                        Overdue Orders
+                    </span>
+                     <span class='button late_for_pickup' style="margin-left:325px;left:180px;">
+                        <i class='fa fa-file-text'></i>
+                        Late for Pickup
+                    </span>
+                    <span class='button reload' style="margin-left:185px;">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </span>
+                     <span class='searchbox' style="margin-left:-175px;">
+                        <input placeholder='Search orders' style="width: 120px;left:87px;" />
+                        <span class='search-clear'></span>
+                    </span>
+                    <span class='searchbox order-count' style="right:0">0</span>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y' style="height:auto;max-height: 720px !important;">
+                                    <div>
+                                        <table class='pos-report-list'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Order Ref</th>
+<!--                                                    <th>Receipt Ref</th>-->
+                                                    <th>Customer</th>
+                                                    <th>Order Date</th>
+                                                    <th>Promise Date</th>
+                                                    <th>Total</th>
+                                                    <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                                                        <th>Amount due</th>
+                                                    </t>
+                                                    <th>Delivery State</th>
+                                                    <th>Receipt</th>
+                                                    <th>Products</th>
+                                                     <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                                                        <th>Pay</th>
+                                                    </t>
+                                                    <th>Rack</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  class='pos-report-list-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="OrderListScreenWidget">
+        <div class="orderlist-screen screen">
+            <div class="screen-content" style="max-width: 1275px;">
+                <section class="top-content">
+                    <span class='button back'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Back
+                    </span>
+                    <span class='button posted selected' style="margin-left:357px;">
+                        <i class='fa fa-file-text'></i>
+                        All
+                    </span>
+                    <span class='button paid'>
+                        <i class='fa fa-credit-card'></i>
+                        Paid
+                    </span>
+                    <span class='button draft'>
+                        <i class='fa fa-file-text'></i>
+                        Unpaid
+                    </span>
+                   <span class="date-filter">
+                        <input placeholder="DD/MM/YYYY" type="text" id="datepicker" readonly="readonly"/>
+                    </span>
+                    <span class='button reload'>
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </span>
+                    <span class='searchbox'>
+                        <input placeholder='Search orders' style="width: 164px;" />
+                        <span class='search-clear'></span>
+                    </span>
+                    <span class='searchbox'></span>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y order-list-scroll' style="height:auto;max-height: 750px !important;">
+                                    <div>
+                                        <table class='order-list'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Order Ref</th>
+                                                    <th>Receipt Ref</th>
+                                                    <th>Customer</th>
+                                                    <th>Order Date</th>
+                                                    <th>Promise Date</th>
+                                                    <th>Total</th>
+                                                    <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                                                        <th>Amount due</th>
+                                                    </t>
+                                                    <th>Delivery State</th>
+                                                    <th>Receipt</th>
+                                                    <th>Products</th>
+<!--                                                    <th>Edit</th>-->
+                                                    <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                                                        <th>Pay</th>
+                                                    </t>
+                                                    <th>Rack</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  class='order-list-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+                <div id="pagination">
+                     <div><button class="btn btn-danger" id="first"><i class="fa fa-angle-double-left fa-lg"></i></button></div>
+                     <div><button class="btn btn-danger" id="previous"></button></div>
+                     <div><span class="text" id="text"></span></div>
+                     <div><button class="btn btn-danger" id="next"></button></div>
+                     <div><button class="btn btn-danger" id="last"><i class="fa fa-angle-double-right fa-lg"></i></button></div>
+                 </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="OrderlistLine">
+        <tr class='order-line' t-att-data-id='order.id'>
+            <t t-if="!widget.from">
+                <td><t t-esc='order.name'/></td>
+            </t>
+            <td><t t-esc='order.pos_reference' /></td>
+            <td><t t-esc='order.partner_id[1]' /></td>
+            <t t-if="!widget.from">
+                <td><t t-esc='moment(order.date_order, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
+                <td><t t-esc='moment(order.promise_date, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
+            </t>
+             <t t-if="widget.from">
+                <td><t t-esc='widget.pos.get_valid_promise_date(order.date_order) or ""' /></td>
+                <td><t t-esc='widget.pos.get_valid_promise_date(order.promise_date) or ""' /></td>
+            </t>
+            <td><t t-esc='widget.format_currency(order.amount_total) or ""' /></td>
+            <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                <td><t t-esc='widget.format_currency(order.amount_due) or ""' /></td>
+            </t>
+            <td class="order_operation_button">
+<!--                <t t-if="!widget.from">-->
+                    <select class="delivery_state_id" style="width:175px;height:25px">
+                        <t t-foreach="state" t-as="state">
+                            <t t-if="order.delivery_state_id[0] == state.id">
+                                <option t-att-value="state.id" t-att-data-id='order.id' selected="true">
+                                    <t t-esc="state.name"/>
+                                </option>
+                            </t>
+                            <t t-else="">
+                                <option t-att-value="state.id" t-att-data-id='order.id'>
+                                    <t t-esc="state.name"/>
+                                </option>
+                            </t>
+                        </t>
+                    </select>
+<!--                </t>-->
+<!--                <t t-if="widget.from">-->
+<!--                    <t t-esc="order_state.name"/>-->
+<!--                </t>-->
+            </td>
+            <td class="order_operation_button">
+                <span id="print_order" t-att-data-id='order.id' t-att-data-uid='order.uid' title="Print Receipt" style="cursor:pointer">
+                    <img src="/ecotech_pos_laundry/static/src/img/print.png" style="height: 30px;" />
+                </span>
+            </td>
+            <td class="order_operation_button">
+                <span id="view_lines" t-att-data-id='order.id' title="Products" style="cursor:pointer">
+                    <img src="/ecotech_pos_laundry/static/src/img/view.png" style="height: 30px;" />
+                </span>
+            </td>
+<!--            <t t-if="!widget.from">-->
+<!--                <td class="order_operation_button">-->
+<!--                    <t t-if="order.state == 'draft' and order.amount_due == order.amount_total">-->
+<!--                        <span id="edit_order" t-att-data-id='order.id' title="Edit" data-operation="edit" style="cursor:pointer;font-size: 27px;">-->
+<!--                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
+<!--                        </span>-->
+<!--                    </t>-->
+<!--                </td>-->
+                <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                    <td class="order_operation_button">
+                        <t t-if="order.state == 'draft' and order.amount_due > 0">
+                            <span class="pay_due_amt" t-att-data-id='order.id' title="Pay" style="cursor:pointer;font-size: 27px;">
+                                <i class="fa fa-money" aria-hidden="true"></i>
+                            </span>
+                        </t>
+                    </td>
+                </t> 
+                <td align="center" class="order_operation_button" t-att-data-operation="Rack">
+<!--                    <t t-esc="order_state.short_code"/>-->
+                    <t t-if="order_state.short_code == 'ready_to_deliver'">
+                        <span id="select_rack" t-att-data-id='order.id' title="Rack" data-operation="Rack" style="cursor:pointer;font-size: 27px;">
+<!--                            <i class="fa fa-navicon" aria-hidden="true"></i>-->
+                            <img src="/ecotech_pos_laundry/static/src/img/rack.png" style="height:30px;width:35px;" />
+                        </span>
+                    </t>
+                </td>
+<!--            </t>-->
+        </tr>
+    </t>
+
+    <t t-name="EditMembershipCardPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput membership_card edit_membership_card">
+                <p class="title"> Edit Membership Card</p>
+                <div>
+                    <table border="0" align="center" id="table_barcode">
+                        <tr>
+                            <td>Card No. </td>
+                            <td>
+                                <t t-esc="widget.card_no"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Expire Date </td>
+                            <td>
+                                <t t-esc="moment(widget.expire_date).format('DD/MM/YYYY')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>New Expire Date </td>
+                            <td>
+                                <input type="text" id="new_expire_date" class="date" placeholder="DD/MM/YYYY" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div class="button confirm commonbutton">
+                        Update
+                    </div>
+                    <div class="button cancel commonbutton">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="ProductPopup">
+         <div class="modal-dialog">
+            <div class="popup popup-reorder-product">
+               <div class="header">
+                   <div class="btn button cancel">
+                        <i class="fa fa-times"></i>
+                   </div>
+                    <p class="title">Products</p>
+                </div>
+                <div style="height: 276px;overflow: auto;">
+                    <table class="popup-product-list table">
+                         <thead>
+                           <tr>
+                               <th>#</th>
+                               <th>Product</th>
+                               <th>Quantity</th>
+                               <th>Price</th>
+                               <th>Discount</th>
+                               <th>Subtotal</th>
+                           </tr>
+                       </thead>
+                       <tbody class="popup-product-list-contents">
+                           <t t-if="widget.order_lines">
+                               <t t-foreach="widget.order_lines" t-as="line">
+                                  <tr>
+                                      <td><t t-esc="widget.order_lines.indexOf(line) + 1" /></td>
+                                      <td><t t-esc="line.product_id[1]" /></td>
+                                      <td><t t-esc="line.qty" /></td>
+                                      <td><t t-esc="widget.format_currency(line.price_unit)" /></td>
+                                      <td><t t-esc="line.discount" /></td>
+                                      <td><t t-esc="widget.format_currency(line.price_subtotal)" /></td>
+                                  </tr>
+                               </t>
+                           </t>
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+         </div>
+    </t>
+
+    <t t-name="TokenTicket">
+        <div class="pos-receipt" style="line-height: 1em;font-size:55%;font-weight:bolder">
+            <div  class="pos-label" >
+                        <div>
+                            <span t-esc="(order).split(' ')[1] || ''" class="pos-receipt-left-align"/>
+                            <span  t-esc='promise_date' class="pos-receipt-right-align"/>
+                        </div>
+                        <t t-if="client">
+                            <t t-if="client.preference">
+                                <div>
+                                    <t t-foreach="client.preference" t-as="preference" >
+                                        <span>-</span> <span class="pos-left-right-align" t-esc="widget.pos.db.get_preference_by_id(preference).name"/>
+                                        <span>,</span>
+                                    </t>
+                                </div>
+                            </t>
+                        </t>
+                        <div>
+                           <span>(</span><span t-esc='count'/> <span>/</span> <span><t t-esc="total"/></span><span>) - </span><span> <t t-esc="service"/></span>
+                        </div>
+                        <div>
+                            <span t-esc='product'/> <span>-</span> <span><t t-esc="quantity"/> </span><span>- Piece</span>
+                        </div>
+                </div>
+        </div>
+
+    </t>
+
+    <t t-extend="OrderReceipt">
+        <t t-jquery="div.pos-receipt-order-data" t-operation="replace"></t>
+        <t t-jquery="div.pos-receipt-contact" t-operation="replace">
+            <div class="pos-receipt-table">
+                <table>
+                    <tr>
+                        <td style="width:66%"><span>Branch : <t t-esc="widget.pos.config.name"/></span></td>
+                        <td class="pos-receipt-right"><span>Tel: 22280808</span></td>
+                    </tr>
+                    <tr>
+                        <td><b style="font-size: 130%;"><t t-esc='receipt.name' /></b></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>Date : <t t-esc='moment(receipt.date.localestring).format("DD/MM/YYYY")' /></span></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <span>Mobile</span>
+                            <t t-if="receipt.client and  receipt.client.phone">
+                               <span><t t-esc="receipt.client.phone"/></span>
+                            </t>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>Customer : <t t-esc="receipt.client.name"/></span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Preference :</span>
+                            <t t-foreach="receipt.client.customer_preference_ids" t-as="preference">
+                                <span t-esc="widget.pos.db.get_preference_by_id(preference).name"/>,
+                            </t>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Address : </span>
+                            <span>
+                                <t t-if="receipt.client.street">
+                                    <t t-esc="receipt.client.street"/>
+                                </t>
+                            </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="width: 73%;"><span>Area :</span></td>
+                        <td><span>Block :</span></td>
+                    </tr>
+                    <tr>
+                        <td><span>Stree :</span></td>
+                        <td><span>House :</span></td>
+                    </tr>
+                    <tr>
+                        <td><span>Flat :</span></td>
+                        <td><span>Jedda :</span></td>
+                    </tr>
+                </table>
+                <div class="pos-center-align" align="center">
+                    <img style="width:300px;height:50px;" id="order-barcode"/>
+                </div>
+            </div>
+        </t>
+
+        <t t-jquery=".orderlines" t-operation="replace">
+            <t t-set="pieces" t-value="0"/>
+            <table class="orderline-table">
+                <thead>
+                    <tr>
+                        <th style="width:30%;">Item</th>
+                        <th style="width: 30;direction:rtl%;text-align: right;"></th>
+                        <th style="width:15%;text-align:center" align="center">Qty</th>
+                        <th style="width:15;" align="right">Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach='receipt.orderlines' t-as='line'>
+                        <tr>
+                            <td style="line-height: 1em;color: transparent;"> - </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <t>
+                                <t t-if="line.product_name_arabic">
+                                        <td t-esc='line.product_name_wrapped[0]'></td>
+                                        <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
+                                </t>
+                                <t t-else="">
+                                    <td t-esc='line.product_name_wrapped[0]'></td>
+                                    <td style="color:transparent;">-</td>
+                                </t>
+                                
+<!--                            <t t-if='line.discount !== 0'>-->
+<!--                                <div class="pos-receipt-left-padding">-->
+<!--                                    Discount: <t t-esc='line.discount' />%-->
+<!--                                </div>-->
+<!--                            </t>-->
+                            </t>
+                            <td valign="top" align="center">
+                                 <t t-set="pieces" t-value="pieces + line.quantity"/>
+                                <t t-esc="Math.round(line.quantity * Math.pow(10, pos.dp['Product Unit of Measure'])) / Math.pow(10, pos.dp['Product Unit of Measure'])"/>
+                                <t t-if='line.unit_name !== "Units"' t-esc='line.unit_name'/>
+                            </td>
+                            <td valign="top">
+                                <div class="pos-receipt-right-padding">
+                                    <span t-esc='widget.format_currency_no_symbol(line.price_display)' class="price_display pos-receipt-right-align"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </t>
+                    <tr>
+                        <td style="line-height: 1em;color: transparent;"> - </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br style="display:block;"></br>
+            <div class="pos-receipt-table">
+                <b>Total Pieces : <span t-esc="pieces"/></b>
+            </div>
+        </t>
+
+
+        <t t-jquery="div.pos-receipt-right-align" t-operation="replace"/>
+        <t t-jquery="[t-if='!taxincluded']" t-operation="replace"/>
+        <t t-jquery="[t-if='receipt.company.vat']" t-operation="replace"/>
+        <t t-jquery="div.pos-receipt-amount" t-operation="replace"/>
+        <t t-jquery="[t-if='taxincluded']" t-operation="replace">
+            <table class="pos-receipt-table" style="width:100%">
+                <tr>
+                    <td>Total (الاجمالي)</td>
+                    <td>
+                        <span t-esc='widget.format_currency(receipt.total_with_tax)' class="pos-receipt-right-align"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Total Paid Amount</td>
+                    <td><span t-esc='widget.format_currency(order.get_total_with_tax() - order.get_due())' class="pos-receipt-right-align"/></td>
+                </tr>
+                <tr>
+                    <td> Amount Due</td>
+                    <td><span t-esc='widget.format_currency(order.get_due())' class="pos-receipt-right-align"/></td>
+                </tr>
+            </table>
+        </t>
+
+        <t t-jquery=".before-footer" t-operation="before">
+            <t t-if="receipt.promise_date">
+                <div class="pos-receipt-table pos-center-align"><span>-----------------------------------------------------</span></div>
+                <div class="pos-receipt-table pos-center-left" style="font-size: 110%;font-weight:bold;">
+                    <span>Promise Date :</span>
+                    <span t-esc='moment(receipt.promise_date).format("DD/MM/YYYY HH:mm:ss")' class="pos-receipt-right-align"/>
+                </div>
+                <div class="pos-receipt-table pos-center-align"><span>-----------------------------------------------------</span></div>
+            </t>
+            <t t-if="order.get_membership_card().length &gt; 0 or order.get_redeem_membership_card().length &gt; 0 or order.get_recharge_membership_card().length &gt; 0">
+                <hr/>1
+                <div class="pos-receipt-table pos-center-align" align="center"> Card Details </div>
+                <hr/>
+                <t t-if="order.get_membership_card().length &gt; 0">
+                    <div class="pos-receipt-table pos-left-align">
+                        <table class="pos-receipt-table" style="width:95%;">
+                            <t t-foreach="order.get_membership_card()" t-as="membership_card">
+                                <tr>
+                                    <t t-if="membership_card['membership_card_customer_name']">
+                                        <td valign="top">Customer:</td>
+                                        <td class="pos-right-align">
+                                            <t t-esc="membership_card['membership_card_customer_name']" />
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td>Card No.:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="membership_card['membership_card_card_no']" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Expire Date:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="moment(membership_card['membership_card_expire_date']).format('DD/MM/YYYY')" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Card Balance:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="widget.format_currency(membership_card['membership_amount'])" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+                <t t-if="order.get_recharge_membership_card().length &gt; 0">
+                    <div class="pos-left-align">
+                        <table class="pos-receipt-table" style="width:100%;">
+                            <t t-foreach="order.get_recharge_membership_card()" t-as="recharge">
+                                <tr>
+                                    <t t-if="recharge['customer_name']">
+                                        <td valign="top">Customer:</td>
+                                        <td class="pos-right-align">
+                                            <t t-esc="recharge['customer_name']" />
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td>Card No.:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="recharge['recharge_card_no']" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Card Balance:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="widget.format_currency(recharge['total_card_amount'])" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+                <t t-if="order.get_redeem_membership_card().length &gt; 0">
+                    <div class="pos-left-align">
+                        <table class="pos-receipt-table" style="width:100%;">
+                            <t t-foreach="order.get_redeem_membership_card()" t-as="redeem">
+                                <tr>
+                                    <t t-if="redeem['customer_name']">
+                                        <td valign="top">Customer:</td>
+                                        <td class="pos-right-align">
+                                            <t t-esc="redeem['customer_name']" />
+                                        </td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td>Card No.:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="redeem['redeem_card']" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Card Balance:</td>
+                                    <td class="pos-right-align">
+                                        <t t-esc="widget.format_currency(redeem['redeem_remaining'])" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+                <div class="pos-center-align" align="center">
+                    <img style="width: 220px;height: 60px;" id="test-barcode"/>
+                </div>
+            </t>
+            <div class="pos-footer-text">
+                <div>
+                    <t t-if='receipt.cashier'>
+                        <table>
+                            <tr>
+                                <td style="width: 30%;"></td>
+                                <td>
+                                    <span style="text-align: center;font-weight:bold;">
+                                        Served by: <t t-esc='receipt.cashier' />
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <table>
+                        <tr>
+                            <td style="width: 36%;"></td>
+                            <td><span style="text-align: center;font-weight:bold;">Thank You Come Again!</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="direction:rtl;text-align: right;">
+                    <span  style="direction:rtl;text-align:center;font-weight:bold;">شروط الخدمة</span>
+                    <br></br>
+                    <span>1-</span><span>الشركة غير ملزمة بتسليم الملابس عند فقدان الفاتورة</span>
+                    <br></br>
+                    <span>2-</span><span>الشركة غير مسؤولة عن اي مقتنيات شخصيه  داخل الملابس</span>
+                    <br></br>
+                    <span>3-</span><span>الشركة غير مسؤولة عن الملابس ذات الاقمشة والالوان غير الثابتة</span>
+                    <br></br>
+                    <span>4-</span><span>يجب على العميل التاكد من حالة وعدد القطع قبل مغادرة الفرع</span>
+                    <br></br>
+                    <span>5-</span><span>في حال اثبات تلف فقدان الملابس يتم التعويض للعميل خمسة عشر ضعف قيمة الخدمة</span>
+                    <br></br>
+                    <span>6-</span><span>يجب على العميل ابلاغ مسؤول الفرع عن اي قطع ذات طبيعة خاصة او باهظة الثمن  وفي حال عدم ابلاغه واثباته في الفاتورة يتم معاملتها في حال التعويض حسب بند رقم </span><span>(5)</span>
+                    <br></br>
+                    <span>7-</span><span>الشركة غير مسؤولة عن الملابس التي يتم تركها لفترة  تتجاوز 30 يوم وفي حينها يحق للشركة التصرف بالملابس  بدون الرجوع للعميل</span>
+                    <br></br>
+                   <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
+                </div>
+            </div>
+        </t>
+    </t>
+
+
+
+    <t t-name="CustomerAdjustment">
+        <div class="pos-receipt">
+            <div class="pos-center-align" style="font-weight: bold;text-align:center;">
+                <h3><t t-esc="order.name"/></h3>
+            </div>
+            <table style="width:100%">
+                <t t-if="receipt.client">
+                    <tr>
+                        <td>Customer</td>
+                        <td> <span class="pos-receipt-left-align" t-esc='receipt.client.name' /></td>
+                    </tr>
+                </t>
+                <tr>
+                    <td>Adjustment Date</td>
+                    <td> <span class="pos-receipt-left-align" t-esc='moment(data.adjustment_date).format("DD/MM/YYYY")' /></td>
+                </tr>
+                 <tr>
+                    <td>Amount</td>
+                    <td>
+                         <span t-esc='widget.format_currency(data.adjustment_amount)'/>
+                    </td>
+                </tr>
+                <t t-if="data.adjustment_reason">
+                    <tr>
+                        <td>Reason</td>
+                        <td>
+                             <span t-esc='reason.name'/>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+        </div>
+    </t>
+
+   <t t-extend="ReceiptScreenWidget">
+        <t t-jquery="div.top-content" t-operation="replace">
+            <div class='top-content'>
+<!--                <t t-if="widget.pos.config.generate_token and widget.pos.config.separate_receipt">-->
+                    <span class="button token_print" style="left:0px;">
+                        <i class='fa fa-print'></i>
+                      Print Label
+                    </span>
+<!--                </t>-->
+                <h1>Change: <span class='change-value'>0.00</span></h1>
+                <span class='button next'>
+                    <i class='fa fa-angle-double-right'></i>
+                    Next Order
+                </span>
+            </div>
+        </t>
+       <t t-jquery="div.pos-receipt-container" t-operation="before">
+           <div class="pos-label-container">
+           </div>
+       </t>
+    </t>
+    
+    <t t-extend="PaymentScreenWidget">
+        <t t-jquery="div.top-content" t-operation="append">
+            <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+	            <span class='button' id="partial_pay" style="margin-right: 145px;right: 0px;">
+	                Partial Payment
+	                <i class='fa fa-angle-double-right'></i>
+	            </span>
+	        </t>
+        </t>
+    </t>
+
+    <t t-name="OrderDetailScreenWidget">
+        <div class="orderdetail-screen screen">
+            <div class="screen-content">
+                <section class="top-content">
+                    <span class='button back highlight'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Back
+                    </span>
+                    <h1>Payment History</h1>
+                    <t t-if="widget.clicked_order and widget.clicked_order.state == 'draft'">
+                        <span class='button highlight pay'>
+                            <i class="fa fa-money" aria-hidden="true"></i>
+                            Pay
+                        </span>
+                    </t>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix order-details-contents' style="height:auto;max-height: 490px !important;">
+                                </div>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y' style="height: 347px;">
+                                    <table class='paymentline-list'>
+                                        <thead>
+                                            <tr>
+                                                <th>Journal</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class='paymentline-list-contents'>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PaymentLines">
+        <tr class='payment-line' t-att-data-id='statement.id'>
+            <td><t t-esc='statement.payment_method_id ? statement.payment_method_id[1] : ""' /></td>
+            <td><t t-esc='statement.payment_date' /></td>
+            <td><t t-esc='widget.format_currency(statement.amount)' /></td>
+        </tr>
+    </t>
+    <t t-name="OrderDetails">
+            <section class='order-details'>
+            <div class='order-name'><t t-esc='order.name' /></div>
+            <div class='order-details-box clearfix'>
+                <div class='order-details-left'>
+                    <div class='order-detail'>
+                        <span class='label'>Client: </span>
+                        <t t-if='order.partner_id'>
+                            <span class='detail'><t t-esc='order.partner_id[1]' /></span>
+                        </t>
+                        <t t-if='!order.partner_id'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                    <div class='order-detail'>
+                        <span class='label'>Receipt: </span>
+                        <t t-if='order.pos_reference'>
+                            <span class='detail'><t t-esc='order.pos_reference' /></span>
+                        </t>
+                        <t t-if='!order.pos_reference'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                    <div class='order-detail'>
+                        <span class='label'>Order Date: </span>
+                        <t t-if='order.date_order'>
+                            <span class='detail'><t t-esc='order.date_order' /></span>
+                        </t>
+                        <t t-if='!order.date_order'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                    <div class='order-detail'>
+                        <span class='label'>Promise Date: </span>
+                        <t t-if='order.promise_date'>
+                            <span class='detail'><t t-esc='order.promise_date' /></span>
+                        </t>
+                        <t t-if='!order.promise_date'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                </div>
+                <div class='order-details-right'>
+                    <div class='order-detail'>
+                        <span class='label'>Total: </span>
+                        <t t-if='order.amount_total'>
+                            <span class='detail'><t t-esc='widget.format_currency(order.amount_total)' /></span>
+                        </t>
+                        <t t-if='!order.amount_total'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                    <div class='order-detail'>
+                        <span class='label'>Due: </span>
+                        <t t-if='order.amount_due'>
+                            <span class='detail'><t t-esc='widget.format_currency(order.amount_due)' /></span>
+                        </t>
+                        <t t-if='!order.amount_due'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                    <div class='order-detail'>
+                        <span class='label'>Status: </span>
+                        <t t-if='order.state'>
+                            <span class='detail'><t t-esc='order.state' /></span>
+                        </t>
+                        <t t-if='!order.state'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                    <div class='order-detail'>
+                        <span class='label'>Client Mobile: </span>
+                        <t t-if='order &amp;&amp; order.partner_id'>
+                            <t t-set="partner" t-value="order.partner_id[0]"/>
+                            <t t-set="partner_obj" t-value="widget.pos.db.get_partner_by_id(partner)"/>
+                            <t t-if='partner_obj.mobile'>
+                                <span class='detail'><t t-esc="partner_obj.mobile"/></span>
+                            </t>
+                            <t t-if='!partner_obj.mobile'>
+                                <span class='detail empty'>N/A</span>
+                            </t>
+                        </t>
+                        <t t-if='!order.partner_id'>
+                            <span class='detail empty'>N/A</span>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t>
+
+    <t t-extend="ClientListScreenWidget">
+        <t t-jquery=".button.next" t-operation="before">
+            <div id="client_list_header_buttons">
+                <span id="customer_preferences" class="button">
+                   Preferences
+                </span>
+                <span id="show_client_history" class="button client_history_button oe_hidden highlight">
+                    Show History
+                </span>
+                <span id="show_customers" class="button client_history_button oe_hidden highlight">
+                    Show Customers
+                </span>
+            </div>
+        </t>
+        <t t-jquery="table.client-list" t-operation="after">
+            <table id="customer_history" class='client-list oe_hidden'>
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Due</th>
+                    </tr>
+                </thead>
+                <tbody id='client_history_contents'>
+                </tbody>
+            </table>
+        </t>
+    </t>
+
+    <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-left" t-operation="append">
+            <div class='client-detail'>
+                <span class='label'>Credit Limit</span>
+                <t t-if='partner.credit_limit'>
+                    <span class='detail credit_limit'><t t-esc='partner.credit_limit'/></span>
+                </t>
+                <t t-if='!partner.credit_limit'>
+                    <span class='detail vat empty'>N/A</span>
+                </t>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Civil ID</span>
+                <t t-if='partner.civil_id'>
+                    <span class='detail civil_id'><t t-esc='partner.civil_id'/></span>
+                </t>
+                <t t-if='!partner.civil_id'>
+                    <span class='detail civil_id empty'>N/A</span>
+                </t>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Last Visit On</span>
+                <t t-if='partner.last_visit_date'>
+                    <span class='detail last_visit_date'><t t-esc='moment(partner.last_visit_date).format("DD/MM/YYYY")'/></span>
+                </t>
+                <t t-if='!partner.last_visit_date'>
+                    <span class='detail last_visit_date empty'>N/A</span>
+                </t>
+            </div>
+        </t>
+        <t t-jquery="div.client-details-right" t-operation="append">
+            <div class='client-detail'>
+                <span class='label'>Remaining Credit</span>
+                <t t-if='partner.remaining_credit_limit'>
+                    <span class='detail remaining_credit_limit'><t t-esc='partner.remaining_credit_limit.toFixed(2)'/></span>
+                </t>
+                <t t-if='!partner.remaining_credit_limit'>
+                    <span class='detail vat empty'>N/A</span>
+                </t>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Mobile</span>
+                <t t-if='partner.mobile'>
+                    <span class='detail mobile'><t t-esc='partner.mobile'/></span>
+                </t>
+                <t t-if='!partner.mobile'>
+                    <span class='detail mobile empty'>N/A</span>
+                </t>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Birth Date</span>
+                <t t-if='partner.date_of_birth'>
+                    <span class='detail date_of_birth'><t t-esc='partner.date_of_birth'/></span>
+                </t>
+                <t t-if='!partner.date_of_birth'>
+                    <span class='detail date_of_birth empty'>N/A</span>
+                </t>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Customer Preference</span>
+                <t t-if='partner.customer_preference_ids'>
+                    <span class='detail customer_preference'>
+                        <t t-if="partner.customer_preference_ids">
+                            <t t-foreach="partner.customer_preference_ids" t-as="preference">
+    <!--                            <t t-if="widget.pos.customer_preference_by_id">-->
+                                    <t t-esc='widget.pos.db.get_preference_by_id(preference).name'/>,
+    <!--                            </t>-->
+                            </t>
+                        </t>
+                    </span>
+
+                </t>
+                <t t-if='!partner.customer_preference_ids'>
+                    <span class='detail date_of_birth empty'>N/A</span>
+                </t>
+            </div>
+        </t>
+    </t>
+
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left" t-operation="append">
+            <div class='client-detail'>
+                <span class='label'>Credit Limit</span>
+                <input class='detail client-credit-limit'  name='credit_limit'    type='text'    t-att-value='partner.credit_limit || ""'></input>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Customer Preference</span>
+                    <div class='cal_cust_css' id="customer_preference" style="height:24px;width:350px">
+                    </div>
+            </div>
+        </t>
+        <t t-jquery="div.client-details-right" t-operation="append">
+            <div class='client-detail'>
+                <span class='label'>Birth Date</span>
+                <input class='detail client-date_of_birth'  name='date_of_birth'  type='date'    t-att-value='partner.date_of_birth || ""'></input>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Civil ID</span>
+                <input class='detail client-civil_id'  name='civil_id'  type='text'    t-att-value='partner.civil_id || ""'></input>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Mobile</span>
+                <input class='detail client-mobile'  name='mobile'  type='text'    t-att-value='partner.mobile || ""'></input>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="ClientHistoryLine">
+        <tr t-att-data-id="order.id">
+            <td><t t-esc="order ? order.name : ''"/></td>
+            <td><t t-esc="order ? order.date_order : ''"/></td>
+            <td><t t-esc="order ? widget.format_currency(order.amount_total) : ''"/></td>
+            <td><t t-esc="order ? widget.format_currency(order.amount_due) : ''"/></td>
+        </tr>
+    </t>
+
+    <t t-name="MaxCreditExceedPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput" style="height: 203px;">
+                <p class="title">Max Credit Exceeded</p>
+                <span align="center" style="font-size:16px;">
+                    Your remaining credit limit is only <t t-esc="widget.format_currency(widget.options.remaining_credit_limit)" />
+                    <br />and you are trying to credit <t t-if="widget.pos.get_order()"><t t-esc="widget.format_currency(widget.pos.get_order().get_due())" /></t>
+                </span>
+                <div class="footer">
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                    <div class="button override_payment" style="width: 130px;">
+                        Yes, Override Payment
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-extend="PaymentScreenWidget">
+        <t t-jquery="div.paymentmethods-container" t-operation="before">
+<!--            <t t-if="widget.pos.config and widget.pos.config.enable_order_note">-->
+                <div style="text-align: center;margin-top: 15px;">
+                          <label for="promise_date" style="font-size: 20px;">Promise Date</label>
+                    <span>
+	                    <input class="promise_date" id="promise_date" style="width: 90%; height: 40px;text-align: center;font-size: 20px;" type="text"></input>
+	                </span>
+	            </div>
+<!--            </t>-->
+        </t>
+    </t>
+
+    <t t-name="customer_preference_tmpl">
+        <div id="output" style="display: none"/>
+        <form method="get">
+            <select id="customer_reference_skill" name="tags[]" multiple="multiple" class="chosen-select">
+                <t t-foreach="product" t-as="pro">
+                    <t t-if="product">
+                        <t t-if="preference_id.includes(pro.id)">
+                            <option t-att-value="pro.id" selected="true">
+                                <t t-esc="pro.name"/>
+                            </option>
+                        </t>
+                        <t t-else="">
+                            <option t-att-value="pro.id">
+                                <t t-esc="pro.name"/>
+                            </option>
+                        </t>
+                    </t>
+                </t>
+            </select>
+        </form>
+    </t>
+
+    <t t-name="CreateAdjustmentPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput create_adjustment">
+                <p class="title">Create Customer Adjustment</p>
+                <div>
+                    <table border="0" align="center" id="customer_adjustment" style="">
+                        <tr>
+                            <td>Customer </td>
+                            <td>
+                                <input type="text" id="select_customer_adj"/>
+                            </td>
+                        </tr>
+                        <tr id="amount_row">
+                            <td>Amount </td>
+                            <td>
+                               <input type="text" id="adjustment_amount" class="adjustment_amount"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Reason </td>
+                            <td>
+                                <t t-if="widget.options.reason">
+                                    <select id='select_reason' style="width:270px;height:30px;">
+                                        <option value="">Select Reason </option>
+                                        <t t-foreach="widget.options.reason" t-as="res">
+                                            <option t-att-value='res.id'>
+                                                <t t-esc='res.name'/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div class="button confirm commonbutton">
+                        Create
+                    </div>
+                    <div class="button cancel commonbutton">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-name="AdjustmentlistLine">
+        <tr class='adjustment-line' t-att-data-id='order.id'>
+            <td><t t-esc='order.partner_id[1]'/></td>
+            <td><t t-esc='order.reason_id[1]' /></td>
+            <td><t t-esc='moment(order.adjustment_date).format("DD/MM/YYYY")' /></td>
+            <td><t t-esc='widget.format_currency(order.amount)' /></td>
+        </tr>
+    </t>
+    <t t-name="CustomerAdjustmentlistScreen">
+        <div class="customer-adjustment-list-screen screen">
+            <div class="screen-content">
+                <section class="top-content">
+                    <span class='button back'>
+                        <i class='fa fa-angle-double-left'></i>
+                        Cancel
+                    </span>
+                    <span class='button create'  data-id="plus">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    <span class='button minus draft' data-id="minus" style="margin-left: 200px;">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </span>
+                    <span class='button reload' style="margin-left:210px;">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </span>
+                    <span class='searchbox'>
+                        <input placeholder='Search orders' style="width: 164px;" />
+                        <span class='search-clear'></span>
+                    </span>
+                    <span class='searchbox'></span>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y membership_card-list-scroll' style="height:auto;max-height: 760px !important;">
+                                    <div>
+                                        <table class='customer-adjustment-list' id="customer-adjustment">
+                                            <thead>
+                                                <tr>
+                                                    <th>Customer</th>
+                                                    <th>Reason</th>
+                                                    <th>Adjustment Date</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  class='adjustment-list-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+</templates>

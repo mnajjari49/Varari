@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="email_template_for_coupon_expire_7" model="mail.template">
+            <field name="name">Coupon Expire</field>
+            <field name="email_from">${(user.email or '')}</field>
+            <field name="subject">Regarding expired your Membership card</field>
+            <field name="email_to">${object.customer_id.email}</field>
+            <field name="model_id" ref="ecotech_pos_laundry.model_membership_card"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                       <p>Hello ${object.customer_id.name}
+                       <br/>
+                       <p style="margin-left: 50px;">
+                           Your membership will be expired on ${object.expire_date}.Please renew your membership ${object.card_no}.<br/>
+                           Thanks for using our services.
+                       </p>
+                       </p>
+                       <br/>
+                       Thank You,
+                       <br/>
+                       ${user.name}
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="email_template_regarding_balance" model="mail.template">
+            <field name="name">Regarding balance of your membership card</field>
+            <field name="email_from">${(user.email or '')}</field>
+            <field name="subject">Regarding balance of your membership card</field>
+            <field name="email_to">${object.customer_id.email}</field>
+            <field name="model_id" ref="ecotech_pos_laundry.model_membership_card"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                       <p>Hello ${object.customer_id.name}
+                       <br/>
+                       <p style="margin-left: 50px;">
+                           Your card ${object.card_no} have balance ${object.card_value}.<br/>
+                           Thanks for using our services.
+                       </p>
+                       </p>
+                       <br/>
+                       Thank You,
+                       <br/>
+                       ${user.name}
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="email_template_exchange_number" model="mail.template">
+            <field name="name">Regarding change membership card number</field>
+            <field name="email_from">${(user.email or '')}</field>
+            <field name="subject">Regarding change membership card number</field>
+            <field name="email_to">${object.customer_id.email}</field>
+            <field name="model_id" ref="ecotech_pos_laundry.model_membership_card"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                       <p>Hello ${object.customer_id.name}
+                       <br/>
+                       <p style="margin-left: 50px;">
+                           Your membership card number has been updated. It has been changed to ${object.card_no}.<br/>
+                           Thanks for using our services.
+                       </p>
+                       </p>
+                       <br/>
+                       Thank You,
+                       <br/>
+                       ${user.name}
+                    </div>
+                ]]>
+            </field>
+        </record>
+
+        <record id="email_template_regarding_card_use" model="mail.template">
+            <field name="name">Regarding Card Use</field>
+            <field name="email_from">${(user.email or '')}</field>
+            <field name="subject">Regarding Card Use</field>
+            <field name="email_to">${object.customer_id.email}</field>
+            <field name="model_id" ref="ecotech_pos_laundry.model_membership_card_use"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+                <![CDATA[
+                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
+                       <p>Hello ${object.customer_id.name}<br/>
+                           <p style="margin-left: 50px;">
+                               <p>Your card ${object.card_id.card_no} has been used at our store with following details.</p>
+                               <br/>
+                               <b>Receipt Reference </b>: ${object.pos_order_id.pos_reference}<br/>
+                               <b>Order No</b>     : ${object.pos_order_id.name}<br/>
+                               <b>Order Date</b>   : ${object.order_date}<br/>
+                               <b>Order Amount</b> : ${object.pos_order_id.amount_total}<br/>
+                               <b>Card Amount</b>  : ${object.amount}
+                               <p>Thanks for using our services.</p>
+                               <p>Regards,</p>
+                               <p> ${user.name}</p>
+                           </p>
+                       </p>
+                    </div>
+                ]]>
+            </field>
+        </record>
+    </data>
+
+    <data noupdate='1'>
+
+        <record forcecreate="True" id="expiration_coupon" model="ir.cron">
+            <field name="name">Expiration Coupon Mail</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_membership_card"/>
+            <field name="state">code</field>
+            <field name="code">model._send_mail_balance_and_expired_coupon(True, False)</field>
+            <!--            <field name="args">(True,False)</field>-->
+        </record>
+
+        <record forcecreate="True" id="regarding_balance" model="ir.cron">
+            <field name="name">Regarding Balance</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_membership_card"/>
+            <field name="state">code</field>
+            <field name="code">model._send_mail_balance_and_expired_coupon(False, True)</field>
+        </record>
+
+    </data>
+
+</odoo>
+

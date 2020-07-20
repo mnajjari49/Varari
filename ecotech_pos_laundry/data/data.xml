@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="product_paid" model="product.product">
+            <field name="name">Paid Amount</field>
+            <field name="sale_ok" eval="True"/>
+            <field name="available_in_pos" eval="True"/>
+            <field name="list_price">0</field>
+            <field name="type">service</field>
+            <field name="taxes_id" eval='[(5,)]'/>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="description">This is a dummy product used when a customer pays partially.
+                This is a workaround to the fact that Odoo needs to have at least one product on the order to validate
+                the transaction.
+            </field>
+        </record>
+
+        <record id="membership_card_product" model="product.product">
+            <field name="name">Membership Card Product</field>
+            <field name="available_in_pos">True</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+        </record>
+
+        <record id="customer_adjustment_product" model="product.product">
+            <field name="name">Customer Adjustment</field>
+            <field name="available_in_pos">True</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+            <field name="list_price">0</field>
+            <field name="taxes_id" eval='[(5,)]'/>
+            <field name="description">This is a dummy product used when a customer adjustment create and redeem.</field>
+        </record>
+
+        <record id="membership_card_product_type_gold" model="membership.card.type">
+            <field name="name">Gold</field>
+            <field name="code">001</field>
+        </record>
+
+        <record id="membership_card_product_type_silver" model="membership.card.type">
+            <field name="name">Silver</field>
+            <field name="code">002</field>
+        </record>
+
+        <record id="membership_card_product_type_platinum" model="membership.card.type">
+            <field name="name">Platinum</field>
+            <field name="code">003</field>
+        </record>
+
+        <record id="delivery_stat_on_call" model="pos.order.delivery.state">
+            <field name="name">On Call</field>
+            <field name="short_code">on_call</field>
+        </record>
+        <record id="delivery_stat_receive_by_driver" model="pos.order.delivery.state">
+            <field name="name">Received By The Driver</field>
+            <field name="short_code">receive_by_driver</field>
+        </record>
+        <record id="delivery_stat_receive" model="pos.order.delivery.state">
+            <field name="name">Received</field>
+            <field name="short_code">receive</field>
+        </record>
+        <record id="delivery_stat_in_progress" model="pos.order.delivery.state">
+            <field name="name">In Progress</field>
+            <field name="short_code">in_progress</field>
+        </record>
+        <record id="delivery_stat_ready_to_deliver" model="pos.order.delivery.state">
+            <field name="name">Ready to Deliver</field>
+            <field name="short_code">ready_to_deliver</field>
+        </record>
+        <record id="delivery_stat_deliver" model="pos.order.delivery.state">
+            <field name="name">Delivered</field>
+            <field name="short_code">delivered</field>
+        </record>
+        <record id="delivery_stat_pickup_by_driver" model="pos.order.delivery.state">
+            <field name="name">Pick Up By The Driver</field>
+            <field name="short_code">pickup_by_driver</field>
+        </record>
+    </data>
+</odoo>

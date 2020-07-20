@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="membership_card_form" model="ir.ui.view">
+            <field name="name">membership card form</field>
+            <field name="model">membership.card</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="card_no" />
+                                <field name="card_value" />
+                                <field name="customer_id" />
+                                <field name="card_type" />
+                            </group>
+                            <group>
+                                <field name="issue_date" />
+                                <field name="expire_date" />
+                                <field name="is_active" />
+                            </group>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page string="Card Use">
+                                    <field name="used_line"
+                                        readonly="1">
+                                        <tree editable="top">
+                                            <field name="card_id" />
+                                            <field name="pos_order_id" />
+                                            <field name="order_date" />
+                                            <field name="amount" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Card Recharge">
+                                    <field name="recharge_line"
+                                        readonly="1">
+                                        <tree editable="top">
+                                            <field name="card_id" />
+                                            <field name="recharge_date" />
+                                            <field name="user_id" />
+                                            <field name="amount" />
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- giftcard search> -->
+        <record id="view_membership_card_filter" model="ir.ui.view">
+            <field name="name">Membership Card Search View</field>
+            <field name="model">membership.card</field>
+            <field name="arch" type="xml">
+                <search string="Search membership">
+                	<field name="card_no" filter_domain="[('card_no','ilike', self)]"/>
+                    <filter name="is_active" string="Active Filter"
+                        domain="[('is_active','=',True)]" />
+                    <filter name="deactive" string="Dective Filter"
+                        domain="[('is_active','=',False)]" />
+                    <group string="Group">
+                        <filter name="customer_id" string="Customer"
+                            domain="[]" context="{'group_by':'customer_id'}" />
+                        <filter name="issue_date" string="Issue Date"
+                            domain="[]" context="{'group_by':'issue_date'}" />
+                        <filter name="expire_date" string="Expire Date"
+                            domain="[]" context="{'group_by':'expire_date'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Membership Card Use Search -->
+        <record id="view_membership_card_use_filter" model="ir.ui.view">
+            <field name="name">Membership Card Use Search View</field>
+            <field name="model">membership.card.use</field>
+            <field name="arch" type="xml">
+                <search string="Search Membership Card">
+                    <group string="Group">
+                        <filter name="customer_id" string="Customer"
+                            domain="[]" context="{'group_by':'customer_id'}" />
+                        <filter name="order_date" string="Order Date"
+                            domain="[]" context="{'group_by':'order_date'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- giftcar use recharge -->
+        <record id="view_membership_card_recharge_filter" model="ir.ui.view">
+            <field name="name">Membership Recharge Search View</field>
+            <field name="model">membership.card.recharge</field>
+            <field name="arch" type="xml">
+                <search string="Search Membership">
+                    <group string="Group">
+                        <filter name="customer_id" string="Customer"
+                            domain="[]" context="{'group_by':'customer_id'}" />
+                        <filter name="recharge_date" string="Recharge Date"
+                            domain="[]" context="{'group_by':'recharge_date'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="membership_card_tree" model="ir.ui.view">
+            <field name="name">membership card tree</field>
+            <field name="model">membership.card</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="card_no" />
+                    <field name="card_value" />
+                    <field name="customer_id" />
+                    <field name="issue_date" />
+                    <field name="expire_date" />
+                    <field name="is_active" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="membership_card_type_tree" model="ir.ui.view">
+            <field name="name">membership card type tree</field>
+            <field name="model">membership.card.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" />
+                    <field name="code" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="membership_card_used_tree" model="ir.ui.view">
+            <field name="name">membership card used tree</field>
+            <field name="model">membership.card.use</field>
+            <field name="arch" type="xml">
+                <tree create="0">
+                    <field name="card_id" />
+                    <field name="customer_id" />
+                    <field name="pos_order_id" />
+                    <field name="order_date" />
+                    <field name="amount" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="membership_card_recharged_tree" model="ir.ui.view">
+            <field name="name">membership card recharged tree</field>
+            <field name="model">membership.card.recharge</field>
+            <field name="arch" type="xml">
+                <tree create="0">
+                    <field name="card_id" />
+                    <field name="customer_id" />
+                    <field name="recharge_date" />
+                    <field name="user_id" />
+                    <field name="amount" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_order_rack_tree" model="ir.ui.view">
+            <field name="name">POS Order Rack</field>
+            <field name="model">pos.order.rack</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" required="1"/>
+                    <field name="description"/>
+                    <field name="config_id" required="1" string="Branch"/>
+                    <field name="status" string="Status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_order_delivery_state_tree" model="ir.ui.view">
+            <field name="name">POS Order Delivery State</field>
+            <field name="model">pos.order.delivery.state</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" required="1"/>
+                    <field name="short_code" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="adjustment_reason_tree" model="ir.ui.view">
+            <field name="name">Adjustment Reason</field>
+            <field name="model">adjustment.reason</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="customer_adjustment_tree" model="ir.ui.view">
+            <field name="name">Customer Adjustment</field>
+            <field name="model">customer.adjustment</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="false">
+                    <field name="partner_id"/>
+                    <field name="reason_id"/>
+                    <field name="adjustment_date"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_membership_card_form" model="ir.actions.act_window">
+            <field name="name">Membership Card</field>
+            <field name="res_model">membership.card</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_membership_card_type_form" model="ir.actions.act_window">
+            <field name="name">Membership Card Type</field>
+            <field name="res_model">membership.card.type</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="action_membership_card_used_tree" model="ir.actions.act_window">
+            <field name="name">Membership Card Use</field>
+            <field name="res_model">membership.card.use</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="action_membership_card_recharged_tree" model="ir.actions.act_window">
+            <field name="name">Membership Card Recharge</field>
+            <field name="res_model">membership.card.recharge</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+         <record id="action_pos_order_delivery_state" model="ir.actions.act_window">
+            <field name="name">Delivery State</field>
+            <field name="res_model">pos.order.delivery.state</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="action_pos_order_rack" model="ir.actions.act_window">
+            <field name="name">POS Order Rack</field>
+            <field name="res_model">pos.order.rack</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="action_customer_adjustment" model="ir.actions.act_window">
+            <field name="name">Customer Adjustment</field>
+            <field name="res_model">customer.adjustment</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="action_adjustment_reason" model="ir.actions.act_window">
+            <field name="name">Adjustment Reason</field>
+            <field name="res_model">adjustment.reason</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="pos_laundry_main_menu" name="Laundry"
+            parent="point_of_sale.menu_point_root" />
+
+        <menuitem id="order_rack_details_id" name="Rack"
+            parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="1"
+            action="ecotech_pos_laundry.action_pos_order_rack" />
+
+        <menuitem id="order_delivery_state_details" name="Delivery State"
+            parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="2"
+            action="ecotech_pos_laundry.action_pos_order_delivery_state" />
+
+        <menuitem id="customer_adjustment" name="Customer Adjustment"
+            parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="3"
+            action="ecotech_pos_laundry.action_customer_adjustment" />
+
+        <menuitem id="adjustment_reason" name="Adjustment Reason"
+            parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="4"
+            action="ecotech_pos_laundry.action_adjustment_reason" />
+
+        <menuitem id="point_of_sale.menu_point_config_product"
+            name="Configuration" parent="point_of_sale.menu_point_root"
+            sequence="100" groups="point_of_sale.group_pos_manager" />
+
+        <menuitem id="membership_card_main_menu" name="Membership Card"
+            parent="point_of_sale.menu_point_root" />
+
+        <menuitem id="membership_card_details" name="Membership Card"
+            parent="membership_card_main_menu" sequence="1"
+            action="action_membership_card_form" />
+
+        <menuitem id="membership_card_type_details" name="Card Type"
+            parent="membership_card_main_menu" sequence="4"
+            action="action_membership_card_type_form" />
+
+        <menuitem id="membership_card_used_details" name="Used Card"
+            parent="membership_card_main_menu" sequence="2"
+            action="action_membership_card_used_tree" />
+
+        <menuitem id="membership_card_recharged_details" name="Recharged Card"
+            parent="membership_card_main_menu" sequence="4"
+            action="action_membership_card_recharged_tree" />
+    </data>
+</odoo>

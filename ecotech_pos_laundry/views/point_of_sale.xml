@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdn=3:-->
+<odoo>
+    <template id="partial_pay_index" name="laundry_pos index" inherit_id="point_of_sale.index">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/models.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/popups.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/screens.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/db.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/jquery.simplePagination.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/paging.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/chosen.jquery.js"></script>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/JsBarcode.all.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="/ecotech_pos_laundry/static/src/css/pos.css"/>
+            <link rel="stylesheet" type="text/css" href="/ecotech_pos_laundry/static/src/css/jquery-ui-1.9.1.custom.css"/>
+            <link rel="stylesheet" href="/ecotech_pos_laundry/static/src/css/datepicker.css" id="pos-stylesheet"/>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/fabric.min.js"></script>
+            <link rel="stylesheet" href="/ecotech_pos_laundry/static/src/css/jquery.datetimepicker.css" id="pos-stylesheet"/>
+            <script type="text/javascript" src="/ecotech_pos_laundry/static/src/js/jquery.datetimepicker.full.min.js"></script>
+            <link rel="stylesheet" href="/ecotech_pos_laundry/static/src/css/chosen.css"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="order_inherited_form_view" model="ir.ui.view">
+        <field name="name">pos.order.inherited.view</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <field name="amount_total" position="after">
+                <field name="amount_due"/>
+                <field name="delivery_state_Short_code" invisible="1"/>
+                <field name="partner_phone" invisible="1"/>
+                <field name="partner_mobile" invisible="1"/>
+                <field name="delivery_state_Short_code" invisible="1"/>
+                <field name="is_adjustment" invisible="1"/>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="promise_date"/>
+                <field name="delivery_state_id"/>
+                <field name="order_rack_id" widget="many2many_tags" readonly="1" attrs="{'invisible':[('delivery_state_Short_code','!=','ready_to_deliver')]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_pos_order_tree_inherit_id" model="ir.ui.view">
+        <field name="name">pos.order.tree.inherit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="date_order" position="after">
+                <field name="promise_date"/>
+                <field name="delivery_state_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_pos_order_search_inherit_id" model="ir.ui.view">
+        <field name="name">pos.order.search.view.inherit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="partner_phone"/>
+                <field name="partner_mobile"/>
+                <field name="session_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="point_of_sale.action_pos_pos_form" model="ir.actions.act_window">
+        <field name="search_view_id" ref="point_of_sale.view_pos_order_search"/>
+    </record>
+
+</odoo>
