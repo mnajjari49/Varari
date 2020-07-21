@@ -469,7 +469,7 @@
             <div  class="pos-label" >
                         <div>
                             <span t-esc="(order).split(' ')[1] || ''" class="pos-receipt-left-align"/>
-                            <span  t-esc='promise_date' class="pos-receipt-right-align"/>
+                            <span  t-esc='promise_date' />
                         </div>
                         <t t-if="client">
                             <t t-if="client.preference">
@@ -484,9 +484,10 @@
                         <div>
                            <span>(</span><span t-esc='count'/> <span>/</span> <span><t t-esc="total"/></span><span>) - </span><span> <t t-esc="service"/></span>
                         </div>
-<!--                        <div>-->
-<!--                            <span t-esc='product'/> <span>-</span> <span><t t-esc="quantity"/> </span><span>- Piece</span>-->
-<!--                        </div>-->
+                        <div>
+                            <span t-esc='product'/> <span>-</span>
+<!--                            <span><t t-esc="quantity"/> </span><span>- Piece</span>-->
+                        </div>
                 </div>
         </div>
 
