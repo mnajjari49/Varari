@@ -13,7 +13,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     models.load_fields("res.users", ['allow_order_screen', 'enable_adjustment',
                                         'enable_pos_report', 'enable_membership_card']);
     models.load_fields("pos.payment.method", ['allow_for_adjustment','allow_for_membership_card']);
-    models.load_fields("product.product", ['arabic_name']);
+    models.load_fields("product.product", ['arabic_name','label_count']);
 
     models.PosModel.prototype.models.push({
         model:  'customer.preference',
@@ -108,6 +108,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             var orderlines = _super_Orderline.export_for_printing.call(this);
             var new_val = {   
             product_name_arabic: this.get_product().arabic_name,           
+            label_count: this.get_product().label_count,
             };
             $.extend(orderlines, new_val);
             return orderlines;
