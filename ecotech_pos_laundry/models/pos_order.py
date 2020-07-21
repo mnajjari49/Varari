@@ -25,11 +25,11 @@ class productTemp(models.Model):
     arabic_name = fields.Char(
         string='Arabic Name',
         required=False)
+    label_count = fields.Integer(default=1)
 
 
 class productProd(models.Model):
     _inherit = 'product.product'
-
 
     arabic_name = fields.Char(
         string='Arabic Name',related="product_tmpl_id.arabic_name",

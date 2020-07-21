@@ -9,6 +9,8 @@
             <xpath expr="//div[@name='options']" position="before">
                 <label class="oe_edit_only" for="arabic_name" string="Arabic Name"/>
                 <h1><field name="arabic_name" placeholder="Arabic Name"/></h1>
+                <label class="oe_edit_only" for="arabic_name" string="label count"/>
+                <h1><field name="label_count" /></h1>
             </xpath>
         </field>
     </record>

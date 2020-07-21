@@ -2435,6 +2435,7 @@
             var receipt_html = [];
             for (var i=0; i< order_lines.length;i++){
                 var line = order_lines[i];
+                for (var j=0 ;j<line.product.label_count;j++){
                 count += 1;
                 vals ={
                       widget: this,
@@ -2448,7 +2449,10 @@
                      'order'   : order.name
                 }
                 receipt_html.push(QWeb.render('TokenTicket', vals));
+                }
+
             }
+            console.log(receipt_html);
             return receipt_html
 
         },
