@@ -602,7 +602,7 @@
 <!--                            </t>-->
                             </t>
                             <td valign="top" align="center">
-                                 <t t-set="pieces" t-value="pieces + line.quantity"/>
+                                 <t t-set="pieces" t-value="pieces + (line.quantity*line.label_count)"/>
                                 <t t-esc="Math.round(line.quantity * Math.pow(10, pos.dp['Product Unit of Measure'])) / Math.pow(10, pos.dp['Product Unit of Measure'])"/>
                                 <t t-if='line.unit_name !== "Units"' t-esc='line.unit_name'/>
                             </td>

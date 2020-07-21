@@ -25,7 +25,7 @@ class productTemp(models.Model):
     arabic_name = fields.Char(
         string='Arabic Name',
         required=False)
-    label_count = fields.Integer(default=1)
+    label_count = fields.Integer(default=1,string="No of pieces")
 
 
 class productProd(models.Model):
