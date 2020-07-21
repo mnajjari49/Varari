@@ -484,9 +484,9 @@
                         <div>
                            <span>(</span><span t-esc='count'/> <span>/</span> <span><t t-esc="total"/></span><span>) - </span><span> <t t-esc="service"/></span>
                         </div>
-                        <div>
-                            <span t-esc='product'/> <span>-</span> <span><t t-esc="quantity"/> </span><span>- Piece</span>
-                        </div>
+<!--                        <div>-->
+<!--                            <span t-esc='product'/> <span>-</span> <span><t t-esc="quantity"/> </span><span>- Piece</span>-->
+<!--                        </div>-->
                 </div>
         </div>
 
