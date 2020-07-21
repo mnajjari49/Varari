@@ -2433,19 +2433,27 @@
                                  }
             var count = 0;
             var receipt_html = [];
+            var total = 0;
+            for (var k=0 ; k < order_lines.length;k++){
+            var c = order_lines[k].product.label_count;
+            var le = order_lines[k].quantity;
+            total+=(c*le);
+            }
+
             for (var i=0; i< order_lines.length;i++){
                 var line = order_lines[i];
-                for (var j=0 ;j<line.product.label_count;j++){
+                for (var j=0 ;j<line.product.label_count*line.quantity;j++){
                 count += 1;
+                console.log(line.product.display_name);
                 vals ={
                       widget: this,
                      'product' : line.product.display_name,
                      'service' : line.product.pos_categ_id ? line.product.pos_categ_id[1]: false,
                      'client'  : customer_vals ? customer_vals : {},
-                     'total'   : order_lines.length || 0,
+                     'total'   : total || 0,
                      'count'   : count,
                      'promise_date' : moment(order.promise_date).format("ddd M-D-YY"),
-                     'quantity': line.quantity,
+                     'quantity': line.quantity*line.product.label_count,
                      'order'   : order.name
                 }
                 receipt_html.push(QWeb.render('TokenTicket', vals));
