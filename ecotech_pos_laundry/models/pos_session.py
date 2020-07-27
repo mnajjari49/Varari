@@ -647,27 +647,27 @@ class PosSession(models.Model):
             for session in self:
                     session.total_payments_amount= sum(session.payments.mapped('amount'))
 
-    def _compute_order_count(self):
-        for session in self:
-            pos_order_count = 0
-            for order in session.order_ids.filtered(lambda order : not (order.is_membership_order or order.is_adjustment)):
-                if session.id == order.session_id.id:
-                    if not order.old_session_ids:
-                        pos_order_count+=1
-            session.order_count = pos_order_count
+    # def _compute_order_count(self):
+    #     for session in self:
+    #         pos_order_count = 0
+    #         for order in session.order_ids.filtered(lambda order : not (order.is_membership_order or order.is_adjustment)):
+    #             if session.id == order.session_id.id:
+    #                 if not order.old_session_ids:
+    #                     pos_order_count+=1
+    #         session.order_count = pos_order_count
 
-    def action_view_order(self):
-        return {
-            'name': _('Orders'),
-            'res_model': 'pos.order',
-            'view_mode': 'tree,form',
-            'views': [
-                (self.env.ref('point_of_sale.view_pos_order_tree_no_session_id').id, 'tree'),
-                (self.env.ref('point_of_sale.view_pos_pos_form').id, 'form'),
-                ],
-            'type': 'ir.actions.act_window',
-            'domain': [('session_id', 'in', self.ids),('old_session_ids','=',False),('is_adjustment','=',False),('is_membership_order','=',False)],
-        }
+    # def action_view_order(self):
+    #     return {
+    #         'name': _('Orders'),
+    #         'res_model': 'pos.order',
+    #         'view_mode': 'tree,form',
+    #         'views': [
+    #             (self.env.ref('point_of_sale.view_pos_order_tree_no_session_id').id, 'tree'),
+    #             (self.env.ref('point_of_sale.view_pos_pos_form').id, 'form'),
+    #             ],
+    #         'type': 'ir.actions.act_window',
+    #         'domain': [('session_id', 'in', self.ids),('old_session_ids','=',False),('is_adjustment','=',False),('is_membership_order','=',False)],
+    #     }
 
     def action_pos_session_open(self):
         pos_order = self.env['pos.order'].search([('state', '=', 'draft')])
