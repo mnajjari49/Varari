@@ -16,5 +16,7 @@ class PosPayment(models.Model):
     _inherit = "pos.payment"
 
     old_session_id = fields.Many2one('pos.session', string = 'Old session Id')
+    session_id = fields.Many2one('pos.session', related="",string='Session' , store=True)
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

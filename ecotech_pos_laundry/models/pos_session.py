@@ -20,6 +20,7 @@ _logger = logging.getLogger(__name__)
 
 class PosSession(models.Model):
     _inherit = 'pos.session'
+    payments = fields.One2many("pos.payment",'session_id')
 
     def _check_if_no_draft_orders(self):
         if not self.config_id.enable_partial_payment:
@@ -126,7 +127,11 @@ class PosSession(models.Model):
         # of this session's move_id.
         order_account_move_receivable_lines = defaultdict(lambda: self.env['account.move.line'])
         rounded_globally = self.company_id.tax_calculation_rounding_method == 'round_globally'
-        for order in self.order_ids:
+        list_of_orders=self.order_ids
+        for payment in self.payments.filtered(lambda a: a.pos_order_id.session_id.id != self.id):
+            list_of_orders += payment.pos_order_id
+
+        for order in list_of_orders:
             if order.partial_paid_order or order.draft_order:
                 continue
             # Combine pos receivable lines
@@ -462,10 +467,14 @@ class PosSession(models.Model):
         stock_expense = defaultdict(amounts)
         stock_output = defaultdict(amounts)
         rounded_globally = self.company_id.tax_calculation_rounding_method == 'round_globally'
-        for order in self.order_ids:
+        list_of_orders = self.order_ids
+        for payment in self.payments.filtered(lambda a:a.pos_order_id.session_id.id!= self.id):
+            list_of_orders += payment.pos_order_id
+
+        for order in list_of_orders:
             if order.partial_paid_order or order.draft_order:
                 for payment in order.payment_ids.filtered(
-                        lambda payment: payment.session_id.id == self.id and not payment.old_session_id):
+                        lambda payment: payment.session_id.id == self.id and not payment.old_session_id):# get all payment that is not processed before
                     amount, date, session_id, old_session_id = payment.amount, payment.payment_date, payment.session_id, payment.old_session_id
                     if payment.payment_method_id.split_transactions:
                         if payment.payment_method_id.is_cash_count:
@@ -618,25 +627,25 @@ class PosSession(models.Model):
                    stock_expense.items()]
                 + [self._get_combine_receivable_vals(key, amounts['amount'], amounts['amount_converted']) for
                    key, amounts in combine_receivables.items()])
-        if not order.partial_paid_order:
+        if self.can_spilt():
             temp = [self._get_split_receivable_vals(key, amounts['amount'], amounts['amount_converted']) for key, amounts
                    in split_receivables.items()]
             test += temp
         return (test)
 
+    def can_spilt(self):
+       partial= self.payments.filtered(lambda a:a.session_id.id != self.id)
+       return True if not partial else False
+
     def action_show_payments_list(self):
         res = super(PosSession, self).action_show_payments_list()
-        res.update({'domain': [('session_id', '=', self.id),('old_session_id','=',False)]})
+        res.update({'domain': [('session_id', '=', self.id)]})
         return res
 
-    @api.depends('order_ids.payment_ids.amount')
+    @api.depends('payments.amount')
     def _compute_total_payments_amount(self):
-        total_payments_amount = 0.0
-        for session in self:
-            for order in session.order_ids.filtered(lambda order: not order.is_adjustment or order.is_membership_order):
-                for payment in order.payment_ids.filtered(lambda payment : not payment.old_session_id):
-                    total_payments_amount += payment.amount
-            session.total_payments_amount = total_payments_amount
+            for session in self:
+                    session.total_payments_amount= sum(session.payments.mapped('amount'))
 
     def _compute_order_count(self):
         for session in self:
@@ -665,14 +674,15 @@ class PosSession(models.Model):
         for order in pos_order:
             if order.session_id.state != 'opened':
                 if self.config_id == order.config_id:
+                    order.current_session=self.id
                     order.write({
-                        'session_id': self.id,
+                        # 'session_id': self.id,
                         # 'old_session_id':order.session_id.id,
                         'old_session_ids':[(4,order.session_id.id)],
                     })
                     for payment in order.payment_ids:
                         if not payment.old_session_id:
-                            payment.write({'old_session_id':order.session_id.id})
+                            payment.write({'old_session_id':order.current_session.id})
         return super(PosSession, self).action_pos_session_open()
 
 

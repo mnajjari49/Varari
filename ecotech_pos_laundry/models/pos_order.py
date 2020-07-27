@@ -54,6 +54,7 @@ class PosOrder(models.Model):
     draft_order = fields.Boolean(string="Draft Order")
     partial_paid_order = fields.Boolean(string="Partial Paid")
     old_session_ids = fields.Many2many('pos.session', string="Old sessions")
+    current_session=   fields.Many2one('pos.session')
 
     def _compute_amount_due(self):
         for each in self:
@@ -88,6 +89,14 @@ class PosOrder(models.Model):
                 vals['name'] = order.config_id.sequence_id._next()
         return super(PosOrder, self).write(vals)
 
+    def add_payment(self, data):
+        """Create a new payment for the order"""
+
+        if not data.get('session_id'):
+            order=self.browse(data.get('pos_order_id'))
+            data['session_id']=order.session_id.id
+        return super(PosOrder, self).add_payment(data)
+
     def _process_order(self, order, draft, existing_order):
         pos_line_obj = self.env['pos.order.line']
         old_order_id = order.get('data').get('old_order_id')
@@ -116,6 +125,7 @@ class PosOrder(models.Model):
                 if not float_is_zero(payments[2].get('amount'), precision_rounding=currency.rounding):
                     order_obj.add_payment({
                         'pos_order_id': order_obj.id,
+                        'session_id': order_obj.current_session.id,
                         'payment_date': fields.Datetime.now(),
                         'amount': currency.round(payments[2].get('amount')) if currency else payments[2].get('amount'),
                         'payment_method_id': payments[2].get('payment_method_id'),
@@ -138,6 +148,7 @@ class PosOrder(models.Model):
                 cash_journal = cash_journal_ids[0]
                 order_obj.add_payment({
                     'pos_order_id': order_obj.id,
+                    'session_id': order_obj.current_session.id,
                     'payment_date': fields.Datetime.now(),
                     'amount': currency.round(-order.get('data').get('amount_return')) if currency else -order.get('data').get('amount_return'),
                     'payment_method_id': cash_journal.id,
