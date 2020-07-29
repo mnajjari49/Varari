@@ -127,11 +127,14 @@ class PosSession(models.Model):
         # of this session's move_id.
         order_account_move_receivable_lines = defaultdict(lambda: self.env['account.move.line'])
         rounded_globally = self.company_id.tax_calculation_rounding_method == 'round_globally'
-        list_of_orders=self.order_ids
-        for payment in self.payments.filtered(lambda a: a.pos_order_id.session_id.id != self.id):
-            list_of_orders += payment.pos_order_id
+        list_of_orders=self.order_ids.mapped('id')
+        additional_list=self.payments.filtered(lambda a:a.pos_order_id.session_id.id!= self.id).mapped("id")
+        list_of_orders += list(set(self.payments.filtered(lambda a:a.pos_order_id.session_id.id!= self.id).mapped("pos_order_id.id")))
+        print(list_of_orders,'\n',additional_list)
+        # for payment in self.payments.filtered(lambda a: a.pos_order_id.session_id.id != self.id):
+        #     list_of_orders += payment.pos_order_id
 
-        for order in list_of_orders:
+        for order in self.env["pos.order"].browse(list_of_orders):
             if order.partial_paid_order or order.draft_order:
                 continue
             # Combine pos receivable lines
@@ -467,11 +470,14 @@ class PosSession(models.Model):
         stock_expense = defaultdict(amounts)
         stock_output = defaultdict(amounts)
         rounded_globally = self.company_id.tax_calculation_rounding_method == 'round_globally'
-        list_of_orders = self.order_ids
-        for payment in self.payments.filtered(lambda a:a.pos_order_id.session_id.id!= self.id):
-            list_of_orders += payment.pos_order_id
+        list_of_orders = self.order_ids.mapped('id')
+        additional_list = self.payments.filtered(lambda a: a.pos_order_id.session_id.id != self.id).mapped("id")
+        list_of_orders += list(
+            set(self.payments.filtered(lambda a: a.pos_order_id.session_id.id != self.id).mapped("pos_order_id.id")))
+        # for payment in self.payments.filtered(lambda a:a.pos_order_id.session_id.id!= self.id):
+        #     list_of_orders += payment.pos_order_id
 
-        for order in list_of_orders:
+        for order in self.env["pos.order"].browse(list_of_orders):
             if order.partial_paid_order or order.draft_order:
                 for payment in order.payment_ids.filtered(
                         lambda payment: payment.session_id.id == self.id and not payment.old_session_id):# get all payment that is not processed before
