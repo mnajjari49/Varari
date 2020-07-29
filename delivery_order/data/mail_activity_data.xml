@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Delivery Order -->
+        <record id="mail_act_delivery_order" model="mail.activity.type">
+            <field name="name">Delivery Order</field>
+            <field name="icon">fa-warning</field>
+        </record>
+
+    </data>
+</odoo>

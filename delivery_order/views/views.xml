@@ -1,0 +1,107 @@
+<odoo>
+  <data>
+
+    <record id="delivery_order_view_form" model="ir.ui.view">
+        <field name="name">delivery.order.view.form</field>
+        <field name="model">delivery.order</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Order">
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                    <button name="schedule_activity" string="Send To Driver" type="object" attrs="{'invisible':[('sent','=',True)]}" />
+                    <field name="sent" invisible="1"/>
+                </header>
+                <sheet>
+                    <div>
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                    </div>
+                    <group>
+                      <field name="partner_id"/>
+                      <field name="driver_id"/>
+                      <field name="date"/>
+                      <field name="note"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="delivery_order_view_tree" model="ir.ui.view">
+        <field name="name">delivery_order_view_tree</field>
+        <field name="model">delivery.order</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Order">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="driver_id"/>
+                <field name="date"/>
+                <field name="note"/>
+                <field name="stage_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="delivery_order_action" model="ir.actions.act_window">
+        <field name="name">Delivery Order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delivery.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="delivery_order_root" web_icon="delivery_order,static/img/delivery.png" name="Delivery Order" sequence="30" groups="delivery_order.group_delivery_order_user,delivery_order.group_delivery_order_manager"/>
+    <menuitem id="delivery_order_menu" name="Delivery" parent="delivery_order_root" action="delivery_order_action" sequence="1" groups="delivery_order.group_delivery_order_user"/>
+    <menuitem id="delivery_order_config" name="Configuration" parent="delivery_order_root" sequence="2" groups="delivery_order.group_delivery_order_manager"/>
+
+    <record id="delivery_order_stage_action" model="ir.actions.act_window">
+        <field name="name">Delivery Order Stages</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delivery.order.stage</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="delivery_order_stage" name="Stages" parent="delivery_order_config" action="delivery_order_stage_action" sequence="1" groups="delivery_order.group_delivery_order_manager"/>
+
+    <record id="view_users_form_inherit" model="ir.ui.view">
+        <field name="name">view.users.form.driver</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//notebook" position="inside">
+            <page name="driver" string="Driver">
+                <group>
+                    <field name="is_driver"/>
+                </group>
+            </page>
+          </xpath>
+        </field>
+    </record>
+
+      <record id="driver_activity_to_deliver" model="mail.activity.type">
+            <field name="name">Delivery Order</field>
+            <field name="icon">fa-truck</field>
+            <field name="sequence">12</field>
+      </record>
+
+      <record id="res_partner_form_inherit" model="ir.ui.view">
+          <field name="name">res.partner.form.delivery</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="base.view_partner_form"/>
+          <field name="arch" type="xml">
+              <div name="button_box" position="inside">
+                  <button string="Create" class="oe_stat_button" type="object" name="create_receive_order" icon="fa-motorcycle">
+                  </button>
+                  <button string="View" class="oe_stat_button" type="object" name="view_receive_order" icon="fa-bars">
+                  </button>
+              </div>
+          </field>
+      </record>
+
+  </data>
+</odoo>
