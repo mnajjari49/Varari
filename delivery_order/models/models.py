@@ -19,10 +19,19 @@ class deliveryOrder(models.Model):
         rec = super(deliveryOrder, self).create(vals)
         return rec
 
-    # @api.onchange('stage_id')
-    # def onchange_stage_id(self):
-    #     if self.stage_id.done or self.stage_id.reject:
-    #         self.activity_feedback(['delivery_order.mail_act_delivery_order'],self.env.user.id,'Done')
+    def action_done(self):
+        for rec in self:
+            s_id = self.env['delivery.order.stage'].search([('done','=',True)],limit=1)
+            if s_id:
+                rec.stage_id = s_id.id
+                self.activity_feedback(['delivery_order.mail_act_delivery_order'], self.env.user.id, 'Done')
+
+    def action_reject(self):
+        for rec in self:
+            s_id = self.env['delivery.order.stage'].search([('reject','=',True)],limit=1)
+            if s_id:
+                rec.stage_id = s_id.id
+                self.activity_feedback(['delivery_order.mail_act_delivery_order'], self.env.user.id, 'Done')
 
     name = fields.Char(
         string='Name',
@@ -31,6 +40,9 @@ class deliveryOrder(models.Model):
         comodel_name='res.partner',
         string='Customer',
         required=True)
+    address = fields.Char(
+        string='Address',related="partner_id.street",
+        required=False)
     driver_id = fields.Many2one(
         comodel_name='res.users',
         string='Driver',domain = [('is_driver', '=', True)],

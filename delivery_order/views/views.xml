@@ -19,6 +19,7 @@
                     </div>
                     <group>
                       <field name="partner_id"/>
+                      <field name="address"/>
                       <field name="driver_id"/>
                       <field name="date"/>
                       <field name="note"/>
@@ -40,12 +41,50 @@
             <tree string="Delivery Order">
                 <field name="name"/>
                 <field name="partner_id"/>
+                <field name="address"/>
                 <field name="driver_id"/>
                 <field name="date"/>
                 <field name="note"/>
                 <field name="stage_id"/>
             </tree>
         </field>
+    </record>
+
+    <record id="delivery_order_view_kanban" model="ir.ui.view">
+     <field name="name">delivery_order_view_kanban</field>
+      <field name="model">delivery.order</field>
+     <field name="arch" type="xml">
+         <kanban class="o_kanban_mobile">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div>
+                                    <p><strong><field name="name"/></strong></p>
+                                </div>
+                                <div>
+                                    <p style="line-height:1em;">Customer : <field name="partner_id"/></p>
+                                    <p style="line-height:1em;">Address: <field name="address"/></p>
+                                    <p style="line-height:1em;">Driver : <field name="driver_id"/></p>
+                                    <p style="line-height:1em;">Date : <field name="date"/></p>
+                                    <p style="line-height:1em;">Status : <field name="stage_id"/></p>
+                                </div>
+                                <div>
+                                    <a type="button">
+                                        <button name="action_done" type="object" class="btn btn-success">
+                                            <span><i class="fa fa-check"></i></span>
+                                        </button>
+                                    </a>
+                                    <a type="button">
+                                        <button name="action_reject" type="object" class="btn btn-danger">
+                                            <span><i class="fa fa-times"></i></span>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+         </kanban>
+     </field>
     </record>
 
     <record id="delivery_order_action" model="ir.actions.act_window">
