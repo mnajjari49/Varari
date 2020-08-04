@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_delivery_order_manager,delivery.order.manager,delivery_order.model_delivery_order,delivery_order.group_delivery_order_manager,1,1,1,1
+access_delivery_order_user,delivery.order.user,delivery_order.model_delivery_order,delivery_order.group_delivery_order_user,1,1,0,0
+access_delivery_order_user_stage_manager,delivery.order.user.stage.manager,delivery_order.model_delivery_order_stage,delivery_order.group_delivery_order_manager,1,1,1,1
+access_delivery_order_user_stage_user,delivery.order.user.stage.user,delivery_order.model_delivery_order_stage,delivery_order.group_delivery_order_user,1,0,0,0

@@ -1,0 +1,18 @@
+<odoo>
+  <data>
+   <!-- Inherit Form View to Modify it -->
+   <record id="res_users_form_pos" model="ir.ui.view">
+       <field name="name">res.users.form.inherit</field>
+       <field name="model">res.users</field>
+       <field name="inherit_id" ref="ecotech_pos_laundry.res_users_form_view_id"/>
+       <field name="arch" type="xml">
+
+           <field name="enable_membership_card" position="after">
+               <field name="automatic_pos"/>
+               <field name="pos_config_id" attrs="{'invisible':[('automatic_pos','=', False)],'required':[('automatic_pos','=', True)]}"/>
+           </field>
+
+       </field>
+   </record>
+  </data>
+</odoo>
