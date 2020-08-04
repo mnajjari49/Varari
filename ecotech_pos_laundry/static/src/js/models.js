@@ -129,6 +129,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             this.date=[];
             this.rack = false;
             this.adjustment = [];
+            this.previous = [];
             //Membership Card Code End
             this.set({
                 'paying_order': false,
@@ -137,6 +138,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 'membership_order':false,
             })
             this.is_adjustment = false;
+            this.is_previous_order = false;
             return res;
         },
 
@@ -148,6 +150,9 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         },
         set_customer_adjustment: function(adjustment) {
             this.adjustment.push(adjustment);
+        },
+        set_customer_previous: function(prev) {
+            this.previous.push(prev);
         },
         get_customer_adjustment: function() {
             return this.adjustment;
@@ -319,6 +324,12 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         get_is_customer_adjustment: function(){
             return this.is_adjustment;
         },
+       set_is_previous_order: function(flag){
+            this.is_previous_order = flag;
+        },
+        get_is_previous_ordert: function(){
+            return this.is_previous_order;
+        },
 
         export_as_JSON: function() {
             var new_val = {};
@@ -336,6 +347,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 recharge: this.get_recharge_membership_card() || false,
                 is_partial_paid: this.get_partial_paid_order(),
                 is_adjustment : this.get_is_customer_adjustment(),
+                is_previous_order : this.get_is_previous_ordert(),
                 delivery_state_id : this.pos.config.default_delivery_state[0] || false,
                 order_rack_id: this.get_rack() || [],
                 adjustment: this.get_customer_adjustment() || [],

@@ -698,7 +698,7 @@
         },
     });
     gui.define_screen({name:'posreportscreen', widget: PosReportScreenWidget});
-
+/******************************************* Adjustment **********************************************/
     var CustomerAdjustmentButton = screens.ActionButtonWidget.extend({
         template: 'CustomerAdjustmentButton',
         button_click: function(){
@@ -823,6 +823,26 @@
         },
     });
     gui.define_screen({name:'customeradjustmentlistscreen', widget: CustomerAdjustmentlistScreen});
+/************************************************* Previous Order *********************************/
+  var CustomerPreviousButton = screens.ActionButtonWidget.extend({
+        template: 'CustomerPreviousButton',
+        button_click: function(){
+this.pos.gui.show_popup('create_prev_popup',{});
+              },
+    });
+
+    screens.define_action_button({
+        'name': 'CustomerPreviousButton',
+        'widget': CustomerPreviousButton,
+         'condition': function(){
+            return this.pos.config.enable_customer_adjustment && this.pos.user.enable_adjustment;
+        },
+    });
+
+
+
+
+/************************************************** Previous order ********************************/
 
     var MembershipCardListScreenWidget = screens.ScreenWidget.extend({
         template: 'MembershipCardListScreenWidget',
@@ -2425,6 +2445,16 @@
                 reason: this.pos.adjustment_reason_by_id[order.get_customer_adjustment()[0].adjustment_reason]
             };
         },
+        get_customer_previous_env:function(){
+            var order = this.pos.get_order();
+            return {
+                widget: this,
+                pos: this.pos,
+                order: order,
+                receipt: order.export_for_printing(),
+                data: order.previous[0] || [],
+            };
+        },
         get_label_env : function(){
             var order = this.pos.get_order();
             var order_lines = order.get_orderlines();
@@ -2475,6 +2505,10 @@
                 this.$('.pos-receipt-container').html(receipt_html);
             }else if (order.get_free_data()){
                 var receipt_html = QWeb.render('FreeTicket',this.get_receipt_render_env());
+                this.$('.pos-receipt-container').html(receipt_html);
+            }else if (order.is_previous_order){
+
+                var receipt_html = QWeb.render('CustomerPrevious',this.get_customer_previous_env());
                 this.$('.pos-receipt-container').html(receipt_html);
             }else{
                 var receipt_html = QWeb.render('OrderReceipt',this.get_receipt_render_env());

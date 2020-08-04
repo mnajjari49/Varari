@@ -219,6 +219,160 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
     });
     gui.define_popup({name:'create_cust_adjustment_popup', widget: CreateAdjustmentPopupWidget});
 
+    var CreatePreviousPopupWidget = PopupWidget.extend({
+        template: 'CreatePreviousPopupWidget',
+
+        show: function(options){
+            var self = this;
+            this.flag = true ; //always positive qty
+            this._super(options);
+
+            self.partner_id = '';
+            options = options || {};
+            this.renderElement();
+            var partners = this.pos.db.all_partners;
+            var partners_list = [];
+
+            if(partners && partners[0]){
+                partners.map(function(partner){
+                    partners_list.push({
+                        'id':partner.id,
+                        'value':partner.name,
+                        'label':partner.phone,
+                    });
+                });
+                $('#select_customer_pre').keypress(function(e){
+                    $('#select_customer_pre').autocomplete({
+                       source: function(request, response) {
+                            var query = request.term;
+                            var search_timeout = null;
+                            if(query){
+                                search_timeout = setTimeout(function(){
+                                    var partners_list = [];
+                                    var clients = self.pos.db.search_membership_card_customer(query);
+                                    _.each(clients, function(partner){
+                                       partners_list.push({
+                                           'id':partner.id,
+                                           'value':partner.name,
+                                           'label':partner.name
+                                       });
+                                    });
+                                    response(partners_list);
+                                },70);
+                            }
+                       },
+                       select: function(event, partner) {
+                            event.stopImmediatePropagation();
+                            // event.preventDefault();
+                            if (partner.item && partner.item.id) {
+                                self.partner_id =  partner.item.id;
+                                var partner_obj = _.find(self.partners, function(customer) {
+                                    return customer.id == partner.item.id;
+                                });
+                                if (partner_obj) {
+                                    self.set_customer(partner_obj);
+                                }
+                            }
+                       },
+                       focus: function(event, ui) {
+                            event.preventDefault(); // Prevent the default focus behavior.
+                       },
+                       close: function(event) {
+                            // it is necessary to prevent ESC key from propagating to field
+                            // root, to prevent unwanted discard operations.
+                            if (event.which === $.ui.keyCode.ESCAPE) {
+                                event.stopPropagation();
+                            }
+                       },
+                        autoFocus: true,
+                        html: true,
+                        minLength: 1,
+                        delay: 200
+                    });
+                });
+            }
+            $("#previous_amount").keypress(function (e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) {
+                    return false;
+               }
+            });
+
+            var partner = null;
+            for ( var j = 0; j < self.pos.partners.length; j++ ) {
+                partner = self.pos.partners[j];
+                self.partner=this.partner
+            }
+        },
+        click_confirm: function(){
+            var self = this;
+
+            var order = self.pos.get_order();
+            if($('#select_customer_pre').val() == ''){
+                self.partner_id = false;
+            }
+
+            $('#previous_amount').focus();
+            var input_amount =this.$('#previous_amount').val();
+//            var selected_reason = $('#select_reason').val();
+
+            var select_customer = self.partner_id;
+
+            if(!self.partner_id){
+                alert(_t('PLease Select Customer For Adjustment!'));
+                $('#select_customer_pre').focus();
+                return
+            }
+            if(!input_amount || Number(input_amount) == 0){
+                alert(_t('PLease Add Amount For Previous order !'));
+                $('#previous_amount').focus();
+                return
+            }
+
+            if(self.partner_id){
+                var client = self.pos.db.get_partner_by_id(self.partner_id);
+            }
+
+            if(input_amount  && self.partner_id){
+                order.set_client(client);
+//                var product = self.pos.db.get_product_by_id(self.pos.config.previous_product[0]);
+var product = self.pos.db.get_product_by_id(53);
+                if (self.pos.config.adjustment_product[0]){
+                    var orderlines=order.get_orderlines()
+                    for(var i = 0, len = orderlines.length; i < len; i++){
+                        order.remove_orderline(orderlines);
+                    }
+                    var line = new models.Orderline({}, {pos: self.pos, order: order, product: product});
+                    line.price_manually_set = true;
+                    line.set_unit_price(Number(input_amount));
+                    line.set_quantity(this.flag? 1: -1);
+                    order.add_orderline(line);
+                    order.select_orderline(order.get_last_orderline());
+                }
+                var prev = {
+                    'partner_id': self.partner_id || false,
+                    'previous_date': moment().format('YYYY-MM-DD'),
+                    'previous_amount': this.flag?Number(input_amount):-Number(input_amount),
+                }
+                order.set_is_previous_order(true);
+                order.set_customer_previous(prev)
+                var payment_line = this.pos.payment_methods_by_id[self.pos.config.jr_for_adjustment[0]]
+
+                order.add_paymentline(payment_line);
+                order.selected_paymentline.set_amount(this.flag?Number(input_amount):-Number(input_amount));
+                self.pos.gui.chrome.screens.payment.finalize_validation();
+                self.gui.show_screen('receipt');
+                $( "#select_customer_pre").off("click");
+                this.gui.close_popup();
+            }
+        },
+
+        renderElement: function() {
+            var self = this;
+            this._super();
+        },
+    });
+    gui.define_popup({name:'create_prev_popup', widget: CreatePreviousPopupWidget});
+
     var RackSelectionPopupWidget = PopupWidget.extend({
         template: 'RackSelectionPopupWidget',
         events: _.extend({}, PopupWidget.prototype.events, {

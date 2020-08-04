@@ -47,6 +47,7 @@ class PosOrder(models.Model):
 
     # Memebership Order
     is_membership_order = fields.Boolean(string = "Membership Order")
+    is_previous_order = fields.Boolean(string = "Previous Order")
     is_adjustment = fields.Boolean(string = "Customer Adjustment Order")
 
     # Fields Taken for the Partial Payment
@@ -75,6 +76,7 @@ class PosOrder(models.Model):
             'draft_order': ui_order.get('draft_order'),
             'delivery_state_id': ui_order.get('delivery_state_id') or False,
             'is_membership_order': ui_order.get('is_membership_order'),
+            'is_previous_order': ui_order.get('is_previous_order'),
             'is_adjustment' : ui_order.get('is_adjustment') or False,
         })
         return res

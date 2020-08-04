@@ -839,6 +839,33 @@
         </div>
     </t>
 
+        <t t-name="CustomerPrevious">
+        <div class="pos-receipt">
+            <div class="pos-center-align" style="font-weight: bold;text-align:center;">
+                <h3>Previous Order</h3>
+                <h3><t t-esc="order.name"/></h3>
+            </div>
+            <table style="width:100%">
+                <t t-if="receipt.client">
+                    <tr>
+                        <td>Customer</td>
+                        <td> <span class="pos-receipt-left-align" t-esc='receipt.client.name' /></td>
+                    </tr>
+                </t>
+                <tr>
+                    <td> Date</td>
+                    <td> <span class="pos-receipt-left-align" t-esc='moment(data.previous_date).format("DD/MM/YYYY")' /></td>
+                </tr>
+                 <tr>
+                    <td>Amount</td>
+                    <td>
+                         <span t-esc='widget.format_currency(data.previous_amount)'/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </t>
+
    <t t-extend="ReceiptScreenWidget">
         <t t-jquery="div.top-content" t-operation="replace">
             <div class='top-content'>
@@ -1259,6 +1286,7 @@
             </div>
         </div>
     </t>
+
     <t t-name="AdjustmentlistLine">
         <tr class='adjustment-line' t-att-data-id='order.id'>
             <td><t t-esc='order.partner_id[1]'/></td>
@@ -1317,4 +1345,38 @@
             </div>
         </div>
     </t>
+
+    /********************Previous Payment *******************************************/
+        <t t-name="CreatePreviousPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-textinput create_previous">
+                <p class="title">Create Customer previous payment</p>
+                <div>
+                    <table border="0" align="center" id="customer_previous" style="">
+                        <tr>
+                            <td>Customer </td>
+                            <td>
+                                <input type="text" id="select_customer_pre"/>
+                            </td>
+                        </tr>
+                        <tr id="amount_row">
+                            <td>Amount </td>
+                            <td>
+                               <input type="text" id="previous_amount" class="previous_amount"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div class="button confirm commonbutton">
+                        Create
+                    </div>
+                    <div class="button cancel commonbutton">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
 </templates>

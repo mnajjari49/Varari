@@ -14,6 +14,12 @@
             Customer Adjustment
         </div>
     </t>
+     <t t-name="CustomerPreviousButton">
+        <div class="control-button">
+            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+             Previous Order Payment
+        </div>
+    </t>
 
     <t t-name="MembershipCardListScreenWidget">
         <div class="membership-list-screen screen">
