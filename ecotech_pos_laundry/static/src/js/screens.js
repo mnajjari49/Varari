@@ -661,6 +661,10 @@
                                     ['is_adjustment','=',false],
                                     ['session_id', 'in', self.pos.session_ids]
                                 )
+            }else{
+                self.domain = [ ['is_membership_order','=',false],
+                                    ['is_adjustment','=',false],
+                                    ['session_id', 'in', self.pos.session_ids]];
             }
             var OrderPromise = new Promise(function (resolve, reject) {
                 rpc.query({
