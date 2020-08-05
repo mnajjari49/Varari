@@ -118,6 +118,40 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="previous_product">
+                        <div class="o_setting_left_pane">
+                            <field name="enable_customer_previous"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="enable_customer_previous"/>
+                            <div class="text-muted">
+                                Enable Customer Previous payment.
+                            </div>
+                            <div class="content-group"
+                                 attrs="{'invisible' : [('enable_customer_previous', '=', False)]}">
+                                <div class="row mt16">
+                                    <label string="Previous Product" for="previous_product"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="previous_product"
+                                           attrs="{'invisible':[('enable_customer_previous','=',False)],'required':[('enable_customer_previous','=',True)]}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Previous Account" for="acc_for_previous"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="acc_for_previous"
+                                           options="{'no_create': True, 'no_create_edit':True}"
+                                           attrs="{'invisible':[('enable_customer_previous','=',False)],'required':[('enable_customer_previous','=',True)]}"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label string="Previous Payment Method" for="jr_for_previous"
+                                           class="col-md-3 o_light_label"/>
+                                    <field name="jr_for_previous"
+                                           options="{'no_create': True, 'no_create_edit':True}"
+                                           attrs="{'invisible':[('enable_customer_previous','=',False)],'required':[('enable_customer_previous','=',True)]}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 col-lg-6 o_setting_box o_setting_box" id="free_rack_from_order">
                         <div class="o_setting_right_pane">
                             <div class="content-group">

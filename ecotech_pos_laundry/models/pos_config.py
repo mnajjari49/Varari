@@ -23,6 +23,12 @@ class PosConfig(models.Model):
     partial_payment_income_account = fields.Many2one('account.account', string="Partial Payment Income Account")
     prod_for_payment = fields.Many2one('product.product', string='Paid Amount Product',
                                        help="This is a dummy product used when a customer pays partially. This is a workaround to the fact that Odoo needs to have at least one product on the order to validate the transaction.")
+    #previous order
+    enable_customer_previous=fields.Boolean("Enable Customer Previous order")
+    previous_product = fields.Many2one("product.product")
+    jr_for_previous = fields.Many2one('pos.payment.method', string="Previous Payment Method")
+    acc_for_previous = fields.Many2one('account.account', string="Previous Account")
+
     #Membership Fields
     enable_membership_card = fields.Boolean('Enable Membership Card')
     enable_customer_adjustment = fields.Boolean('Enable Customer Adjustment')
