@@ -835,7 +835,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
         'name': 'CustomerPreviousButton',
         'widget': CustomerPreviousButton,
          'condition': function(){
-            return this.pos.config.enable_customer_adjustment && this.pos.user.enable_adjustment;
+            return this.pos.config.enable_customer_previous ;
         },
     });
 

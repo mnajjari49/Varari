@@ -334,9 +334,8 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
 
             if(input_amount  && self.partner_id){
                 order.set_client(client);
-//                var product = self.pos.db.get_product_by_id(self.pos.config.previous_product[0]);
-var product = self.pos.db.get_product_by_id(53);
-                if (self.pos.config.adjustment_product[0]){
+                var product = self.pos.db.get_product_by_id(self.pos.config.previous_product[0]);
+                if (self.pos.config.previous_product[0]){
                     var orderlines=order.get_orderlines()
                     for(var i = 0, len = orderlines.length; i < len; i++){
                         order.remove_orderline(orderlines);
@@ -353,9 +352,11 @@ var product = self.pos.db.get_product_by_id(53);
                     'previous_date': moment().format('YYYY-MM-DD'),
                     'previous_amount': this.flag?Number(input_amount):-Number(input_amount),
                 }
+                //todo : must handel in backend if it need to view in UI
                 order.set_is_previous_order(true);
                 order.set_customer_previous(prev)
-                var payment_line = this.pos.payment_methods_by_id[self.pos.config.jr_for_adjustment[0]]
+                var payment_line = this.pos.payment_methods_by_id[self.pos.config.jr_for_previous[0]]
+                //todo : add it to popup if must chooice
 
                 order.add_paymentline(payment_line);
                 order.selected_paymentline.set_amount(this.flag?Number(input_amount):-Number(input_amount));
