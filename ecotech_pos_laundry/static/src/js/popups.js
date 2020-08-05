@@ -798,7 +798,7 @@ var product = self.pos.db.get_product_by_id(53);
                                     $("#card_back").hide();
                                     $( "div.js_set_customer" ).off("click");
                                     $( "div#card_invoice" ).off("click");
-                                    this.gui.close_popup();
+                                    self.gui.close_popup();
                                 }
                             }else{
                                 alert("Please enter card value.")

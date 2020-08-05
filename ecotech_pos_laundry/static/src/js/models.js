@@ -515,7 +515,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                                     }
                                     var new_orders = _.sortBy(self.get('pos_order_list'), 'id').reverse();
                                     self.db.add_orders(new_orders);
-                                    self.set({ 'pos_order_list' : new_orders });
+                                    self.load_orders();
+//                                    self.set({ 'pos_order_list' : new_orders });
                                     resolve();
                                 } else {
                                     reject();
