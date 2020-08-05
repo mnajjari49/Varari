@@ -65,11 +65,11 @@ class PosSession(models.Model):
             customer_adjust_vals)
 
 
-    def _create_memebership_payment(self, order, payment):
+    def _create_memebership_payment(self, order, payment,name='Membership Sale'):
         memebership_amount = {'amount': 0.0, 'amount_converted': 0.0}
         customer_income_account = order.partner_id.property_account_receivable_id.id
         memebership_args = {
-            'name': 'Membership Sale',
+            'name': name,
             'partner_id': order.partner_id.id,
             'move_id': self.move_id.id,
         }
@@ -143,15 +143,22 @@ class PosSession(models.Model):
                 amount, date = payment.amount, payment.payment_date
                 if payment.payment_method_id.split_transactions:
                     if payment.payment_method_id.is_cash_count:
-                        if payment.payment_method_id.allow_for_membership_card:
-                            self._create_memebership_payment(order, payment)
+                        if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                            if payment.pos_order_id.is_previous_order:
+                                self._create_memebership_payment(order, payment,"Previous Payment")
+                            else:     self._create_memebership_payment(order, payment)
+
                         elif payment.payment_method_id.allow_for_adjustment:
                             self._create_adjustment_payment(order, payment)
                         else:
                             split_receivables_cash[payment] = self._update_amounts(split_receivables_cash[payment], {'amount': amount}, date)
                     else:
-                        if payment.payment_method_id.allow_for_membership_card:
-                            self._create_memebership_payment(order, payment)
+                        if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                            if payment.pos_order_id.is_previous_order:
+                                self._create_memebership_payment(order, payment, "Previous Payment")
+                            else:
+                                self._create_memebership_payment(order, payment)
+
                         elif payment.payment_method_id.allow_for_adjustment:
                             self._create_adjustment_payment(order, payment)
                         else:
@@ -159,15 +166,23 @@ class PosSession(models.Model):
                 else:
                     key = payment.payment_method_id
                     if payment.payment_method_id.is_cash_count:
-                        if payment.payment_method_id.allow_for_membership_card:
-                            self._create_memebership_payment(order, payment)
+                        if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                            if payment.pos_order_id.is_previous_order:
+                                self._create_memebership_payment(order, payment, "Previous Payment")
+                            else:
+                                self._create_memebership_payment(order, payment)
+
                         elif payment.payment_method_id.allow_for_adjustment:
                             self._create_adjustment_payment(order, payment)
                         else:
                             combine_receivables_cash[key] = self._update_amounts(combine_receivables_cash[key], {'amount': amount}, date)
                     else:
-                        if payment.payment_method_id.allow_for_membership_card:
-                            self._create_memebership_payment(order, payment)
+                        if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                            if payment.pos_order_id.is_previous_order:
+                                self._create_memebership_payment(order, payment, "Previous Payment")
+                            else:
+                                self._create_memebership_payment(order, payment)
+
                         elif payment.payment_method_id.allow_for_adjustment:
                             self._create_adjustment_payment(order, payment)
                         else:
@@ -214,11 +229,12 @@ class PosSession(models.Model):
                                             adjustment_amount['amount_converted'])
                     ]
                 self.env['account.move.line'].with_context(check_move_validity=False).create(adjustment_vals)
-            elif order.is_membership_order:
+            elif order.is_membership_order or order.is_previous_order:
                 memebership_amount = {'amount': 0.0, 'amount_converted': 0.0}
                 customer_income_account = order.partner_id.property_account_receivable_id.id
+                lname= 'Memebership Sale' if order.is_membership_order else 'Previous Payment'
                 memebership_args = {
-                    'name': 'Memebership Sale',
+                    'name': lname,
                     'partner_id':order.partner_id.id,
                     'move_id': self.move_id.id,
                 }
@@ -320,7 +336,7 @@ class PosSession(models.Model):
         for payment, amounts in split_receivables_cash.items():
             statement = statements_by_journal_id[payment.payment_method_id.cash_journal_id.id]
             split_cash_statement_line_vals[statement].append(self._get_statement_line_vals(statement, payment.payment_method_id.receivable_account_id, amounts['amount']))
-            if (not order.is_membership_order) or (not order.is_adjustment):
+            if (not order.is_membership_order) or (not order.is_adjustment) or (not order.is_previous_order):
                 split_cash_receivable_vals[statement].append(
                     self._get_split_receivable_vals(payment, amounts['amount'], amounts['amount_converted']))
             else:
@@ -484,28 +500,44 @@ class PosSession(models.Model):
                     amount, date, session_id, old_session_id = payment.amount, payment.payment_date, payment.session_id, payment.old_session_id
                     if payment.payment_method_id.split_transactions:
                         if payment.payment_method_id.is_cash_count:
-                            if payment.payment_method_id.allow_for_membership_card:
-                                self._create_memebership_payment(order, payment)
+                            if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                                if payment.pos_order_id.is_previous_order:
+                                    self._create_memebership_payment(order, payment, "Previous Payment")
+                                else:
+                                    self._create_memebership_payment(order, payment)
+
                             else:
                                 split_receivables_cash[payment] = self._update_amounts(split_receivables_cash[payment],
                                                                                        {'amount': amount}, date)
                         else:
-                            if payment.payment_method_id.allow_for_membership_card:
-                                self._create_memebership_payment(order, payment)
+                            if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                                if payment.pos_order_id.is_previous_order:
+                                    self._create_memebership_payment(order, payment, "Previous Payment")
+                                else:
+                                    self._create_memebership_payment(order, payment)
+
                             else:
                                 split_receivables[payment] = self._update_amounts(split_receivables[payment],
                                                                                   {'amount': amount}, date)
                     else:
                         key = payment.payment_method_id
                         if payment.payment_method_id.is_cash_count:
-                            if payment.payment_method_id.allow_for_membership_card:
-                                self._create_memebership_payment(order, payment)
+                            if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                                if payment.pos_order_id.is_previous_order:
+                                    self._create_memebership_payment(order, payment, "Previous Payment")
+                                else:
+                                    self._create_memebership_payment(order, payment)
+
                             else:
                                 combine_receivables_cash[key] = self._update_amounts(combine_receivables_cash[key],
                                                                                      {'amount': amount}, date)
                         else:
-                            if payment.payment_method_id.allow_for_membership_card:
-                                self._create_memebership_payment(order, payment)
+                            if payment.payment_method_id.allow_for_membership_card or payment.pos_order_id.is_previous_order:
+                                if payment.pos_order_id.is_previous_order:
+                                    self._create_memebership_payment(order, payment, "Previous Payment")
+                                else:
+                                    self._create_memebership_payment(order, payment)
+
                             else:
                                 combine_receivables[key] = self._update_amounts(combine_receivables[key],
                                                                                 {'amount': amount}, date)
