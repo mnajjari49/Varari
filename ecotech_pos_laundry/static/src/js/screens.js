@@ -1948,6 +1948,19 @@ this.pos.gui.show_popup('create_prev_popup',{});
             }
             this._super(input);
         },
+         click_paymentmethods: function(id) {
+        var self = this;
+        var payment_method = this.pos.payment_methods_by_id[id];
+        self.pos.get_order().add_paymentline_with_notes(payment_method, {'note': self.pos.get_order().note});
+
+                self.reset_input();
+                self.render_paymentlines();
+                window.document.body.addEventListener('keypress', self.keyboard_handler);
+                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
+
+    },
+
+
     });
 
     screens.OrderWidget.include({

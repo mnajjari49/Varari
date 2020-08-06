@@ -313,6 +313,7 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
 
             $('#previous_amount').focus();
             var input_amount =this.$('#previous_amount').val();
+            var input_note = this.$('#previous_note').val();
 //            var selected_reason = $('#select_reason').val();
 
             var select_customer = self.partner_id;
@@ -355,7 +356,8 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                 //todo : must handel in backend if it need to view in UI
                 self.gui.show_screen('payment');
                 order.set_is_previous_order(true);
-                order.set_customer_previous(prev)
+                order.set_customer_previous(prev);
+                order.note=input_note;
 //                var payment_line = this.pos.payment_methods_by_id[self.pos.config.jr_for_previous[0]]
                 //todo : add it to popup if must chooice
 

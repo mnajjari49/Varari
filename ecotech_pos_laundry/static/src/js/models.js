@@ -400,6 +400,16 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         get_paying_order: function(){
             return this.get('paying_order')
         },
+       add_paymentline_with_notes: function(payment_method, infos) {
+        this.assert_editable();
+        var newPaymentline = new models.Paymentline({},{order: this, payment_method:payment_method, pos: this.pos});
+        $.extend(newPaymentline, infos);
+        if(payment_method.is_cash_count !== true || this.pos.config.iface_precompute_cash){
+            newPaymentline.set_amount( Math.max(this.get_due(),0) );
+        }
+        this.paymentlines.add(newPaymentline);
+        this.select_paymentline(newPaymentline);
+    },
     });
     
     var _super_posmodel = models.PosModel;
@@ -565,7 +575,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     var _super_paymentline = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
     init_from_JSON: function (json) {
-        paymentline_super.init_from_JSON.apply(this, arguments);
+        _super_paymentline.init_from_JSON.apply(this, arguments);
 
         this.note = json.note;
     },
