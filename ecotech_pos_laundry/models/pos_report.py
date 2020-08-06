@@ -18,5 +18,6 @@ class PosOrderReport(models.Model):
     is_membership_order = fields.Boolean(related="order_id.is_membership_order", string="Membership Order")
     is_adjustment = fields.Boolean(related="order_id.is_adjustment", string="Customer Adjustment Order")
     old_session_ids = fields.Many2many(related="order_id.old_session_ids", string="Old sessions")
+    is_previous_order= fields.Boolean(related="order_id.is_previous_order")
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

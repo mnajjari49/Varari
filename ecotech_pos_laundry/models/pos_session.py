@@ -689,7 +689,7 @@ class PosSession(models.Model):
     def _compute_order_count(self):
         for session in self:
             pos_order_count = 0
-            pos_order_count=len(session.order_ids.filtered(lambda order : not (order.is_membership_order or order.is_adjustment)))
+            pos_order_count=len(session.order_ids.filtered(lambda order : not (order.is_membership_order or order.is_adjustment or order.is_previous_order)))
             # for order in session.order_ids.filtered(lambda order : not (order.is_membership_order or order.is_adjustment)):
             #     if session.id == order.session_id.id:
             #         if not order.old_session_ids:
@@ -706,7 +706,7 @@ class PosSession(models.Model):
                 (self.env.ref('point_of_sale.view_pos_pos_form').id, 'form'),
                 ],
             'type': 'ir.actions.act_window',
-            'domain': [('session_id', 'in', self.ids),('old_session_ids','=',False),('is_adjustment','=',False),('is_membership_order','=',False)],
+            'domain': [('session_id', 'in', self.ids),('old_session_ids','=',False),('is_adjustment','=',False),('is_membership_order','=',False),('is_previous_order','=',False)],
         }
     def action_pos_session_open(self):
         pos_order = self.env['pos.order'].search([('state', '=', 'draft')])

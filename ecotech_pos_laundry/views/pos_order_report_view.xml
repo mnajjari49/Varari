@@ -10,6 +10,8 @@
                 <separator/>
                 <filter string="No Memebership" name="non_membership" domain="[('is_membership_order','=',(False))]"/>
                 <separator/>
+                <filter string="No Previous order" name="non_previous" domain="[('is_previous_order','=',(False))]"/>
+                <separator/>
                 <filter string="No Customer Adjustment" name="non_customer_adjustment" domain="[('is_adjustment','=',(False))]"/>
                 <separator/>
                 <filter string="No Old Orders" name="ignore_partial_paid_order" domain="[('old_session_ids','=',(False))]"/>

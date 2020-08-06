@@ -1362,7 +1362,7 @@
                         <tr id="amount_row">
                             <td>Amount </td>
                             <td>
-                               <input type="text" id="previous_amount" class="previous_amount"/>
+                               <input type="text" id="previous_amount" class="previous_amount" autocomplete="off"/>
                             </td>
                         </tr>
                     </table>
