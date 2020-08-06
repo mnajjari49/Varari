@@ -1957,8 +1957,8 @@ this.pos.gui.show_popup('create_prev_popup',{});
 
                 self.reset_input();
                 self.render_paymentlines();
-                window.document.body.addEventListener('keypress', self.keyboard_handler);
-                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
+//                window.document.body.addEventListener('keypress', self.keyboard_handler);
+//                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
 
     },
 
