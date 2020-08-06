@@ -1365,6 +1365,12 @@
                                <input type="text" id="previous_amount" class="previous_amount" autocomplete="off"/>
                             </td>
                         </tr>
+                         <tr id="note_row">
+                            <td>Note </td>
+                            <td>
+                               <input type="text" id="previous_note" class="previous_note" autocomplete="off"/>
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <div class="footer">
