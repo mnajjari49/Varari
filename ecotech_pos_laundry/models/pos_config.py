@@ -26,8 +26,6 @@ class PosConfig(models.Model):
     #previous order
     enable_customer_previous=fields.Boolean("Enable Customer Previous order")
     previous_product = fields.Many2one("product.product")
-    jr_for_previous = fields.Many2one('pos.payment.method', string="Previous Payment Method")
-    acc_for_previous = fields.Many2one('account.account', string="Previous Account")
 
     #Membership Fields
     enable_membership_card = fields.Boolean('Enable Membership Card')

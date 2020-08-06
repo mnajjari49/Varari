@@ -135,20 +135,7 @@
                                     <field name="previous_product"
                                            attrs="{'invisible':[('enable_customer_previous','=',False)],'required':[('enable_customer_previous','=',True)]}"/>
                                 </div>
-                                <div class="row mt16">
-                                    <label string="Previous Account" for="acc_for_previous"
-                                           class="col-md-3 o_light_label"/>
-                                    <field name="acc_for_previous"
-                                           options="{'no_create': True, 'no_create_edit':True}"
-                                           attrs="{'invisible':[('enable_customer_previous','=',False)],'required':[('enable_customer_previous','=',True)]}"/>
-                                </div>
-                                <div class="row mt16">
-                                    <label string="Previous Payment Method" for="jr_for_previous"
-                                           class="col-md-3 o_light_label"/>
-                                    <field name="jr_for_previous"
-                                           options="{'no_create': True, 'no_create_edit':True}"
-                                           attrs="{'invisible':[('enable_customer_previous','=',False)],'required':[('enable_customer_previous','=',True)]}"/>
-                                </div>
+
                             </div>
                         </div>
                     </div>
