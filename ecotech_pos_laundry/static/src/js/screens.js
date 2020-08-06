@@ -389,7 +389,7 @@
                     let s_date= moment('00:00:00', 'HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     let e_date = moment('23:59:59', 'HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                     if(promise_date >= s_date && promise_date <= e_date && !_.contains(['ready_to_deliver', 'delivered'], order.delivery_state_Short_code)){
-                        if(!(order.is_adjustment || order.is_membership_order)){
+                        if(!(order.is_adjustment || order.is_membership_order || order.is_previous_order)){
                             return order
                         }
                     }
@@ -397,7 +397,7 @@
                     let days =  self.pos.config.overdue_order_days ?  self.pos.config.late_pickup_order_days : 15;
                     let s_date = moment('23:59:59', 'HH:mm:ss').subtract('days', days).format('YYYY-MM-DD HH:mm:ss');
                     if(promise_date <= s_date && (order.delivery_state_Short_code == 'ready_to_deliver')){
-                        if(!(order.is_adjustment || order.is_membership_order)){
+                        if(!(order.is_adjustment || order.is_membership_order || order.is_previous_order)){
                             return order
                         }
                     }
@@ -406,7 +406,7 @@
                     var s_date = moment('00:00:00', 'HH:mm:ss').subtract('days', days).format('YYYY-MM-DD HH:mm:ss');
                     var e_date= moment().subtract('days', 1).format('YYYY-MM-DD 23:59:59');
                     if(promise_date >= s_date && promise_date <= e_date && !_.contains(['ready_to_deliver', 'delivered'], order.delivery_state_Short_code)){
-                        if(!(order.is_adjustment || order.is_membership_order)){
+                        if(!(order.is_adjustment || order.is_membership_order || order.is_previous_order)){
                             return order
                         }
                     }
@@ -659,11 +659,13 @@
                 self.domain.push(
                                     ['is_membership_order','=',false],
                                     ['is_adjustment','=',false],
+                                    ['is_previous_order','=',false],
                                     ['session_id', 'in', self.pos.session_ids]
                                 )
             }else{
                 self.domain = [ ['is_membership_order','=',false],
                                     ['is_adjustment','=',false],
+                                    ['is_previous_order','=',false],
                                     ['session_id', 'in', self.pos.session_ids]];
             }
             var OrderPromise = new Promise(function (resolve, reject) {
@@ -1609,12 +1611,12 @@ this.pos.gui.show_popup('create_prev_popup',{});
             var self = this;
             if(query){
                 if (associate_result){
-                    var domain = ['|', '|',['partner_id', 'ilike', query], ['name', 'ilike', query], ['pos_reference', 'ilike', query]];
+                    var domain = ['|', '|',['partner_id', 'ilike', query], ['name', 'ilike', query], ['pos_reference', 'ilike', query],['is_membership_order','=',false],['is_previous_order','=',false],['is_adjustment','=',false]];
                     return new Promise(function (resolve, reject) {
                         rpc.query({
                             model: 'pos.order',
                             method: 'search_read',
-                            domain: [domain],
+                            domain: domain,
                         }, {
                             timeout: 3000,
                             shadow: true,

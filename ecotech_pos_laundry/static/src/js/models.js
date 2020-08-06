@@ -441,7 +441,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 self.domain_as_args = [
                                         ['state','not in',['cancel']], ['session_id', 'in', self.session_ids],
                                         ['date_order', '>=', from_date],['is_membership_order','=',false],
-                                        ['is_adjustment','=',false]
+                                        ['is_adjustment','=',false],['is_previous_order','=',false],
                                       ];
 
                 new Promise(function (resolve, reject) {
@@ -468,7 +468,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                     self.report_domain = [
                                     ['promise_date', '>=', s_date],['session_id', '=', self.session_ids],
                                     ['promise_date', '<=', e_date],['is_membership_order','=',false],
-                                    ['is_adjustment','=',false], ['delivery_state_Short_code', 'not in', ['ready_to_deliver', 'delivered']]
+                                    ['is_adjustment','=',false], ['is_previous_order','=',false], ['delivery_state_Short_code', 'not in', ['ready_to_deliver', 'delivered']]
                                  ];
                     rpc.query({
                         model: 'pos.order',
