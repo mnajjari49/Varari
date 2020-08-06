@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="pos_config_receipt">
+            <field name="name">pos.config.receipt</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/> 
+            <field name="arch" type="xml">                
+                <xpath expr="//sheet" position="inside">
+                    <group string="Order/Line Note">
+                        <field name="order_note"/>
+                        <field name="orderline_note"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

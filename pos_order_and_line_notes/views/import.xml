@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        
+ <template id="assets_backend" name="pos_order_and_line_note assets" inherit_id="point_of_sale.assets">
+        <xpath expr="." position="inside">
+
+            <script type="text/javascript" src="/pos_order_and_line_notes/static/src/js/buttons.js"/>
+            <script type="text/javascript" src="/pos_order_and_line_notes/static/src/js/order.js"/>
+            <script type="text/javascript" src="/pos_order_and_line_notes/static/src/js/models.js"/>
+            <script type="text/javascript" src="/pos_order_and_line_notes/static/src/js/popups.js"/>
+            <script type="text/javascript" src="/pos_order_and_line_notes/static/src/js/db.js"/>
+
+            <link rel="stylesheet" href="/pos_order_and_line_notes/static/src/css/style.css"/>
+        </xpath>
+    </template>
+</odoo>

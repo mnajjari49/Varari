@@ -1,0 +1,151 @@
+
+
+.pos .order-container {
+    border-left: solid 1px rgb(110, 200, 155);
+    border-right: solid 1px rgb(110, 200, 155);
+}
+.pos .order .summary .total {
+    font-size: 24px;
+    float: right;
+    color: #6EC89B
+}
+.pos .order .summary .line .subentry > span {
+    float: right;
+}
+
+.pos .order .summary .line {
+    border-top: none;
+}
+    
+.pos .order .orderline {
+    border-top: solid 1px rgb(110, 200, 155);
+    padding-top: 2px;
+    padding-bottom: 3px;
+    padding-left: 10px;
+}
+.pos .order .orderline:first-child {
+    border-top: none;
+}
+.pos .order .orderline.selected {
+    background: rgba(140, 230, 50, 0.2);
+}
+.pos .order .orderline:hover {
+    background-color: rgba(218, 165, 32, 0.2);   
+}
+.pos .order .orderline .info-list em {
+    padding-left: 20px;
+}
+
+.card {
+    font-family: Quicksand, sans-serif;
+    background: none;
+}
+.pos .card-label {
+    font-size: 14px;
+    float: left;
+    padding-left: 24px;
+}
+
+
+.pos .clientlist-screen .client-detail > .label {
+    width: 85px;
+}
+.pos .note-list-screen .note-list {
+    font-size: 16px;
+    width: 100%;
+    line-height: 40px;
+}
+.pos .note-list-screen .note-list th, .pos .note-list-screen .note-list td
+{
+    padding: 0px 5px;
+}
+.pos .note-list-screen .note-list tr {
+    transition: all 150ms linear;
+    background: rgb(230, 230, 230);
+}
+.pos .note-list-screen .note-list thead>tr, .pos .note-list-screen .note-list tr:nth-child(even)
+    {
+    background: rgb(247, 247, 247);
+}
+.pos .note-list-screen .note-list tr.highlight {
+    transition: all 150ms linear;
+    background: rgb(110, 200, 155) !important;
+    color: white;
+}
+.pos .note-list-screen .note-list tr.lowlight {
+    transition: all 150ms linear;
+    background: rgb(216, 238, 227);
+}
+.pos .note-list-screen .note-list tr.lowlight:nth-child(even) {
+    transition: all 150ms linear;
+    background: rgb(227, 246, 237);
+}
+
+
+.screen .top-content-note{
+    position: absolute;
+    left: 0px; top: 0px; right: 0px;
+    height: 64px;
+    border-bottom: dashed 1px rgb(215,215,215);
+    text-align: center;
+}
+.screen .top-content-note .button {
+    position: absolute;
+    top: 0px;
+    line-height: 32px;
+    padding: 3px 13px;
+    font-size: 20px;
+    background: rgb(230, 230, 230);
+    margin: 12px;
+    border-radius: 3px;
+    border: solid 1px rgb(209, 209, 209);
+    cursor: pointer;
+    transition: all 150ms linear;
+}
+.screen .top-content-note .button:hover {
+    background: #efefef;
+}
+.screen .top-content-note .button:active {
+    background: black;
+    border-color: black;
+    color: white;
+}
+.screen .top-content-note .button.highlight {
+    background: rgb(110,200,155);
+    color: white;
+    border: solid 1px rgb(110,200,155);
+}
+.screen .top-content-note .button.highlight:hover {
+    background: rgb(120,210,165);
+}
+.screen .top-content-note .button.back {
+    left: 0px;
+    margin-left: 1em;
+}
+
+.screen .top-content-note .button.reload {
+    left: 0px;
+    margin-left: 8em;
+}
+.note-line-input {
+    left: 0px;
+    margin-left: 3em;
+    margin-top: 1em;
+    width: 22em;
+    line-height: 2em;
+
+}
+
+.note-input {
+
+    left: 0px;
+    margin-left: 3em;
+    margin-top: 1em;
+    width: 22em;
+    line-height: 2em;
+
+}
+.screen .top-content-note .button.create {
+    left: 0px;
+    margin-left: 36em;
+}

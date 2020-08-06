@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="button_order_note">
+        <div class='control-button'>
+            <i class='fa fa-commenting-o' /> <span class="label">Order Note</span>
+        </div>
+    </t>
+
+    <t t-name="button_orderline_note">
+        <div class='control-button'>
+            <i class='fa fa-comment' /> <span class="label">Line Note</span>
+        </div>
+    </t>
+
+    <t t-name="popup_order_note">
+        <div class="modal-dialog">
+            <div class="note-list-screen screen">
+            <div class="screen-content" style="background:#f2f5f5;">
+                <section class="top-content-note">
+                    <span class='button back'>
+                        <i class='fa fa-check-square'></i>
+                        Done
+                    </span>
+                    <span class='button reload'>
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <input type="text" class="note-input"></input>
+                        <button class='button create'>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Create
+                        </button>
+                    </div>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix' style="height:auto;max-height: 700px !important;">
+                                    <div>
+
+                                        <table class='note-list'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Note</th>
+                                                    <th>Select</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  class='note-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+            </div>
+        </div>
+    </t>
+
+
+    <t t-name="popup_orderline_note">
+        <div class="modal-dialog">
+            <div class="note-list-screen screen">
+            <div class="screen-content" style="background:#f2f5f5;">
+                <section class="top-content-note">
+                    <span class='button back'>
+                        <i class='fa fa-check-square'></i>
+                        Done
+                    </span>
+                    <span class='button reload'>
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </span>
+                    <div>
+                        <input type="text" class="note-line-input"></input>
+                        <button class='button create'>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Create
+                        </button>
+                    </div>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix' style="height:auto;max-height: 700px !important;">
+                                    <div>
+
+                                        <table class='note-list'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Note</th>
+                                                    <th>Select</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  class='note-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="NotelistLine">
+        <tr class='client-line' t-att-data-id='note_item.id'>
+            <td><t t-esc='note_item.name' /></td>
+            <td>
+                <span id="select_note_item" title="Select" t-att-data-id='note_item.id' t-att-data-name='note_item.name' style="cursor:pointer">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </span>
+            </td>
+        </tr>
+    </t>
+
+    <t t-extend="OrderReceipt">
+        <t t-jquery="[t-else='']" t-operation="replace">
+        </t>
+        <t t-jquery="[t-if='line.product_name_arabic']" t-operation="replace">
+            <t t-if="line.product_name_arabic">
+                <td>
+                    <span t-esc='line.product_name_wrapped[0]'></span>
+                    <t t-foreach="note_id_name" t-as="note">
+                        <li class="info order-note">
+                            <i class="fa fa-caret-right"/>Note: <t t-esc="note" />
+                        </li>
+                    </t>
+                </td>
+                <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
+            </t>
+            <t t-else="">
+                <td>
+                    <span t-esc='line.product_name_wrapped[0]'></span>
+                    <t t-foreach="note_id_name" t-as="note">
+                        <li class="info order-note">
+                            <i class="fa fa-caret-right"/><t t-esc="note" />
+                        </li>
+                    </t>
+                </td>
+                <td style="color:transparent;">-</td>
+            </t>
+        </t>
+        <t t-jquery="table.pos-receipt-table" t-operation="after">
+            <t t-foreach="order.get_note_name()" t-as="note_order">
+                <li class="info order-note">
+                    <i class="fa fa-caret-right"/><t t-esc="note_order" />
+                </li>
+            </t>
+        </t>
+    </t>
+
+
+
+</templates>
