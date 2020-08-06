@@ -564,6 +564,16 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
 
     var _super_paymentline = models.Paymentline.prototype;
     models.Paymentline = models.Paymentline.extend({
+    init_from_JSON: function (json) {
+        paymentline_super.init_from_JSON.apply(this, arguments);
+
+        this.note = json.note;
+    },
+     export_as_JSON: function () {
+        return _.extend(_super_paymentline.export_as_JSON.apply(this, arguments), {
+            note: this.note,
+        });
+    },
         set_membership_card_line_code: function(code) {
             this.code = code;
         },

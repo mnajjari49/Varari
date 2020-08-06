@@ -36,12 +36,12 @@ screens.PaymentScreenWidget.include({
     click_paymentmethods: function(id) {
         var self = this;
         var payment_method = this.pos.payment_methods_by_id[id];
-        console.log(payment_method);
+//        console.log(payment_method);
         if (payment_method.pos_payment_ref == true) {
             this.show_popup_payment_info({
                 confirm: function(infos) {
                     var self = this;
-                    console.log(self.pos.get_order());
+//                    console.log(self.pos.get_order());
                     //merge infos to new paymentline
                     self.pos.get_order().add_paymentline_with_details(payment_method, infos);
                 },

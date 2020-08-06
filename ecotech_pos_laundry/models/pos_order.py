@@ -81,6 +81,14 @@ class PosOrder(models.Model):
         })
         return res
 
+    @api.model
+    def _payment_fields(self, order, ui_paymentline):
+        res = super(PosOrder, self)._payment_fields(order, ui_paymentline)
+        res.update({
+            'note': ui_paymentline.get('note') or 0.0,
+            })
+        return res
+
     def _compute_amount_due(self):
         for each in self:
             each.amount_due = each.amount_total - each.amount_paid
