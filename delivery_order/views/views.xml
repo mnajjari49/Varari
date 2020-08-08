@@ -18,11 +18,18 @@
                         </h2>
                     </div>
                     <group>
-                      <field name="partner_id"/>
-                      <field name="address"/>
-                      <field name="driver_id"/>
-                      <field name="date"/>
-                      <field name="note"/>
+                        <field name="partner_id"/>
+                        <field name="address"/>
+                        <field name="governorate_id"/>
+                        <field name="city_id"/>
+                        <field name="block_id"/>
+                        <field name="jaddah"/>
+                        <field name="house"/>
+                        <field name="flat"/>
+                        <field name="paci"/>
+                        <field name="driver_id"/>
+                        <field name="date"/>
+                        <field name="note"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -42,6 +49,13 @@
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="address"/>
+                <field name="governorate_id"/>
+                <field name="city_id"/>
+                <field name="block_id"/>
+                <field name="jaddah"/>
+                <field name="house"/>
+                <field name="flat"/>
+                <field name="paci"/>
                 <field name="driver_id"/>
                 <field name="date"/>
                 <field name="note"/>
@@ -64,6 +78,13 @@
                                 <div>
                                     <p style="line-height:1em;">Customer : <field name="partner_id"/></p>
                                     <p style="line-height:1em;">Address: <field name="address"/></p>
+                                    <p style="line-height:1em;">Governorate: <field name="governorate_id"/></p>
+                                    <p style="line-height:1em;">City: <field name="city_id"/></p>
+                                    <p style="line-height:1em;">Block: <field name="block_id"/></p>
+                                    <p style="line-height:1em;">Jaddah: <field name="jaddah"/></p>
+                                    <p style="line-height:1em;">House: <field name="house"/></p>
+                                    <p style="line-height:1em;">Flat: <field name="flat"/></p>
+                                    <p style="line-height:1em;">PACI: <field name="paci"/></p>
                                     <p style="line-height:1em;">Driver : <field name="driver_id"/></p>
                                     <p style="line-height:1em;">Date : <field name="date"/></p>
                                     <p style="line-height:1em;">Status : <field name="stage_id"/></p>

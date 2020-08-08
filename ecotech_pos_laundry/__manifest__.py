@@ -31,7 +31,8 @@
         'views/res_partner.xml',
         'views/membership_card.xml',
         'views/pos_order_report_view.xml',
-        'views/product.xml'
+        'views/product.xml',
+        'views/address.xml',
     ],
     'qweb': ['static/src/xml/*.xml'],
     'images': ['static/description/main_screenshot.png'],

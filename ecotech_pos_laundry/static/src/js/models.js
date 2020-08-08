@@ -9,11 +9,18 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     var round_pr = utils.round_precision;
 
     models.load_fields("res.partner", ['remaining_credit_limit','last_visit_date','credit_limit',
-                                        'mobile', 'date_of_birth', 'civil_id', 'customer_preference_ids']);
+                                        'mobile', 'date_of_birth', 'civil_id', 'customer_preference_ids',
+                                        'governorate_id','city_id','block_id','jaddah','house','flat','paci',
+                                        ]);
     models.load_fields("res.users", ['allow_order_screen', 'enable_adjustment',
                                         'enable_pos_report', 'enable_membership_card']);
     models.load_fields("pos.payment.method", ['allow_for_adjustment','allow_for_membership_card','pos_payment_ref']);
     models.load_fields("product.product", ['arabic_name','label_count']);
+
+    models.load_fields("address.governorate", ['name']);
+    models.load_fields("address.city", ['name','governorate_id']);
+    models.load_fields("address.block", ['name','city_id']);
+
 
     models.PosModel.prototype.models.push({
         model:  'customer.preference',
@@ -25,11 +32,34 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         },
     },
     {
+        model:  'address.governorate',
+        fields: ['name'],
+        loaded: function(self,governorates){
+            self.governorates = governorates;
+        },
+    },
+    {
+        model:  'address.city',
+        fields: ['name','governorate_id'],
+        loaded: function(self,cities){
+            self.cities = cities;
+        },
+    },
+    {
+        model:  'address.block',
+        fields: ['name','city_id'],
+        loaded: function(self,blocks){
+            self.blocks = blocks;
+        },
+    },
+    {
         model: 'res.partner',
         label: 'load_partners',
         fields: ['name','street','city','state_id','country_id','vat',
                  'phone','zip','mobile','email','barcode','write_date',
-                 'property_account_position_id','property_product_pricelist','customer_preference_ids'],
+                 'property_account_position_id','property_product_pricelist','customer_preference_ids',
+                 'governorate_id','city_id','block_id','jaddah','house','flat','paci',
+                 ],
         loaded: function(self,partners){
             self.partners = partners;
             self.partner_customer_preference = {};

@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record id="view_partner_form_inherit_address" model="ir.ui.view">
+        <field name="name">view.partner.form.address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="type" position="before">
+                <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                <field name="governorate_id"/>
+                <field name="city_id"/>
+                <field name="block_id"/>
+                <field name="jaddah"/>
+                <field name="house"/>
+                <field name="flat"/>
+                <field name="paci"/>
+            </field>
+            <label name="address_name" position="replace">
+            </label>
+            <div class='o_address_format' position="replace">
+                <div class="o_address_format">
+                    <field name="street" invisible="1"/>
+                    <field name="street2" invisible="1"/>
+                    <field name="city" invisible="1"/>
+                    <field name="state_id" invisible="1"/>
+                    <field name="zip" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                </div>
+            </div>
+        </field>
+    </record>
 
     <record id="res_partner_view_form_aspl" model="ir.ui.view">
         <field name="name">res.partner.view.form.aspl</field>

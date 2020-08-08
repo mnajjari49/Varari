@@ -890,3 +890,13 @@ object{
     width: 40%;
 }
 
+.pos .clientlist-screen .client-detail > .label {
+    width: 100px;
+    margin-right: 2em;
+    text-align: left;
+}
+
+.pos-receipt .reciept-table-address {
+    font-size: 85%;
+    line-height: 1.4em;
+}

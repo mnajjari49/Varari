@@ -9,3 +9,6 @@ access_membership_amount,access_membership_amount,model_membership_amount,base.g
 access_pos_order_delivery_state,access_pos_order_delivery_state,model_pos_order_delivery_state,base.group_user,1,1,1,1
 access_adjustment_reason,access_adjustment_reason,model_adjustment_reason,base.group_user,1,1,1,1
 access_customer_adjustment,access_customer_adjustment,model_customer_adjustment,base.group_user,1,1,1,1
+access_address_governorate,access_address_governorate,model_address_governorate,base.group_user,1,1,1,1
+access_address_city,access_address_city,model_address_city,base.group_user,1,1,1,1
+access_address_block,access_address_block,model_address_block,base.group_user,1,1,1,1

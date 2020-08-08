@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+	
+	
+	<t t-extend="Orderline">                
+        <t t-jquery="ul[class*='info-list']" t-operation="append">
+            <t t-foreach="line.get_line_note_name()" t-as="note">
+                <li class="info orderline-note">
+                    <i class="fa fa-caret-right"/><t t-esc="note" />
+                </li>
+            </t>
+        </t>
+    </t>
+
+    <t t-extend="OrderWidget">
+        <t t-jquery="div[class*='summary clearfix']" t-operation="after">
+            <t t-foreach="order.get_note_name()" t-as="note">
+                <li class="info order-note">
+                    <i class="fa fa-caret-right"/><t t-esc="note" />
+                </li>
+            </t>
+        </t>
+    </t>
+    
+</templates>

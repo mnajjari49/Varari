@@ -16,4 +16,5 @@ from . import res_partner
 from . import pos_payment
 from . import pos_session
 from . import pos_report
+from . import  address
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

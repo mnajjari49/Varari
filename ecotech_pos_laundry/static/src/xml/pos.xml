@@ -546,18 +546,58 @@
                         <td></td>
                     </tr>
                 </table>
-                <table>
+                <table class="reciept-table-address">
                     <tr>
-                        <td style="width: 73%;"><span>Area :</span></td>
-                        <td><span>Block :</span></td>
+                        <td style="width: 50%;">
+                            <span>Governorate :</span>
+                            <t t-if="receipt.client.governorate_id">
+                                <span><t t-esc="receipt.client.governorate_id[1]"/></span>
+                            </t>
+                        </td>
+                        <td style="width: 50%;padding-left:0.7em;position: absolute;">
+                            <span>City :</span>
+                            <t t-if="receipt.client.city_id">
+                                <t t-esc="receipt.client.city_id[1]"/>
+                            </t>
+                        </td>
                     </tr>
                     <tr>
-                        <td><span>Stree :</span></td>
-                        <td><span>House :</span></td>
+                        <td>
+                            <span>Block :</span>
+                            <t t-if="receipt.client.block_id">
+                                <span><t t-esc="receipt.client.block_id[1]"/></span>
+                            </t>
+                        </td>
+                        <td style="padding-left:0.7em;position: absolute;">
+                            <span>Jaddah :</span>
+                            <t t-if="receipt.client.jaddah">
+                                <span><t t-esc="receipt.client.jaddah"/></span>
+                            </t>
+                        </td>
                     </tr>
                     <tr>
-                        <td><span>Flat :</span></td>
-                        <td><span>Jedda :</span></td>
+                        <td>
+                            <span>House:</span>
+                            <t t-if="receipt.client.house">
+                                <span><t t-esc="receipt.client.house"/></span>
+                            </t>
+                        </td>
+                        <td style="padding-left:0.7em;position: absolute;">
+                            <span>Flat :</span>
+                            <t t-if="receipt.client.flat">
+                                <span><t t-esc="receipt.client.flat"/></span>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>PACI :</span>
+                            <t t-if="receipt.client.paci">
+                                <span><t t-esc="receipt.client.paci"/></span>
+                            </t>
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                 </table>
                 <div class="pos-center-align" align="center">
@@ -1071,6 +1111,93 @@
     </t>
 
     <t t-extend="ClientDetails">
+        <t t-jquery="div.client-details-left" t-operation="replace">
+            <div class='client-details-left'>
+                <!--          address  start       -->
+                <div class='client-detail'>
+                    <span class='label'>Governorate</span>
+                    <t t-if="partner.governorate_id">
+                        <span class='detail client-address'><t t-esc="partner.governorate_id[1]" /></span>
+                    </t>
+                    <t t-if="!partner.governorate_id">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>City</span>
+                    <t t-if="partner.city_id">
+                        <span class='detail client-address'><t t-esc="partner.city_id[1]" /></span>
+                    </t>
+                    <t t-if="!partner.city_id">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Block</span>
+                    <t t-if="partner.block_id">
+                        <span class='detail client-address'><t t-esc="partner.block_id[1]" /></span>
+                    </t>
+                    <t t-if="!partner.block_id">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Jaddah</span>
+                    <t t-if="partner.jaddah">
+                        <span class='detail client-address'><t t-esc="partner.jaddah" /></span>
+                    </t>
+                    <t t-if="!partner.jaddah">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>House/Building</span>
+                    <t t-if="partner.house">
+                        <span class='detail client-address'><t t-esc="partner.house" /></span>
+                    </t>
+                    <t t-if="!partner.house">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Flat</span>
+                    <t t-if="partner.flat">
+                        <span class='detail client-address'><t t-esc="partner.flat" /></span>
+                    </t>
+                    <t t-if="!partner.flat">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>PACI</span>
+                    <t t-if="partner.paci">
+                        <span class='detail client-address'><t t-esc="partner.paci" /></span>
+                    </t>
+                    <t t-if="!partner.paci">
+                        <span class='detail client-address empty'>N/A</span>
+                    </t>
+                </div>
+                <!--          address  end  -->
+                <div class='client-detail'>
+                    <span class='label'>Email</span>
+                    <t t-if='partner.email'>
+                        <span class='detail client-email'><t t-esc='partner.email' /></span>
+                    </t>
+                    <t t-if='!partner.email'>
+                        <span class='detail client-email empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Phone</span>
+                    <t t-if='partner.phone'>
+                        <span class='detail client-phone'><t t-esc='partner.phone' /></span>
+                    </t>
+                    <t t-if='!partner.phone'>
+                        <span class='detail client-phone empty'>N/A</span>
+                    </t>
+                </div>
+            </div>
+        </t>
         <t t-jquery="div.client-details-left" t-operation="append">
             <div class='client-detail'>
                 <span class='label'>Credit Limit</span>
@@ -1150,6 +1277,61 @@
     </t>
 
     <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.client-details-left" t-operation="replace">
+            <div class='client-details-left'>
+                <!--          address  start       -->
+                <div class='client-detail'>
+                    <span class='label'>Governorate</span>
+                    <select class='detail client-address-states needsclick' name='governorate_id'>
+                        <option value=''>None</option>
+                        <t t-foreach='widget.pos.governorates' t-as='governorate'>
+                            <option t-att-value='governorate.id' t-att-selected="partner.governorate_id ? ((governorate.id === partner.governorate_id[0]) ? true : undefined) : undefined">
+                                <t t-esc='governorate.name'/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>City</span>
+                    <select class='detail client-address-states needsclick' name='city_id'>
+                        <option value=''>None</option>
+                        <t t-foreach='widget.pos.cities' t-as='city'>
+                            <option t-att-value='city.id' t-att-selected="partner.city_id ? ((city.id === partner.city_id[0]) ? true : undefined) : undefined">
+                                <t t-esc='city.name'/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Block</span>
+                    <select class='detail client-address-states needsclick' name='block_id'>
+                        <option value=''>None</option>
+                        <t t-foreach='widget.pos.blocks' t-as='block'>
+                            <option t-att-value='block.id' t-att-selected="partner.block_id ? ((block.id === partner.block_id[0]) ? true : undefined) : undefined">
+                                <t t-esc='block.name'/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Jaddah</span>
+                    <input class='detail client-address-city'   name='jaddah'         t-att-value='partner.jaddah || ""' placeholder='Jaddah'></input>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>House/Building</span>
+                    <input class='detail client-address-city'   name='house'         t-att-value='partner.house || ""' placeholder='House/Building'></input>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Flat</span>
+                    <input class='detail client-address-city'   name='flat'         t-att-value='partner.flat || ""' placeholder='Flat'></input>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>PACI</span>
+                    <input class='detail client-address-city'   name='paci'         t-att-value='partner.paci || ""' placeholder='PACI'></input>
+                </div>
+                <!--          address  end  -->
+            </div>
+        </t>
         <t t-jquery="div.client-details-left" t-operation="append">
             <div class='client-detail'>
                 <span class='label'>Credit Limit</span>

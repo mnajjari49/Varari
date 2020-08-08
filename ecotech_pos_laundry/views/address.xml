@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="address_governorate_action" model="ir.actions.act_window">
+            <field name="name">Governorate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">address.governorate</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="address_city_action" model="ir.actions.act_window">
+            <field name="name">City</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">address.city</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="address_block_action" model="ir.actions.act_window">
+            <field name="name">Block</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">address.block</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_address_main" name="Address" parent="point_of_sale.menu_point_config_product" sequence="3"/>
+        <menuitem id="address_governorate_menu" name="Governorate" parent="menu_address_main" action="address_governorate_action" sequence="1"/>
+        <menuitem id="address_city_menu" name="City" parent="menu_address_main" action="address_city_action" sequence="2"/>
+        <menuitem id="address_block_menu" name="Block" parent="menu_address_main" action="address_block_action" sequence="3"/>
+    
+    </data>
+</odoo>
