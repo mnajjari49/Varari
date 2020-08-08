@@ -1701,6 +1701,9 @@ this.pos.gui.show_popup('create_prev_popup',{});
         reload_orders: function(){
             var self = this;
             var orders = self.pos.get('pos_order_list');
+            orders=orders.filter(function(order){
+return (!(order.is_adjustment || order.is_membership_order || order.is_previous_order))  });
+                self.pos.set({'pos_order_list' : orders});
             this.search_list = []
             _.each(self.pos.partners, function(partner){
                 self.search_list.push(partner.name);
@@ -1954,8 +1957,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
         var self = this;
         var payment_method = this.pos.payment_methods_by_id[id];
         self.pos.get_order().add_paymentline_with_notes(payment_method, {'note': self.pos.get_order().note});
-
-                self.reset_input();
+        self.reset_input();
                 self.render_paymentlines();
 //                window.document.body.addEventListener('keypress', self.keyboard_handler);
 //                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);

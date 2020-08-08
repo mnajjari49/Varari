@@ -364,9 +364,12 @@ odoo.define('ecotech_pos_laundry.db', function (require) {
                 } else if ( new_write_date < order.write_date ) { 
                     new_write_date  = order.write_date;
                 }
+
+
                 if (!this.order_by_id[order.id]) {
                     this.order_sorted.push(order.id);
                 }
+
                 this.order_by_id[order.id] = order;
                 updated_count += 1;
             }
@@ -380,7 +383,10 @@ odoo.define('ecotech_pos_laundry.db', function (require) {
                     if(order && order.partner_id){
                         partner = this.get_partner_by_id(order.partner_id[0])
                     }
+                    if(!(order.is_adjustment || order.is_membership_order || order.is_previous_order)){
                     this.order_search_string += this._order_search_string(order, partner);
+                    }
+
                 }
             }
             return updated_count;
