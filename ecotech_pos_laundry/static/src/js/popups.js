@@ -1326,4 +1326,43 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
         }
     });
     gui.define_popup({name:'confirmation_membership_card_payment', widget: ConfirmationMembershipCardPayment})
+
+var PaymentInfoWidget = PopupWidget.extend({
+    template: 'PaymentInfoWidget',
+    show: function(options){
+        options = options || {};
+        this._super(options);
+        this.renderElement();
+        $('body').off('keypress', this.keyboard_handler);
+        $('body').off('keydown', this.keyboard_keydown_handler);
+        window.document.body.addEventListener('keypress',this.keyboard_handler);
+        window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
+        if(options.data){
+            var data = options.data;
+            this.$('input[name=payment_ref]').val(data.payment_ref);
+        }
+    },
+    click_confirm: function(){
+        if (this.$('input[name=payment_ref]').val() == ''){
+            alert("Please Enter Payment Reference");
+        }
+        else{
+            var infos = {
+                'payment_ref' : this.$('input[name=payment_ref]').val(),
+                'note':this.pos.get_order().note || "" ,
+            };
+            var valid = true;
+            if(this.options.validate_info){
+                valid = this.options.validate_info.call(this, infos);
+            }
+
+            this.gui.close_popup();
+            if( this.options.confirm ){
+                this.options.confirm.call(this, infos);
+            }
+        }
+    },
+});
+gui.define_popup({name:'payment-info-input', widget: PaymentInfoWidget});
+
 });

@@ -12,7 +12,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                                         'mobile', 'date_of_birth', 'civil_id', 'customer_preference_ids']);
     models.load_fields("res.users", ['allow_order_screen', 'enable_adjustment',
                                         'enable_pos_report', 'enable_membership_card']);
-    models.load_fields("pos.payment.method", ['allow_for_adjustment','allow_for_membership_card']);
+    models.load_fields("pos.payment.method", ['allow_for_adjustment','allow_for_membership_card','pos_payment_ref']);
     models.load_fields("product.product", ['arabic_name','label_count']);
 
     models.PosModel.prototype.models.push({
@@ -410,6 +410,18 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         this.paymentlines.add(newPaymentline);
         this.select_paymentline(newPaymentline);
     },
+        add_paymentline_with_details: function(payment_method, infos) {
+        this.assert_editable();
+        var newPaymentline = new models.Paymentline({},{order: this, payment_method:payment_method, pos: this.pos});
+        $.extend(newPaymentline, infos);
+
+        if(payment_method.is_cash_count !== true || this.pos.config.iface_precompute_cash){
+            newPaymentline.set_amount( Math.max(this.get_due(),0) );
+        }
+        this.paymentlines.add(newPaymentline);
+        this.select_paymentline(newPaymentline);
+    },
+
     });
     
     var _super_posmodel = models.PosModel;
@@ -576,12 +588,14 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     models.Paymentline = models.Paymentline.extend({
     init_from_JSON: function (json) {
         _super_paymentline.init_from_JSON.apply(this, arguments);
-
+        this.payment_ref = json.payment_ref;
         this.note = json.note;
     },
      export_as_JSON: function () {
         return _.extend(_super_paymentline.export_as_JSON.apply(this, arguments), {
             note: this.note,
+            payment_ref: this.payment_ref,
+
         });
     },
         set_membership_card_line_code: function(code) {
