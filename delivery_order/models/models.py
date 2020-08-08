@@ -61,6 +61,24 @@ class deliveryOrder(models.Model):
     sent  = fields.Boolean(
         string='Sent',
         default=False)
+    # Address
+    governorate_id = fields.Many2one(
+        comodel_name='address.governorate',
+        string='Governorate',related="partner_id.governorate_id")
+    city_id = fields.Many2one(
+        comodel_name='address.city',
+        string='City',related="partner_id.city_id")
+    block_id = fields.Many2one(
+        comodel_name='address.block',
+        string='Block',related="partner_id.block_id")
+    jaddah = fields.Char(
+        string='Jaddah',related="partner_id.jaddah")
+    house = fields.Char(
+        string='House/Building',related="partner_id.house")
+    flat = fields.Char(
+        string='Flat',related="partner_id.flat")
+    paci = fields.Char(
+        string='PACI',related="partner_id.paci")
 
 
 
