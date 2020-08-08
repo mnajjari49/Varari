@@ -46,29 +46,29 @@ class ResPartner(models.Model):
     customer_preference_ids = fields.Many2many('customer.preference', string="Customer Preference")
 
     #Address
-    governorate_id = fields.Many2one(
-        comodel_name='address.governorate',
-        string='Governorate',
-        required=False)
-    city_id = fields.Many2one(
-        comodel_name='address.city',
-        string='City',
-        required=False)
-    block_id = fields.Many2one(
-        comodel_name='address.block',
-        string='Block',
-        required=False)
-    jaddah = fields.Char(
-        string='Jaddah',
-        required=False)
-    house = fields.Char(
-        string='House/Building',
-        required=False)
-    flat = fields.Char(
-        string='Flat',
-        required=False)
-    paci = fields.Char(
-        string='PACI',
-        required=False)
+    # governorate_id = fields.Many2one(
+    #     comodel_name='address.governorate',
+    #     string='Governorate',
+    #     required=False)
+    # city_id = fields.Many2one(
+    #     comodel_name='address.city',
+    #     string='City',
+    #     required=False)
+    # block_id = fields.Many2one(
+    #     comodel_name='address.block',
+    #     string='Block',
+    #     required=False)
+    # jaddah = fields.Char(
+    #     string='Jaddah',
+    #     required=False)
+    # house = fields.Char(
+    #     string='House/Building',
+    #     required=False)
+    # flat = fields.Char(
+    #     string='Flat',
+    #     required=False)
+    # paci = fields.Char(
+    #     string='PACI',
+    #     required=False)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
