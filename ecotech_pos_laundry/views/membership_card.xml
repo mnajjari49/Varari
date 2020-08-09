@@ -133,6 +133,16 @@
             </field>
         </record>
 
+            <record id="membership_amount_tree" model="ir.ui.view">
+            <field name="name">membership card amount</field>
+            <field name="model">membership.amount</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" />
+                    <field name="promotion" />
+                </tree>
+            </field>
+        </record>
         <record id="membership_card_used_tree" model="ir.ui.view">
             <field name="name">membership card used tree</field>
             <field name="model">membership.card.use</field>
@@ -221,6 +231,12 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">tree</field>
         </record>
+        <record id="action_membership_amount_type_form" model="ir.actions.act_window">
+            <field name="name">Membership Card Type</field>
+            <field name="res_model">membership.amount</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree</field>
+        </record>
 
         <record id="action_membership_card_used_tree" model="ir.actions.act_window">
             <field name="name">Membership Card Use</field>
@@ -297,7 +313,9 @@
         <menuitem id="membership_card_type_details" name="Card Type"
             parent="membership_card_main_menu" sequence="4"
             action="action_membership_card_type_form" />
-
+  <menuitem id="membership_card_amount_details" name="Card Amount"
+            parent="membership_card_main_menu" sequence="4"
+            action="action_membership_amount_type_form" />
         <menuitem id="membership_card_used_details" name="Used Card"
             parent="membership_card_main_menu" sequence="2"
             action="action_membership_card_used_tree" />

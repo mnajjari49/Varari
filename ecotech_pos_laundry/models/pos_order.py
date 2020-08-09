@@ -84,9 +84,18 @@ class PosOrder(models.Model):
     @api.model
     def _payment_fields(self, order, ui_paymentline):
         res = super(PosOrder, self)._payment_fields(order, ui_paymentline)
+        payment_date = ui_paymentline['name']
+        payment_date = fields.Date.context_today(self, fields.Datetime.from_string(payment_date))
         res.update({
-            'note': ui_paymentline.get('note') or 0.0,
-            })
+            'note': ui_paymentline.get('note') or "",
+            'amount': ui_paymentline['amount'] or 0.0,
+            'payment_date': payment_date,
+            'payment_method_id': ui_paymentline['payment_method_id'],
+            'card_type': ui_paymentline.get('card_type'),
+            'transaction_id': ui_paymentline.get('transaction_id'),
+            'pos_order_id': order.id,
+            'payment_ref': ui_paymentline.get('payment_ref'),
+        })
         return res
 
     def _compute_amount_due(self):
@@ -139,6 +148,8 @@ class PosOrder(models.Model):
                         'payment_date': fields.Datetime.now(),
                         'amount': currency.round(payments[2].get('amount')) if currency else payments[2].get('amount'),
                         'payment_method_id': payments[2].get('payment_method_id'),
+                        'payment_ref': payments[2].get('payment_ref'),
+
                     })
                     if not order_obj.amount_due:
                         order_obj.action_pos_order_paid()

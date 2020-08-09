@@ -12,7 +12,7 @@
     var Printer = require('point_of_sale.Printer').Printer;
     var time = require('web.time');
     var Session = require('web.Session');
-    
+
     //Membership Card Code Start
     var MembershipCardButton = screens.ActionButtonWidget.extend({
         template: 'MembershipCardButton',
@@ -28,7 +28,7 @@
             return this.pos.config.enable_membership_card && this.pos.user.enable_membership_card;
         },
     });
-    
+
     //POS REPORT SCREEN
     var PosReportButton = screens.ActionButtonWidget.extend({
         template: 'PosReportButton',
@@ -425,7 +425,7 @@
             this.$('.searchbox input')[0].value = '';
             this.$('.searchbox input').focus();
         },
-        
+
         click_line: function(event){
             var self = this;
             var order_id = parseInt($(event.currentTarget).parent().data('id'));
@@ -651,7 +651,7 @@
                     }
                 }, function (type, err) { reject(); });
             });
-        },  
+        },
 
         reloading_orders: function(){
             var self = this;
@@ -1972,12 +1972,12 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 options.confirm.call(self, infos);
                 self.reset_input();
                 self.render_paymentlines();
-                window.document.body.addEventListener('keypress', self.keyboard_handler);
-                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
+//                window.document.body.addEventListener('keypress', self.keyboard_handler);
+//                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
             },
             cancel: function(){
-                window.document.body.addEventListener('keypress', self.keyboard_handler);
-                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
+//                window.document.body.addEventListener('keypress', self.keyboard_handler);
+//                window.document.body.addEventListener('keydown', self.keyboard_keydown_handler);
             },
         });
     },
@@ -2091,7 +2091,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 });
             }
         },
-        render_list: function(statements){                      
+        render_list: function(statements){
             if(statements){
                 var contents = this.$el[0].querySelector('.paymentline-list-contents');
                 contents.innerHTML = "";
@@ -2107,7 +2107,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         },
     });
     gui.define_screen({name:'orderdetail', widget: OrderDetailScreenWidget});
-    
+
     screens.ClientListScreenWidget.include({
         events: {
             'click .button.back':  'click_back',
@@ -2627,5 +2627,5 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
             });
         },
     });
-    
+
 });

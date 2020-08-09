@@ -1333,10 +1333,10 @@ var PaymentInfoWidget = PopupWidget.extend({
         options = options || {};
         this._super(options);
         this.renderElement();
-        $('body').off('keypress', this.keyboard_handler);
-        $('body').off('keydown', this.keyboard_keydown_handler);
-        window.document.body.addEventListener('keypress',this.keyboard_handler);
-        window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
+//        $('body').off('keypress', this.keyboard_handler);
+//        $('body').off('keydown', this.keyboard_keydown_handler);
+//        window.document.body.addEventListener('keypress',this.keyboard_handler);
+//        window.document.body.addEventListener('keydown',this.keyboard_keydown_handler);
         if(options.data){
             var data = options.data;
             this.$('input[name=payment_ref]').val(data.payment_ref);

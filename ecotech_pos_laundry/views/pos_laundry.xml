@@ -58,6 +58,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='payment_method_id']" position="after">
                 <field name="note" string="note"/>
+                <field name="payment_ref" string="Payment Ref"/>
             </xpath>
         </field>
      </record>

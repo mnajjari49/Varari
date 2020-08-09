@@ -9,18 +9,11 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     var round_pr = utils.round_precision;
 
     models.load_fields("res.partner", ['remaining_credit_limit','last_visit_date','credit_limit',
-                                        'mobile', 'date_of_birth', 'civil_id', 'customer_preference_ids',
-                                        'governorate_id','city_id','block_id','jaddah','house','flat','paci',
-                                        ]);
+                                        'mobile', 'date_of_birth', 'civil_id', 'customer_preference_ids']);
     models.load_fields("res.users", ['allow_order_screen', 'enable_adjustment',
                                         'enable_pos_report', 'enable_membership_card']);
     models.load_fields("pos.payment.method", ['allow_for_adjustment','allow_for_membership_card','pos_payment_ref']);
     models.load_fields("product.product", ['arabic_name','label_count']);
-
-    models.load_fields("address.governorate", ['name']);
-    models.load_fields("address.city", ['name','governorate_id']);
-    models.load_fields("address.block", ['name','city_id']);
-
 
     models.PosModel.prototype.models.push({
         model:  'customer.preference',
@@ -32,34 +25,11 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         },
     },
     {
-        model:  'address.governorate',
-        fields: ['name'],
-        loaded: function(self,governorates){
-            self.governorates = governorates;
-        },
-    },
-    {
-        model:  'address.city',
-        fields: ['name','governorate_id'],
-        loaded: function(self,cities){
-            self.cities = cities;
-        },
-    },
-    {
-        model:  'address.block',
-        fields: ['name','city_id'],
-        loaded: function(self,blocks){
-            self.blocks = blocks;
-        },
-    },
-    {
         model: 'res.partner',
         label: 'load_partners',
         fields: ['name','street','city','state_id','country_id','vat',
                  'phone','zip','mobile','email','barcode','write_date',
-                 'property_account_position_id','property_product_pricelist','customer_preference_ids',
-                 'governorate_id','city_id','block_id','jaddah','house','flat','paci',
-                 ],
+                 'property_account_position_id','property_product_pricelist','customer_preference_ids'],
         loaded: function(self,partners){
             self.partners = partners;
             self.partner_customer_preference = {};
@@ -103,7 +73,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             self.membership_amount_by_id = {};
           _.each(amount, function(each_amount){
                 self.membership_amount_by_id[each_amount['id']] = each_amount;
-            });          
+            });
         },
     },{
         model:  'pos.order.delivery.state',
@@ -120,7 +90,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         loaded: function(self,rack){
             self.db.add_rack(rack);
             self.set({'rack_list' : rack});
-        }, 
+        },
     },{
         model:  'membership.card',
         fields: ['card_no','card_value','card_type','customer_id','issue_date','expire_date','is_active'],
@@ -136,8 +106,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         export_for_printing: function(){
             var self =  this;
             var orderlines = _super_Orderline.export_for_printing.call(this);
-            var new_val = {   
-            product_name_arabic: this.get_product().arabic_name,           
+            var new_val = {
+            product_name_arabic: this.get_product().arabic_name,
             label_count: this.get_product().label_count,
             };
             $.extend(orderlines, new_val);
@@ -319,7 +289,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                     var change = this.get_amount_return();
                 }
             } else {
-                var change = -this.get_total_with_tax(); 
+                var change = -this.get_total_with_tax();
                 var lines  = this.pos.get_order().get_paymentlines();
                 for (var i = 0; i < lines.length; i++) {
                     change += lines[i].get_amount();
@@ -453,7 +423,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     },
 
     });
-    
+
     var _super_posmodel = models.PosModel;
      models.PosModel = models.PosModel.extend({
         initialize: function(session, attributes) {
@@ -464,7 +434,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             });
         },
         fetch: function(model, fields, domain, ctx){
-            this._load_progress = (this._load_progress || 0) + 0.05; 
+            this._load_progress = (this._load_progress || 0) + 0.05;
             this.chrome.loading_message(('Loading')+' '+model,this._load_progress);
             return new Model(model).query(fields).filter(domain).context(ctx).all()
         },

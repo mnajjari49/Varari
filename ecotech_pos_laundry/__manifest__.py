@@ -33,6 +33,7 @@
         'views/pos_order_report_view.xml',
         'views/product.xml',
         'views/address.xml',
+        'views/pos_payment_ref.xml',
     ],
     'qweb': ['static/src/xml/*.xml'],
     'images': ['static/description/main_screenshot.png'],

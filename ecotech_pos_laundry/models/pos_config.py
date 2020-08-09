@@ -53,5 +53,6 @@ class PosPaymentMethod(models.Model):
 
     allow_for_membership_card = fields.Boolean(string = "Allow For Membership Card")
     allow_for_adjustment = fields.Boolean(string = "Allow For Customer Adjustment")
+    pos_payment_ref = fields.Boolean('Recored Payment Ref', default=False)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
