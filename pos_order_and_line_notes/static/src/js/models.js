@@ -14,8 +14,8 @@ odoo.define('pos_order_and_line_notes.models', function (require) {
 
     models.PosModel.prototype.models.push({
         model:  'pos.note.config',
-        fields: ['name'],
-        domain: [],
+        fields: ['name','hide'],
+        domain: [['hide', '=', false]],
         loaded: function(self, note_list){
             self.set({'note_list' : note_list});
         },

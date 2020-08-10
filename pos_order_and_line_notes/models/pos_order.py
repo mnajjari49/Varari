@@ -47,6 +47,6 @@ class posNote(models.Model):
     name = fields.Char(
         string='Note',
         required=True)
-    active = fields.Boolean(
-        string='Active',
-        default=True)
+    hide = fields.Boolean(
+        string='Hide Note',
+        default=False)

@@ -31,8 +31,13 @@ odoo.define('pos_order_and_line_notes.popups', function (require) {
             var note_id = parseInt($(event.currentTarget).data('id'));
             var note_name = $(event.currentTarget).data('name');
             var line = this.pos.get_order().get_selected_orderline();
-            line.add_line_note(note_id);
-            line.add_line_note_name(note_name);
+            if (line.get_line_note().includes(note_id)){
+                alert("This Note Is Already Included");
+            }
+            else{
+                line.add_line_note(note_id);
+                line.add_line_note_name(note_name);
+            }
         },
         click_back: function(){
             var self = this;
@@ -42,8 +47,29 @@ odoo.define('pos_order_and_line_notes.popups', function (require) {
         click_create: function(event){
             val = $('input[class=note-line-input]').val();
             var line = this.pos.get_order().get_selected_orderline();
-            line.add_line_note_name(val);
-            $('input[class=note-line-input]').val('');
+            rpc.query({
+                        model: 'pos.note.config',
+                        method: 'create',
+                        args: [{'name':val,'hide':true}],
+                        })
+                        .then(function(note_id){
+                            line.add_line_note(note_id);
+                            line.add_line_note_name(val);
+                            $('input[class=note-line-input]').val('');
+                        })
+                        .catch(function(error){
+                            error.event.preventDefault();
+                            var error_body = _t('Your Internet connection is probably down.');
+                            if (error.message.data) {
+                                var except = error.message.data;
+                                error_body = except.arguments && except.arguments[0] || except.message || error_body;
+                            }
+                            self.gui.show_popup('error',{
+                                'title': _t('Error: Could not Save Changes'),
+                                'body': error_body,
+                            });
+                            contents.on('click','.button.save',function(){});
+                        });
         },
 
         get_notes: function(){
@@ -83,7 +109,7 @@ odoo.define('pos_order_and_line_notes.popups', function (require) {
             var params = {
                 model: 'pos.note.config',
                 method: 'search_read',
-                domain: [['active', '=', true]],
+                domain: [['hide', '=', false]],
             }
             return rpc.query(params, {async: false}).then(function(result){
                 self.pos.set({'note_list' : result});
@@ -119,9 +145,13 @@ odoo.define('pos_order_and_line_notes.popups', function (require) {
             var note_id = parseInt($(event.currentTarget).data('id'));
             var note_name = $(event.currentTarget).data('name');
             var order = this.pos.get_order();
-            order.add_note(note_id);
-            order.add_note_name(note_name);
-            console.log(order);
+            if (order.get_note().includes(note_id)){
+                alert("This Note Is Already Included");
+            }
+            else{
+                order.add_note(note_id);
+                order.add_note_name(note_name);
+            }
         },
 
         click_back: function(){
@@ -132,8 +162,29 @@ odoo.define('pos_order_and_line_notes.popups', function (require) {
         click_create: function(event){
             val = $('input[class=note-input]').val();
             var order = this.pos.get_order();
-            order.add_note_name(val);
-            $('input[class=note-input]').val('');
+            rpc.query({
+                        model: 'pos.note.config',
+                        method: 'create',
+                        args: [{'name':val,'hide':true}],
+                        })
+                        .then(function(note_id){
+                            order.add_note(note_id);
+                            order.add_note_name(val);
+                            $('input[class=note-input]').val('');
+                        })
+                        .catch(function(error){
+                            error.event.preventDefault();
+                            var error_body = _t('Your Internet connection is probably down.');
+                            if (error.message.data) {
+                                var except = error.message.data;
+                                error_body = except.arguments && except.arguments[0] || except.message || error_body;
+                            }
+                            self.gui.show_popup('error',{
+                                'title': _t('Error: Could not Save Changes'),
+                                'body': error_body,
+                            });
+                            contents.on('click','.button.save',function(){});
+                        });
         },
 
         get_notes: function(){
@@ -174,7 +225,7 @@ odoo.define('pos_order_and_line_notes.popups', function (require) {
             var params = {
                 model: 'pos.note.config',
                 method: 'search_read',
-                domain: [['active', '=', true]],
+                domain: [['hide', '=', false]],
             }
             return rpc.query(params, {async: false}).then(function(result){
                 self.pos.set({'note_list' : result});

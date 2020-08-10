@@ -134,14 +134,14 @@
                         </li>
                     </t>
                 </td>
-                <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
+                <td style="text-align: right;direction: rtl;margin-left: -3em;" t-esc="line.product_name_arabic"></td>
             </t>
             <t t-else="">
                 <td>
                     <span t-esc='line.product_name_wrapped[0]'></span>
                     <t t-foreach="note_id_name" t-as="note">
                         <li class="info order-note">
-                            <i class="fa fa-caret-right"/><t t-esc="note" />
+                            <i class="fa fa-caret-right"/>Note: <t t-esc="note" />
                         </li>
                     </t>
                 </td>
@@ -151,7 +151,7 @@
         <t t-jquery="table.pos-receipt-table" t-operation="after">
             <t t-foreach="order.get_note_name()" t-as="note_order">
                 <li class="info order-note">
-                    <i class="fa fa-caret-right"/><t t-esc="note_order" />
+                    <i class="fa fa-caret-right"/>Note: <t t-esc="note_order" />
                 </li>
             </t>
         </t>

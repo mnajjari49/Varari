@@ -28,6 +28,7 @@
         <record id="pos_note_config_action" model="ir.actions.act_window">
             <field name="name">Pos Order Note</field>
             <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('hide','=',False)]</field>
             <field name="res_model">pos.note.config</field>
             <field name="view_mode">tree,form</field>
         </record>
