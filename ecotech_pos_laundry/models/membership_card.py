@@ -134,6 +134,6 @@ class MembershipAmount(models.Model):
     _description = 'Amount Of MembershipCard'
 
     name = fields.Float(string = "Amount")
-    promotion = fields.Float("Promotion")
+    promotion = fields.Float("Offer")
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
