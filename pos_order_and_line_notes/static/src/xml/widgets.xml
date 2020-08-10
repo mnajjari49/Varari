@@ -134,7 +134,7 @@
                         </li>
                     </t>
                 </td>
-                <td style="text-align: right;direction: rtl;margin-left: -3em;" t-esc="line.product_name_arabic"></td>
+                <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
             </t>
             <t t-else="">
                 <td>
