@@ -147,6 +147,8 @@
                             <td>
                                 <t t-if="widget.pos.config.membership_amount and widget.pos.config.membership_amount.length > 0 and widget.pos.membership_amount_by_id">
                                     <select class="text_amount" id="text_amount">
+                                        <option>
+                                        </option>
                                         <t t-foreach="widget.pos.config.membership_amount" t-as="amount">
                                                 <option t-att-offer="widget.pos.membership_amount_by_id[amount].promotion">
                                                     <t t-esc="widget.pos.membership_amount_by_id[amount].name"/></option>
@@ -161,6 +163,12 @@
                                 </t> -->
 
                             </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span id="membership_offer" class="membership_offer"></span>
+</td>
                         </tr>
                         <tr>
                             <td>Card Type </td>

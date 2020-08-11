@@ -46,7 +46,8 @@ class PosConfig(models.Model):
     jr_for_adjustment = fields.Many2one('pos.payment.method',string="Adjustment Payment Method")
     acc_for_adjustment = fields.Many2one('account.account',string="Adjustment Account")
     default_customer_credit_limit = fields.Integer(string="Customer Credit Limit")
-
+    offer_account = fields.Many2one("account.account")
+    offer_product = fields.Many2one("product.product")
 
 class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'

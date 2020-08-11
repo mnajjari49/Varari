@@ -625,6 +625,20 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
             self.panding_card = options.card_data || false;
             this.renderElement();
             $('#card_no').focus();
+             var offer = $("option:selected", this).attr("offer");
+
+            $('#text_amount').on('change', function (e) {
+            var offer = $("option:selected", this).attr("offer");
+            if(offer>0){
+                        $('#membership_offer').text( "Offer  " + offer);
+
+            }else{
+            $('#membership_offer').text( "");
+
+            }
+
+
+});
             var timestamp = new Date().getTime()/1000;
             var partners = this.pos.db.all_partners;
             var partners_list = [];
@@ -772,6 +786,8 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                         if(checkbox_paid.checked){
                             $('#text_amount').focus();
                             var input_amount = $('#text_amount').val();
+                            order.membership_offer=$(".text_amount").find("option:selected").attr("offer");
+                            $('#membership_offer').val(order.membership_offer);
                             if(input_amount){
                                 order.set_client(client);
                                 var product = self.pos.db.get_product_by_id(self.pos.config.membership_card_product_id[0]);
@@ -784,7 +800,13 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                                     line.set_unit_price(input_amount);
                                     order.add_orderline(line);
                                     order.select_orderline(order.get_last_orderline());
-                                    order.membership_offer=$(".text_amount").find("option:selected").attr("offer");
+                                    if (order.membership_offer){
+                                    var product = self.pos.db.get_product_by_id(self.pos.config.offer_product[0]);
+                                    var line = new models.Orderline({}, {pos: self.pos, order: order, product: product});
+                                    line.set_unit_price(-order.membership_offer);
+                                    order.add_orderline(line);
+                                    order.select_orderline(order.get_last_orderline());
+                                    }
                                 }
                                 var membership_order = {
                                     'membership_card_card_no': $('#card_no').val(),
