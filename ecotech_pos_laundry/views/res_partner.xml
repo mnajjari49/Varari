@@ -8,8 +8,8 @@
             <field name="type" position="before">
                 <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                 <field name="governorate_id"/>
-                <field name="city_id"/>
-                <field name="block_id"/>
+                <field name="city_id" attrs="{'invisible':[('governorate_id','=',False)]}"/>
+                <field name="block_id" attrs="{'invisible':[('city_id','=',False)]}"/>
                 <field name="jaddah"/>
                 <field name="house"/>
                 <field name="flat"/>
