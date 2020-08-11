@@ -56,6 +56,7 @@ class PosOrder(models.Model):
     partial_paid_order = fields.Boolean(string="Partial Paid")
     old_session_ids = fields.Many2many('pos.session', string="Old sessions")
     current_session=   fields.Many2one('pos.session')
+    membership_offer=fields.Float("offer")
 
     def _compute_amount_due(self):
         for each in self:
@@ -78,6 +79,7 @@ class PosOrder(models.Model):
             'is_membership_order': ui_order.get('is_membership_order'),
             'is_previous_order': ui_order.get('is_previous_order'),
             'is_adjustment' : ui_order.get('is_adjustment') or False,
+            'membership_offer':ui_order.get('membership_offer') or False,
         })
         return res
 

@@ -784,6 +784,7 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                                     line.set_unit_price(input_amount);
                                     order.add_orderline(line);
                                     order.select_orderline(order.get_last_orderline());
+                                    order.membership_offer=$(".text_amount").find("option:selected").attr("offer");
                                 }
                                 var membership_order = {
                                     'membership_card_card_no': $('#card_no').val(),
@@ -797,6 +798,7 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                                     self.gui.show_popup('confirmation_membership_card_payment',{'card_data':membership_order});
                                 } else{
                                     order.set_membership_card(membership_order);
+                                    order.membership_offer=$(".text_amount").find("option:selected").attr("offer");
                                     self.gui.show_screen('payment');
                                     self.pos.get_order().set_membership_order(true);
                                     $("#card_back").hide();
@@ -834,6 +836,7 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                                 rpc.query(params, {async: false});
                                 self.gui.show_screen('receipt');
                                 self.pos.get_order().set_membership_order(true);
+                                order.membership_offer=$(".text_amount").find("option:selected").attr("offer");
                                 this.gui.close_popup();
                             }else{
                                 alert("Please enter card value.")
@@ -1292,6 +1295,8 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                 }
                 order.set_recharge_membership_card(vals);
                 self.pos.get_order().set_membership_order(true);
+                var amounts=$(".text_amount").find("option:selected").attr("offer");
+                self.pos.get_order().membership_offer= amounts;
                 self.gui.show_screen('payment');
                 $("#card_back").hide();
                 $( "div.js_set_customer" ).off("click");
@@ -1306,6 +1311,8 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                         'membership_card_customer_name': self.options.membership_card_customer_name,
                         'membership_card_type': self.options.card_type,
                 }
+                var amounts=$(".text_amount").find("option:selected").attr("offer");
+                self.pos.get_order().membership_offer= amounts;
                 self.pos.get_order().set_membership_order(true);
                 order.set_membership_card(membership_order);
                 self.gui.show_screen('payment');
