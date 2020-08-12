@@ -2323,46 +2323,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                         }
                     });
                 });
-                contents.find('.client-address-governator').on('change', function (ev) {
-                var $citySelection = contents.find('.client-address-city');
-                var value = this.value;
-                $citySelection.empty()
-                $citySelection.append($("<option/>", {
-                    value: '',
-                    text: 'None',
-                }));
-                self.pos.cities.forEach(function (city) {
-                    if (city.governorate_id[0] == value) {
-                        $citySelection.append($("<option/>", {
-                            value: city.id,
-                            text: city.name
-                            }));
-                        }
-                    });
-                    var $blockSelection = contents.find('.client-address-block');
-                    $blockSelection.empty()
-                    $blockSelection.append($("<option/>", {
-                        value: '',
-                        text: 'None',
-                    }));
-                });
-                contents.find('.client-address-city').on('change', function (ev) {
-                var $blockSelection = contents.find('.client-address-block');
-                var value = this.value;
-                $blockSelection.empty()
-                $blockSelection.append($("<option/>", {
-                    value: '',
-                    text: 'None',
-                }));
-                self.pos.blocks.forEach(function (block) {
-                    if (block.city_id[0] == value) {
-                        $blockSelection.append($("<option/>", {
-                            value: block.id,
-                            text: block.name
-                            }));
-                        }
-                    });
-                });
             } else if (visibility === 'hide') {
                 contents.empty();
                 parent.height('100%');

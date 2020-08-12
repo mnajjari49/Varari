@@ -46,15 +46,6 @@ class ResPartner(models.Model):
     customer_preference_ids = fields.Many2many('customer.preference', string="Customer Preference")
 
     #Address
-    @api.onchange('governorate_id')
-    def onchange_governorate_id(self):
-        self.city_id = False
-        self.block_id = False
-
-    @api.onchange('city_id')
-    def onchange_city_id(self):
-        self.block_id = False
-
     governorate_id = fields.Many2one(
         comodel_name='address.governorate',
         string='Governorate',
@@ -62,12 +53,10 @@ class ResPartner(models.Model):
     city_id = fields.Many2one(
         comodel_name='address.city',
         string='City',
-        domain="[('governorate_id', '=?', governorate_id)]",
         required=False)
     block_id = fields.Many2one(
         comodel_name='address.block',
         string='Block',
-        domain="[('city_id', '=?', city_id)]",
         required=False)
     jaddah = fields.Char(
         string='Jaddah',

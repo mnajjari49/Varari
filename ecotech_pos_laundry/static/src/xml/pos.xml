@@ -1115,75 +1115,66 @@
             <div class='client-details-left'>
                 <!--          address  start       -->
                 <div class='client-detail'>
-                    <span class='label'>Street</span>
-                    <t t-if="partner.street">
-                        <span class='detail client-address'><t t-esc="partner.street" /></span>
-                    </t>
-                    <t t-if="!partner.street">
-                        <span class='detail client-address empty'>N/A</span>
-                    </t>
-                </div>
-                <div class='client-detail'>
                     <span class='label'>Governorate</span>
                     <t t-if="partner.governorate_id">
-                        <span class='detail client-governorate_id'><t t-esc="partner.governorate_id[1]" /></span>
+                        <span class='detail client-address'><t t-esc="partner.governorate_id[1]" /></span>
                     </t>
                     <t t-if="!partner.governorate_id">
-                        <span class='detail client-governorate_id empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>City</span>
                     <t t-if="partner.city_id">
-                        <span class='detail client-city_id'><t t-esc="partner.city_id[1]" /></span>
+                        <span class='detail client-address'><t t-esc="partner.city_id[1]" /></span>
                     </t>
                     <t t-if="!partner.city_id">
-                        <span class='detail client-city_id empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>Block</span>
                     <t t-if="partner.block_id">
-                        <span class='detail client-block_id'><t t-esc="partner.block_id[1]" /></span>
+                        <span class='detail client-address'><t t-esc="partner.block_id[1]" /></span>
                     </t>
                     <t t-if="!partner.block_id">
-                        <span class='detail client-block_id empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>Jaddah</span>
                     <t t-if="partner.jaddah">
-                        <span class='detail client-jaddah'><t t-esc="partner.jaddah" /></span>
+                        <span class='detail client-address'><t t-esc="partner.jaddah" /></span>
                     </t>
                     <t t-if="!partner.jaddah">
-                        <span class='detail client-jaddah empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>House/Building</span>
                     <t t-if="partner.house">
-                        <span class='detail client-house'><t t-esc="partner.house" /></span>
+                        <span class='detail client-address'><t t-esc="partner.house" /></span>
                     </t>
                     <t t-if="!partner.house">
-                        <span class='detail client-house empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>Flat</span>
                     <t t-if="partner.flat">
-                        <span class='detail client-flat'><t t-esc="partner.flat" /></span>
+                        <span class='detail client-address'><t t-esc="partner.flat" /></span>
                     </t>
                     <t t-if="!partner.flat">
-                        <span class='detail client-flat empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>PACI</span>
                     <t t-if="partner.paci">
-                        <span class='detail client-paci'><t t-esc="partner.paci" /></span>
+                        <span class='detail client-address'><t t-esc="partner.paci" /></span>
                     </t>
                     <t t-if="!partner.paci">
-                        <span class='detail client-paci empty'>N/A</span>
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <!--          address  end  -->
@@ -1290,12 +1281,8 @@
             <div class='client-details-left'>
                 <!--          address  start       -->
                 <div class='client-detail'>
-                    <span class='label'>Street</span>
-                    <input class='detail client-address-street' name='street' t-att-value='partner.street || ""' placeholder='Street'></input>
-                </div>
-                <div class='client-detail'>
                     <span class='label'>Governorate</span>
-                    <select class='detail client-address-governator needsclick' name='governorate_id'>
+                    <select class='detail client-address-states needsclick' name='governorate_id'>
                         <option value=''>None</option>
                         <t t-foreach='widget.pos.governorates' t-as='governorate'>
                             <option t-att-value='governorate.id' t-att-selected="partner.governorate_id ? ((governorate.id === partner.governorate_id[0]) ? true : undefined) : undefined">
@@ -1306,10 +1293,10 @@
                 </div>
                 <div class='client-detail'>
                     <span class='label'>City</span>
-                    <select class='detail client-address-city needsclick' name='city_id'>
+                    <select class='detail client-address-states needsclick' name='city_id'>
                         <option value=''>None</option>
                         <t t-foreach='widget.pos.cities' t-as='city'>
-                            <option t-if="partner.governorate_id[0] == city.governorate_id[0]" t-att-value='city.id'  t-att-selected="partner.city_id ? ((city.id === partner.city_id[0]) ? true : undefined) : undefined">
+                            <option t-att-value='city.id' t-att-selected="partner.city_id ? ((city.id === partner.city_id[0]) ? true : undefined) : undefined">
                                 <t t-esc='city.name'/>
                             </option>
                         </t>
@@ -1317,10 +1304,10 @@
                 </div>
                 <div class='client-detail'>
                     <span class='label'>Block</span>
-                    <select class='detail client-address-block needsclick' name='block_id'>
+                    <select class='detail client-address-states needsclick' name='block_id'>
                         <option value=''>None</option>
                         <t t-foreach='widget.pos.blocks' t-as='block'>
-                            <option t-if="partner.city_id[0] == block.city_id[0]" t-att-value='block.id' t-att-selected="partner.block_id ? ((block.id === partner.block_id[0]) ? true : undefined) : undefined">
+                            <option t-att-value='block.id' t-att-selected="partner.block_id ? ((block.id === partner.block_id[0]) ? true : undefined) : undefined">
                                 <t t-esc='block.name'/>
                             </option>
                         </t>
@@ -1328,19 +1315,19 @@
                 </div>
                 <div class='client-detail'>
                     <span class='label'>Jaddah</span>
-                    <input class='detail client-address-jaddah'   name='jaddah'         t-att-value='partner.jaddah || ""' placeholder='Jaddah'></input>
+                    <input class='detail client-address-city'   name='jaddah'         t-att-value='partner.jaddah || ""' placeholder='Jaddah'></input>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>House/Building</span>
-                    <input class='detail client-address-house'   name='house'         t-att-value='partner.house || ""' placeholder='House/Building'></input>
+                    <input class='detail client-address-city'   name='house'         t-att-value='partner.house || ""' placeholder='House/Building'></input>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>Flat</span>
-                    <input class='detail client-address-flat'   name='flat'         t-att-value='partner.flat || ""' placeholder='Flat'></input>
+                    <input class='detail client-address-city'   name='flat'         t-att-value='partner.flat || ""' placeholder='Flat'></input>
                 </div>
                 <div class='client-detail'>
                     <span class='label'>PACI</span>
-                    <input class='detail client-address-paci'   name='paci'         t-att-value='partner.paci || ""' placeholder='PACI'></input>
+                    <input class='detail client-address-city'   name='paci'         t-att-value='partner.paci || ""' placeholder='PACI'></input>
                 </div>
                 <!--          address  end  -->
             </div>
