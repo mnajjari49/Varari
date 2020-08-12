@@ -241,9 +241,8 @@ class PosSession(models.Model):
                 for payment in order.payment_ids.filtered(
                         lambda payment: payment.session_id.id == self.id and not payment.old_session_id):
                     memebership_amount['amount'] += payment.amount
-
                 if order.is_membership_order and order.membership_offer:
-                    memebership_amount['amount'] +=order.membership_offer
+                     memebership_amount['amount'] += order.membership_offer
                 if not self.is_in_company_currency:
                     memebership_amount['amount_converted'] = self.company_id.currency_id.round(memebership_amount['amount'])
                 else:
