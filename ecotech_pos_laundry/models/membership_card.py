@@ -15,6 +15,7 @@ from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 from odoo.exceptions import ValidationError
 import time
+import time
 
 _logger = logging.getLogger(__name__)
 
@@ -135,5 +136,72 @@ class MembershipAmount(models.Model):
 
     name = fields.Float(string = "Amount")
     promotion = fields.Float("Offer")
+
+
+class Membershipwizard(models.TransientModel):
+    _name = 'membership.wizard'
+    _description = 'Wizard Of MembershipCard'
+
+    customer = fields.Many2one("res.partner")
+    card_number=fields.Integer()
+    expire_date=fields.Date()
+    card_value=fields.Many2one('membership.amount')
+    promotion = fields.Float("Offer",related="card_value.promotion")
+    card_type=fields.Many2one("membership.card.type")
+    session_id=fields.Many2one("pos.session",domain=[("state","!=","closed")])
+
+
+
+    def action_done(self):
+        membership_product_id=self.session_id.config_id.membership_card_product_id.id
+        creation_date=str(fields.Datetime().now())
+        orderName="[Order] "+str(int(time.time()))
+        create_from_ui={'id': "membershipUi",
+         'data':
+             {'name': orderName,
+
+              'amount_paid': 0,
+              'amount_total': self.card_value.name,
+              'amount_tax': 0, 'amount_return': 0,
+              'pos_reference':orderName,
+              'sequence_number':0,
+              'lines': [[0, 0,
+                         {'qty': 1, 'price_unit':self.card_value.name, 'price_subtotal': self.card_value.name, 'price_subtotal_incl': self.card_value.name, 'discount': 0,
+                          'product_id': membership_product_id,
+                          'tax_ids': [[6, False, []]], 'id': 2, 'pack_lot_ids': []}]],
+              'statement_ids': [],
+        'pos_session_id': self.session_id.id, 'pricelist_id':  self.session_id.config_id.pricelist_id.id, 'partner_id': self.customer.id, 'user_id': self.env.user.id, 'employee_id': None,
+        # 'uid': 7300442582, 'sequence_number': 5,
+              'creation_date': creation_date,
+        'fiscal_position_id': False, 'server_id': False, 'to_invoice': False, 'draft_order': False, 'amount_due': self.card_value.name,
+              'promise_date': '2020-08-14T06:34:02.000Z',
+        'is_membership_order': True,
+        'membership_card': [{'membership_card_card_no': self.card_number,
+                             'membership_card_customer':self.customer.id,
+                             'membership_card_expire_date': self.expire_date,
+                             'membership_amount': self.card_value.name if not self.promotion else self.card_value.name+self.promotion,
+                             'membership_card_customer_name': self.customer.name,
+                             'membership_card_type': self.card_type.id}],
+        'redeem': [], 'recharge': [],
+        'is_partial_paid': False,
+        'is_adjustment': False, 'is_previous_order': False, 'membership_offer':self.promotion,
+        'delivery_state_id': 3, 'order_rack_id': [], 'adjustment': [],  },
+        'to_invoice': False}
+        order=self.env["pos.order"]
+        res=order.create_from_ui([create_from_ui])
+        res_id=self.env.ref("point_of_sale.view_pos_pos_form").id
+        return  {
+                    'name': 'Pos Orders',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'view_id': [res_id],
+                    'res_model': 'pos.order',
+                    'type': 'ir.actions.act_window',
+                    'nodestroy': True,
+                    'target': 'current',
+                    'res_id': res[0]["id"],
+                   }
+
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -218,11 +218,16 @@ class PosOrder(models.Model):
     @api.model
     def create_from_ui(self, orders, draft=False):
         # Keep only new orders
+        ui_membership=False
         res = super(PosOrder, self).create_from_ui(orders, draft=False)
-        pos_orders = self.browse([each.get('id') for each in res])
-        existing_orders = pos_orders.read(['pos_reference'])
-        existing_references = set([o['pos_reference'] for o in existing_orders])
-        orders_to_read = [o for o in orders if o['data']['name'] in existing_references]
+        if orders[0].get("id")!="membershipUi":
+
+            pos_orders = self.browse([each.get('id') for each in res])
+            existing_orders = pos_orders.read(['pos_reference'])
+            existing_references = set([o['pos_reference'] for o in existing_orders])
+            orders_to_read = [o for o in orders if o['data']['name'] in existing_references]
+        else: orders_to_read=orders
+
         for tmp_order in orders_to_read:
             order = tmp_order['data']
             order_obj = self.search([('pos_reference', '=', order['name'])])
