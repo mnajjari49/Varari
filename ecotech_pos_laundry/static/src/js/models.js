@@ -26,6 +26,27 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         },
     },
     {
+        model:  'address.governorate',
+        fields: ['name'],
+        loaded: function(self,governorates){
+            self.governorates = governorates;
+        },
+    },
+    {
+        model:  'address.city',
+        fields: ['name','governorate_id'],
+        loaded: function(self,cities){
+            self.cities = cities;
+        },
+    },
+    {
+        model:  'address.block',
+        fields: ['name','city_id'],
+        loaded: function(self,blocks){
+            self.blocks = blocks;
+        },
+    },
+    {
         model: 'res.partner',
         label: 'load_partners',
         fields: ['name','street','city','state_id','country_id','vat',

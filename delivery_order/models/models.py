@@ -43,6 +43,8 @@ class deliveryOrder(models.Model):
     address = fields.Char(
         string='Address',related="partner_id.street",
         required=False)
+    phone = fields.Char(
+        string='Phone', related="partner_id.phone")
     driver_id = fields.Many2one(
         comodel_name='res.users',
         string='Driver',domain = [('is_driver', '=', True)],
