@@ -393,51 +393,76 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
             this.flag = false;
             this._super();
         },
-        click_confirm: function(){
+        click_cancel: function(){
             var self = this;
-            var rack_ids = this.rack_ids;
-            var update_rack_status = _.uniq(rack_ids.concat(this.old_rack_ids));
-            if(self.flag){
-                var OrderPromise = new Promise(function(resolve, reject){
-                    var params = {
+            var order = this.order;
+            if(this.old_rack_ids.length == 0 && this.rack_ids.length == 0){
+                    rpc.query({
                         model: 'pos.order',
-                        method: "write",
-                        args: [[self.order.id], {'order_rack_id': rack_ids ? [[6,0, rack_ids]] : [[5,]]}],
-                    }
-                    rpc.query(params, {async: false})
-                    .then(function(res){
-                        if(res){
+                        method: 'write',
+                        args: [order.id, {'delivery_state_id': 4}]
+                    },{async: false}).then(function(result) {
+                        if(result){
                             self.pos.gui.chrome.screens.orderlist.reloading_orders();
                             self.pos.gui.chrome.screens.posreportscreen.reloading_orders();
-                            resolve(res);
-                        }else{
-                            reject();
                         }
                     });
-                })
-                var UpdateRackStatusPromise = new Promise(function(resolve, reject){
-                    var params = {
-                        model: 'pos.order.rack',
-                        method: "update_rack_status",
-                        args: [self.rack_ids, self.old_rack_ids],
-                    }
-                    rpc.query(params, {async: false})
-                    .then(function(res){
-                        if(res){
-                            resolve(res);
-                        }else{
-                            reject();
-                        }
-                    });
-                })
-                Promise.all([OrderPromise, UpdateRackStatusPromise]).then(function(res) {
-                    self.pos.gui.chrome.screens.orderlist.reloading_racks();
-//                    self.pos.gui.chrome.screens.posreportscreen.reloading_racks();
-                }).catch(function(error) {
-                    console.error('error', error);
-                });
+                }else{
+                     self.pos.gui.chrome.screens.orderlist.reloading_orders();
+                     self.pos.gui.chrome.screens.posreportscreen.reloading_orders();
             }
-            this.gui.close_popup()
+            self._super();
+        },
+        click_confirm: function(){
+            if (this.old_rack_ids.length == 0 && this.rack_ids.length == 0 ){
+                alert("Please Add at Least one Rack");
+            }
+            else{
+                var self = this;
+                var rack_ids = this.rack_ids;
+                var update_rack_status = _.uniq(rack_ids.concat(this.old_rack_ids));
+                if(self.flag){
+                    var OrderPromise = new Promise(function(resolve, reject){
+                        var params = {
+                            model: 'pos.order',
+                            method: "write",
+                            args: [[self.order.id], {'order_rack_id': rack_ids ? [[6,0, rack_ids]] : [[5,]]}],
+                        }
+                        rpc.query(params, {async: false})
+                        .then(function(res){
+                            if(res){
+                                self.pos.gui.chrome.screens.orderlist.reloading_orders();
+                                self.pos.gui.chrome.screens.posreportscreen.reloading_orders();
+                                resolve(res);
+                            }else{
+                                reject();
+                            }
+                        });
+                    })
+                    var UpdateRackStatusPromise = new Promise(function(resolve, reject){
+                        var params = {
+                            model: 'pos.order.rack',
+                            method: "update_rack_status",
+                            args: [self.rack_ids, self.old_rack_ids],
+                        }
+                        rpc.query(params, {async: false})
+                        .then(function(res){
+                            if(res){
+                                resolve(res);
+                            }else{
+                                reject();
+                            }
+                        });
+                    })
+                    Promise.all([OrderPromise, UpdateRackStatusPromise]).then(function(res) {
+                        self.pos.gui.chrome.screens.orderlist.reloading_racks();
+    //                    self.pos.gui.chrome.screens.posreportscreen.reloading_racks();
+                    }).catch(function(error) {
+                        console.error('error', error);
+                    });
+                }
+                this.gui.close_popup()
+            }
         },
         render_rack : function(){
             var rack_list = this.pos.db.get_rack_by_ids(this.rack_ids);
