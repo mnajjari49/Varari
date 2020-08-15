@@ -2434,7 +2434,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
             var contents = this.$(".client-details-contents");
             contents.off("click", ".button.save");
             fields['customer_preference_ids'] = [[6,0,self.preferences_list ? self.preferences_list : []]];
-            if(!fields.credit_limit || Number(fields.credit_limit) > 0){
+            if(!fields.credit_limit){
                 fields['credit_limit'] = self.pos.config.default_customer_credit_limit;
             }
             rpc.query({
