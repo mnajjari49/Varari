@@ -175,7 +175,7 @@ class Membershipwizard(models.TransientModel):
               'creation_date': creation_date,
         'fiscal_position_id': False, 'server_id': False, 'to_invoice': False, 'draft_order': False, 'amount_due': self.card_value.name,
               'promise_date': '2020-08-14T06:34:02.000Z',
-        'is_membership_order': True,
+        'is_membership_order': True ,
         'membership_card': [{'membership_card_card_no': self.card_number,
                              'membership_card_customer':self.customer.id,
                              'membership_card_expire_date': self.expire_date,
