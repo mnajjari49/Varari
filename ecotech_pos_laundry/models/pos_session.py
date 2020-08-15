@@ -67,13 +67,13 @@ class PosSession(models.Model):
 
     def _create_memebership_payment(self, order, payment,name='Membership Sale'):
         memebership_amount = {'amount': 0.0, 'amount_converted': 0.0}
-        customer_income_account = order.partner_id.property_account_receivable_id.id
+        customer_income_account = order.partner_id.property_account_receivable_id.id if name!="offer" else self.config_id.offer_account.id
         memebership_args = {
             'name': name,
             'partner_id': order.partner_id.id,
             'move_id': self.move_id.id,
         }
-        memebership_amount['amount'] = payment.amount
+        memebership_amount['amount'] = payment.amount if name!="offer" else order.membership_offer
         if not self.is_in_company_currency:
             memebership_amount['amount_converted'] = self.company_id.currency_id.round(
                 memebership_amount['amount'])
@@ -232,7 +232,7 @@ class PosSession(models.Model):
             elif order.is_membership_order or order.is_previous_order:
                 memebership_amount = {'amount': 0.0, 'amount_converted': 0.0}
                 customer_income_account = order.partner_id.property_account_receivable_id.id
-                lname= 'Memebership Sale' if order.is_membership_order else 'Previous Payment'
+                lname= 'Memebership Sale ' if order.is_membership_order else 'Previous Payment'
                 memebership_args = {
                     'name': lname,
                     'partner_id':order.partner_id.id,
@@ -241,6 +241,8 @@ class PosSession(models.Model):
                 for payment in order.payment_ids.filtered(
                         lambda payment: payment.session_id.id == self.id and not payment.old_session_id):
                     memebership_amount['amount'] += payment.amount
+                if order.is_membership_order and order.membership_offer:
+                     memebership_amount['amount'] += order.membership_offer
                 if not self.is_in_company_currency:
                     memebership_amount['amount_converted'] = self.company_id.currency_id.round(memebership_amount['amount'])
                 else:
@@ -250,6 +252,8 @@ class PosSession(models.Model):
                     self._credit_amounts(memebership_args, memebership_amount['amount'], memebership_amount['amount_converted'])
                 ]
                 self.env['account.move.line'].with_context(check_move_validity=False).create(memebership_vals)
+                if order.is_membership_order and order.membership_offer:
+                    self._create_memebership_payment(order,payment,"offer")
             else:
                 order_taxes = defaultdict(tax_amounts)
                 for order_line in order.lines:

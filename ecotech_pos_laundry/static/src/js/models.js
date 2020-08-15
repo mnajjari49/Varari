@@ -93,6 +93,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
     },{
         model:  'membership.amount',
         loaded: function(self,amount){
+            self.membership_amounts=amount;
             self.membership_amount_by_id = {};
           _.each(amount, function(each_amount){
                 self.membership_amount_by_id[each_amount['id']] = each_amount;
@@ -162,6 +163,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             })
             this.is_adjustment = false;
             this.is_previous_order = false;
+            this.membership_offer=0;
             return res;
         },
 
@@ -374,6 +376,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 delivery_state_id : this.pos.config.default_delivery_state[0] || false,
                 order_rack_id: this.get_rack() || [],
                 adjustment: this.get_customer_adjustment() || [],
+                membership_offer:this.membership_offer,
             }
             $.extend(orders, new_val);
             return orders;

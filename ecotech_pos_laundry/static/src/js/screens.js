@@ -1649,9 +1649,16 @@ this.pos.gui.show_popup('create_prev_popup',{});
             var self = this;
             var filtered_orders = false;
             if(self.filter !== "" && self.filter !== "all"){
-                filtered_orders = $.grep(orders,function(order){
-                    return order.state === self.filter;
-                });
+                if (self.filter === 'paid'){
+                    filtered_orders = $.grep(orders,function(order){
+                        return order.state === self.filter || order.state === 'done' ;
+                    });
+                }
+                else{
+                    filtered_orders = $.grep(orders,function(order){
+                        return order.state === self.filter;
+                    });
+                }
             }
             return filtered_orders || orders;
         },
@@ -2323,6 +2330,46 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                         }
                     });
                 });
+                contents.find('.client-address-governator').on('change', function (ev) {
+                var $citySelection = contents.find('.client-address-city');
+                var value = this.value;
+                $citySelection.empty()
+                $citySelection.append($("<option/>", {
+                    value: '',
+                    text: 'None',
+                }));
+                self.pos.cities.forEach(function (city) {
+                    if (city.governorate_id[0] == value) {
+                        $citySelection.append($("<option/>", {
+                            value: city.id,
+                            text: city.name
+                            }));
+                        }
+                    });
+                    var $blockSelection = contents.find('.client-address-block');
+                    $blockSelection.empty()
+                    $blockSelection.append($("<option/>", {
+                        value: '',
+                        text: 'None',
+                    }));
+                });
+                contents.find('.client-address-city').on('change', function (ev) {
+                var $blockSelection = contents.find('.client-address-block');
+                var value = this.value;
+                $blockSelection.empty()
+                $blockSelection.append($("<option/>", {
+                    value: '',
+                    text: 'None',
+                }));
+                self.pos.blocks.forEach(function (block) {
+                    if (block.city_id[0] == value) {
+                        $blockSelection.append($("<option/>", {
+                            value: block.id,
+                            text: block.name
+                            }));
+                        }
+                    });
+                });
             } else if (visibility === 'hide') {
                 contents.empty();
                 parent.height('100%');
@@ -2387,7 +2434,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
             var contents = this.$(".client-details-contents");
             contents.off("click", ".button.save");
             fields['customer_preference_ids'] = [[6,0,self.preferences_list ? self.preferences_list : []]];
-            if(!fields.credit_limit || Number(fields.credit_limit) > 0){
+            if(!fields.credit_limit){
                 fields['credit_limit'] = self.pos.config.default_customer_credit_limit;
             }
             rpc.query({
