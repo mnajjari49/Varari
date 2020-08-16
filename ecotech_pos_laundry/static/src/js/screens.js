@@ -250,7 +250,7 @@
                     }
                 }
                 if(state.short_code === "ready_to_deliver" && old_order_state.short_code != "delivered"){
-//                    self.gui.show_popup("rack_selection", {order:order})
+                    self.gui.show_popup("rack_selection", {order:order})
                 }
 
                 if(state.short_code != old_order_state.short_code){
