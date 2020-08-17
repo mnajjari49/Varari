@@ -760,7 +760,9 @@ class account_move(models.Model):
         if query_res:
             ids = [res[0] for res in query_res]
             sums = [res[1] for res in query_res]
+            cash_j_ids = [j_id.cash_journal_id for j_id in self.env['pos.payment.method'].search([('is_cash_count','=',True)])]
             for move in moves:
                 if sums and move.journal_id.name not in ['Point of Sale', 'Cash'] and move.type == 'entry':
-                    raise UserError(_("Cannot create unbalanced journal entry. Ids: %s\nDifferences debit - credit: %s") % (ids, sums))
+                    if move.journal_id not in cash_j_ids:
+                        raise UserError(_("Cannot create unbalanced journal entry. Ids: %s\nDifferences debit - credit: %s") % (ids, sums))
 
