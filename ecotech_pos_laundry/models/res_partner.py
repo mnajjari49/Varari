@@ -33,6 +33,26 @@ class ResPartner(models.Model):
                 total_credited += order.amount_due
             partner.remaining_credit_limit = partner.credit_limit - total_credited
 
+
+    @api.model
+    def name_get(self):
+        result = []
+        for record in self:
+            name =  record.name
+            name +=" - " +record.mobile if record.mobile else ""
+            result.append((record.id, name))
+        return result
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if name:
+            recs = self.search(["|",('mobile', 'ilike', name),("name","ilike",name)] + args, limit=limit)
+        if not recs:
+            recs = self.search([('name', operator, name)] + args, limit=limit)
+        return recs.name_get()
+
     card_ids = fields.One2many('membership.card', 'customer_id', string="List of card")
     used_ids = fields.One2many('membership.card.use', 'customer_id', string="List of used card")
     recharged_ids = fields.One2many('membership.card.recharge', 'customer_id', string="List of recharged card")

@@ -16,6 +16,8 @@ from datetime import datetime, timedelta
 from odoo.exceptions import ValidationError
 import time
 import time
+from dateutil.relativedelta import relativedelta
+
 
 _logger = logging.getLogger(__name__)
 
@@ -80,6 +82,7 @@ class MembershipCard(models.Model):
                 _logger.error('Unable to send email for mail %s', e)
         return res
 
+
 class MembershipCardUse(models.Model):
     _name = 'membership.card.use'
     _rec_name = 'pos_order_id'
@@ -143,12 +146,29 @@ class Membershipwizard(models.TransientModel):
     _description = 'Wizard Of MembershipCard'
 
     customer = fields.Many2one("res.partner")
-    card_number=fields.Integer()
+    card_number=fields.Char()
     expire_date=fields.Date()
     card_value=fields.Many2one('membership.amount')
     promotion = fields.Float("Offer",related="card_value.promotion")
     card_type=fields.Many2one("membership.card.type")
     session_id=fields.Many2one("pos.session",domain=[("state","!=","closed")])
+    manual_card_number=fields.Boolean(related="session_id.config_id.manual_card_number")
+    recharge = fields.Boolean()
+    amount = fields.Float()
+
+    @api.onchange("session_id")
+    def setParams(self):
+        res={}
+        if self.session_id:
+            if self.session_id.config_id.default_exp_date:
+                self.expire_date = datetime.now() + relativedelta(months=self.session_id.config_id.default_exp_date)
+            if not self.manual_card_number and not self.card_number:
+                self.card_number=int(time.time())
+        if self.customer:
+            res=self.env["membership.card"].search([("customer_id","=",self.customer.id)])
+            if res:
+                self.recharge=True
+
 
 
 
