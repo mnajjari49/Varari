@@ -10,7 +10,7 @@
      <t t-name="SaveDraftButton">
         <div class="control-button js_save_draft_order">
             <li class="fa fa-file-text"></li>
-            Draft
+            Hold
         </div>
     </t>
 

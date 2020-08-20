@@ -1104,8 +1104,11 @@ this.pos.gui.show_popup('create_prev_popup',{});
             _.each(currentOrderLines,function(item) {
                 return orderLines.push(item.export_as_JSON());
             });
-            if (orderLines.length === 0) {
-                return alert ('Please select product !');
+            if(!client){
+                return alert ('Please Select Customer !');
+            }
+            else if (orderLines.length === 0) {
+                return alert ('Please Select product !');
             } else {
                 if( this.pos.config.require_customer && !selectedOrder.get_client()){
                     self.gui.show_popup('error',{
@@ -1989,6 +1992,12 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         });
     },
         click_paymentmethods: function(id) {
+        var selectedOrder = this.pos.get_order();
+        selectedOrder.initialize_validation_date();
+        var client = selectedOrder.get_client();
+        if(!client){
+                return alert ('Please Select Customer !');
+        }
         var self = this;
 
            //*************************
@@ -2461,6 +2470,21 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
     });
 
     screens.ProductListWidget.include({
+        init: function(parent, options) {
+        var self = this;
+        this._super(parent,options);
+        this.click_product_handler = function(){
+            var order = self.pos.get_order();
+            var client = order.get_client();
+            if(!client){
+                return alert ('Please Select Customer !');
+            }
+            else{
+                var product = self.pos.db.get_product_by_id(this.dataset.productId);
+                options.click_product_action(product);
+            }
+        };
+        },
         set_product_list: function(product_list){
             var self = this;
             var new_product_list = [];
