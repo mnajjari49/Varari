@@ -189,10 +189,11 @@
                             </group>
                             <group>
                                 <field name="recharge" invisible="1"/>
-                                <field name="card_number" attrs="{'readonly':['|',('manual_card_number','=',False),('recharge','=',True)],'required':[('manual_card_number','=',True)]}"/>
+                                <field name="card_number"  required="1"/>
                                 <field name="expire_date" required="1" attrs="{'readonly':[('recharge','=',True)]}"/>
                                 <field name="card_type"  options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':[('recharge','=',True)]}"/>
-
+                                <field name="recharge" invisible="0"/>
+                                <field name="card_id" />
                             </group>
                         </group>
                     </sheet>
