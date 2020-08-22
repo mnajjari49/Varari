@@ -724,7 +724,6 @@ object{
 
 .pos .pos-label-container {
     font-size: 0.75em;
-    l
     text-align: center;
     direction: ltr;
 }
@@ -882,7 +881,6 @@ object{
     display:block;
 }
 
-//last
 .pos .pos-receipt-container {
     font-size: 0.75em;
     text-align: center;
@@ -899,4 +897,27 @@ object{
 .pos-receipt .reciept-table-address {
     font-size: 85%;
     line-height: 1.4em;
+}
+
+
+.pos .actionpad .button.payext {
+    height: 162px;
+}
+
+.pos .actionpad .button.payext .pay-circle {
+    display: block;
+    font-size: 32px;
+    line-height: 54px;
+    padding-top: 6px;
+    background: rgb(86, 86, 86);
+    color: white;
+    width: 60px;
+    margin: auto;
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+.pos .actionpad .button.payext .pay-circle .fa {
+    position: relative;
+    top: -1px;
+    left: 3px;
 }

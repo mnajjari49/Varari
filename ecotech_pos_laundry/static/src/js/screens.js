@@ -1892,6 +1892,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                     }
                 }
             });
+
         },
         order_changes: function(){
             var self = this;
@@ -2023,10 +2024,52 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         }
 
     },
+    validate_order: function(force_validation) {
+         var self = this;
+         var order = self.pos.get_order();
+         var client = order.get_client();
+         if(!client){
+            return alert ('Please Select Customer !');
+         }
+        else{
+            if (this.order_is_valid(force_validation)) {
+                this.finalize_validation();
+            }
+        }
+    },
 
 
     });
-
+    screens.ActionpadWidget.include({
+        renderElement: function() {
+            var self = this;
+            this._super();
+            this.$('.payext').click(function(){
+                var order = self.pos.get_order();
+                var client = order.get_client();
+                if(!client){
+                    return alert ('Please Select Customer !');
+                }
+                else{
+                    var order = self.pos.get_order();
+                    var has_valid_product_lot = _.every(order.orderlines.models, function(line){
+                        return line.has_valid_product_lot();
+                    });
+                    if(!has_valid_product_lot){
+                        self.gui.show_popup('confirm',{
+                            'title': _t('Empty Serial/Lot Number'),
+                            'body':  _t('One or more product(s) required serial/lot number.'),
+                            confirm: function(){
+                                self.gui.show_screen('payment');
+                            },
+                        });
+                    }else{
+                        self.gui.show_screen('payment');
+                    }
+                }
+            });
+        }
+    });
     screens.OrderWidget.include({
         set_value: function(val) {
             var order = this.pos.get_order();
