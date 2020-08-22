@@ -1892,6 +1892,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                     }
                 }
             });
+
         },
         order_changes: function(){
             var self = this;
@@ -2022,6 +2023,19 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
           //  this._super(id);
         }
 
+    },
+    validate_order: function(force_validation) {
+         var self = this;
+         var order = self.pos.get_order();
+         var client = order.get_client();
+         if(!client){
+            return alert ('Please Select Customer !');
+         }
+        else{
+            if (this.order_is_valid(force_validation)) {
+                this.finalize_validation();
+            }
+        }
     },
 
 
