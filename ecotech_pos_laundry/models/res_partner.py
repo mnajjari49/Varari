@@ -52,6 +52,14 @@ class ResPartner(models.Model):
         if not recs:
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
+    def getRemainMembership(self):
+        for rec in self:
+            card=self.env["membership.card"].search([("customer_id","=",rec.id)])
+            if card:
+                self.remain_membership=card.card_value
+            else:self.remain_membership=0
+
+    remain_membership=fields.Float(compute="getRemainMembership")
 
     card_ids = fields.One2many('membership.card', 'customer_id', string="List of card")
     used_ids = fields.One2many('membership.card.use', 'customer_id', string="List of used card")

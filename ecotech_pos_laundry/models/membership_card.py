@@ -141,6 +141,7 @@ class MembershipAmount(models.Model):
     promotion = fields.Float("Offer")
 
 
+#Todo:change to journal entry and make short cut in partners
 class Membershipwizard(models.TransientModel):
     _name = 'membership.wizard'
     _description = 'Wizard Of MembershipCard'

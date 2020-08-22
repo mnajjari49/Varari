@@ -286,8 +286,8 @@ odoo.define('ecotech_pos_laundry.db', function (require) {
         		if(partner.name){
         			str =  partner.name;
         		}
-                if(partner.mobile){
-                    str += '|' + partner.mobile;
+                if(partner.phone){
+                    str += '|' + partner.phone;
                 }
                 if(partner.email){
                     str += '|' + partner.phone;
