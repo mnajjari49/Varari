@@ -1109,6 +1109,16 @@
             </table>
         </t>
     </t>
+    <t t-extend="ActionpadWidget">
+        <t t-jquery="button.pay" t-operation="replace">
+            <button class='button payext'>
+                <div class='pay-circle'>
+                    <i class='fa fa-chevron-right' role="img" aria-label="Pay" title="Pay"/>
+                </div>
+                Payment
+            </button>
+        </t>
+    </t>
 
     <t t-extend="ClientDetails">
         <t t-jquery="div.client-details-left" t-operation="replace">
