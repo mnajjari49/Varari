@@ -7,7 +7,7 @@
         </div>
     </t>
 
-     <t t-name="SaveDraftButton">
+    <t t-name="SaveDraftButton">
         <div class="control-button js_save_draft_order">
             <li class="fa fa-file-text"></li>
             Hold
@@ -44,7 +44,7 @@
               <span class="remove-rack" t-att-data-id="rack.id">
                   x
               </span>
-                    <p><t t-esc="rack.name"/></p>
+                <p><t t-esc="rack.name"/></p>
             </div>
         </t>
     </t>
@@ -55,9 +55,9 @@
                 <main class="body">
                     <div>
                         <input type="text" id="rack_selection" style="width:90%"/>
-<!--                        <span class="button add_rack" style="margin-top:1px">-->
-<!--                            Add-->
-<!--                        </span>-->
+                        <!--                        <span class="button add_rack" style="margin-top:1px">-->
+                        <!--                            Add-->
+                        <!--                        </span>-->
                     </div>
                     <br/>
                     <div class="grid-wrapper racklist">
@@ -67,7 +67,7 @@
                                   <span class="remove-rack" t-att-data-id="rack.id">
                                       x
                                   </span>
-                                        <p><t t-esc="rack.name"/></p>
+                                    <p><t t-esc="rack.name"/></p>
                                 </div>
                             </t>
                         </t>
@@ -172,14 +172,14 @@
                         <i class='fa fa-file-text'></i>
                         Overdue Orders
                     </span>
-                     <span class='button late_for_pickup' style="margin-left:325px;left:180px;">
+                    <span class='button late_for_pickup' style="margin-left:325px;left:180px;">
                         <i class='fa fa-file-text'></i>
                         Late for Pickup
                     </span>
                     <span class='button reload' style="margin-left:185px;">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                     </span>
-                     <span class='searchbox' style="margin-left:-175px;">
+                    <span class='searchbox' style="margin-left:-175px;">
                         <input placeholder='Search orders' style="width: 120px;left:87px;" />
                         <span class='search-clear'></span>
                     </span>
@@ -195,7 +195,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Order Ref</th>
-<!--                                                    <th>Receipt Ref</th>-->
+                                                    <!--                                                    <th>Receipt Ref</th>-->
                                                     <th>Customer</th>
                                                     <th>Order Date</th>
                                                     <th>Promise Date</th>
@@ -206,7 +206,7 @@
                                                     <th>Delivery State</th>
                                                     <th>Receipt</th>
                                                     <th>Products</th>
-                                                     <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+                                                    <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
                                                         <th>Pay</th>
                                                     </t>
                                                     <th>Rack</th>
@@ -245,7 +245,7 @@
                         <i class='fa fa-file-text'></i>
                         Unpaid
                     </span>
-                   <span class="date-filter">
+                    <span class="date-filter">
                         <input placeholder="DD/MM/YYYY" type="text" id="datepicker" readonly="readonly"/>
                     </span>
                     <span class='button reload'>
@@ -278,7 +278,7 @@
                                                     <th>Delivery State</th>
                                                     <th>Receipt</th>
                                                     <th>Products</th>
-<!--                                                    <th>Edit</th>-->
+                                                    <!--                                                    <th>Edit</th>-->
                                                     <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
                                                         <th>Pay</th>
                                                     </t>
@@ -296,10 +296,10 @@
                 </section>
                 <div id="pagination">
                      <div><button class="btn btn-danger" id="first"><i class="fa fa-angle-double-left fa-lg"></i></button></div>
-                     <div><button class="btn btn-danger" id="previous"></button></div>
-                     <div><span class="text" id="text"></span></div>
-                     <div><button class="btn btn-danger" id="next"></button></div>
-                     <div><button class="btn btn-danger" id="last"><i class="fa fa-angle-double-right fa-lg"></i></button></div>
+                    <div><button class="btn btn-danger" id="previous"></button></div>
+                    <div><span class="text" id="text"></span></div>
+                    <div><button class="btn btn-danger" id="next"></button></div>
+                    <div><button class="btn btn-danger" id="last"><i class="fa fa-angle-double-right fa-lg"></i></button></div>
                  </div>
             </div>
         </div>
@@ -316,7 +316,7 @@
                 <td><t t-esc='moment(order.date_order, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
                 <td><t t-esc='moment(order.promise_date, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
             </t>
-             <t t-if="widget.from">
+            <t t-if="widget.from">
                 <td><t t-esc='widget.pos.get_valid_promise_date(order.date_order) or ""' /></td>
                 <td><t t-esc='widget.pos.get_valid_promise_date(order.promise_date) or ""' /></td>
             </t>
@@ -326,7 +326,7 @@
             </t>
             <td class="order_operation_button">
 <!--                <t t-if="!widget.from">-->
-                    <select class="delivery_state_id" style="width:175px;height:25px">
+                <select class="delivery_state_id" style="width:175px;height:25px">
                         <t t-foreach="state" t-as="state">
                             <t t-if="order.delivery_state_id[0] == state.id">
                                 <option t-att-value="state.id" t-att-data-id='order.id' selected="true">
@@ -340,10 +340,10 @@
                             </t>
                         </t>
                     </select>
-<!--                </t>-->
-<!--                <t t-if="widget.from">-->
-<!--                    <t t-esc="order_state.name"/>-->
-<!--                </t>-->
+                <!--                </t>-->
+                <!--                <t t-if="widget.from">-->
+                <!--                    <t t-esc="order_state.name"/>-->
+                <!--                </t>-->
             </td>
             <td class="order_operation_button">
                 <span id="print_order" t-att-data-id='order.id' t-att-data-uid='order.uid' title="Print Receipt" style="cursor:pointer">
@@ -355,15 +355,15 @@
                     <img src="/ecotech_pos_laundry/static/src/img/view.png" style="height: 30px;" />
                 </span>
             </td>
-<!--            <t t-if="!widget.from">-->
-<!--                <td class="order_operation_button">-->
-<!--                    <t t-if="order.state == 'draft' and order.amount_due == order.amount_total">-->
-<!--                        <span id="edit_order" t-att-data-id='order.id' title="Edit" data-operation="edit" style="cursor:pointer;font-size: 27px;">-->
-<!--                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
-<!--                        </span>-->
-<!--                    </t>-->
-<!--                </td>-->
-                <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
+            <!--            <t t-if="!widget.from">-->
+            <!--                <td class="order_operation_button">-->
+            <!--                    <t t-if="order.state == 'draft' and order.amount_due == order.amount_total">-->
+            <!--                        <span id="edit_order" t-att-data-id='order.id' title="Edit" data-operation="edit" style="cursor:pointer;font-size: 27px;">-->
+            <!--                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>-->
+            <!--                        </span>-->
+            <!--                    </t>-->
+            <!--                </td>-->
+            <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
                     <td class="order_operation_button">
                         <t t-if="order.state == 'draft' and order.amount_due > 0">
                             <span class="pay_due_amt" t-att-data-id='order.id' title="Pay" style="cursor:pointer;font-size: 27px;">
@@ -371,17 +371,17 @@
                             </span>
                         </t>
                     </td>
-                </t> 
-                <td align="center" class="order_operation_button" t-att-data-operation="Rack">
+                </t>
+            <td align="center" class="order_operation_button" t-att-data-operation="Rack">
 <!--                    <t t-esc="order_state.short_code"/>-->
-                    <t t-if="order_state.short_code == 'ready_to_deliver'">
+                <t t-if="order_state.short_code == 'ready_to_deliver'">
                         <span id="select_rack" t-att-data-id='order.id' title="Rack" data-operation="Rack" style="cursor:pointer;font-size: 27px;">
 <!--                            <i class="fa fa-navicon" aria-hidden="true"></i>-->
                             <img src="/ecotech_pos_laundry/static/src/img/rack.png" style="height:30px;width:35px;" />
                         </span>
                     </t>
                 </td>
-<!--            </t>-->
+            <!--            </t>-->
         </tr>
     </t>
 
@@ -430,7 +430,7 @@
                    <div class="btn button cancel">
                         <i class="fa fa-times"></i>
                    </div>
-                    <p class="title">Products</p>
+                   <p class="title">Products</p>
                 </div>
                 <div style="height: 276px;overflow: auto;">
                     <table class="popup-product-list table">
@@ -444,7 +444,7 @@
                                <th>Subtotal</th>
                            </tr>
                        </thead>
-                       <tbody class="popup-product-list-contents">
+                        <tbody class="popup-product-list-contents">
                            <t t-if="widget.order_lines">
                                <t t-foreach="widget.order_lines" t-as="line">
                                   <tr>
@@ -471,7 +471,7 @@
                             <span t-esc="(order).split(' ')[1] || ''" class="pos-receipt-left-align"/>
                             <span  t-esc='promise_date' />
                         </div>
-                        <t t-if="client">
+                <t t-if="client">
                             <t t-if="client.preference">
                                 <div>
                                     <t t-foreach="client.preference" t-as="preference" >
@@ -481,12 +481,12 @@
                                 </div>
                             </t>
                         </t>
-                        <div>
+                <div>
                            <span>(</span><span t-esc='count'/> <span>/</span> <span><t t-esc="total"/></span><span>) - </span><span> <t t-esc="service"/></span>
                         </div>
-                        <div>
+                <div>
                             <span t-esc='product'/> <span>-</span>
-<!--                            <span><t t-esc="quantity"/> </span><span>- Piece</span>-->
+                    <!--                            <span><t t-esc="quantity"/> </span><span>- Piece</span>-->
                         </div>
                 </div>
         </div>
@@ -629,18 +629,18 @@
                             <t>
                                 <t t-if="line.product_name_arabic">
                                         <td t-esc='line.product_name_wrapped[0]'></td>
-                                        <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
+                                    <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
                                 </t>
                                 <t t-else="">
                                     <td t-esc='line.product_name_wrapped[0]'></td>
                                     <td style="color:transparent;">-</td>
                                 </t>
-                                
-<!--                            <t t-if='line.discount !== 0'>-->
-<!--                                <div class="pos-receipt-left-padding">-->
-<!--                                    Discount: <t t-esc='line.discount' />%-->
-<!--                                </div>-->
-<!--                            </t>-->
+
+                                <!--                            <t t-if='line.discount !== 0'>-->
+                                <!--                                <div class="pos-receipt-left-padding">-->
+                                <!--                                    Discount: <t t-esc='line.discount' />%-->
+                                <!--                                </div>-->
+                                <!--                            </t>-->
                             </t>
                             <td valign="top" align="center">
                                  <t t-set="pieces" t-value="pieces + (line.quantity*line.label_count)"/>
@@ -837,7 +837,7 @@
                     <br></br>
                     <span>7-</span><span>الشركة غير مسؤولة عن الملابس التي يتم تركها لفترة  تتجاوز 30 يوم وفي حينها يحق للشركة التصرف بالملابس  بدون الرجوع للعميل</span>
                     <br></br>
-                   <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
+                    <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
                 </div>
             </div>
         </t>
@@ -861,7 +861,7 @@
                     <td>Adjustment Date</td>
                     <td> <span class="pos-receipt-left-align" t-esc='moment(data.adjustment_date).format("DD/MM/YYYY")' /></td>
                 </tr>
-                 <tr>
+                <tr>
                     <td>Amount</td>
                     <td>
                          <span t-esc='widget.format_currency(data.adjustment_amount)'/>
@@ -879,7 +879,7 @@
         </div>
     </t>
 
-        <t t-name="CustomerPrevious">
+    <t t-name="CustomerPrevious">
         <div class="pos-receipt">
             <div class="pos-center-align" style="font-weight: bold;text-align:center;">
                 <h3>Previous Order</h3>
@@ -896,7 +896,7 @@
                     <td> Date</td>
                     <td> <span class="pos-receipt-left-align" t-esc='moment(data.previous_date).format("DD/MM/YYYY")' /></td>
                 </tr>
-                 <tr>
+                <tr>
                     <td>Amount</td>
                     <td>
                          <span t-esc='widget.format_currency(data.previous_amount)'/>
@@ -906,15 +906,15 @@
         </div>
     </t>
 
-   <t t-extend="ReceiptScreenWidget">
+    <t t-extend="ReceiptScreenWidget">
         <t t-jquery="div.top-content" t-operation="replace">
             <div class='top-content'>
 <!--                <t t-if="widget.pos.config.generate_token and widget.pos.config.separate_receipt">-->
-                    <span class="button token_print" style="left:0px;">
+                <span class="button token_print" style="left:0px;">
                         <i class='fa fa-print'></i>
-                      Print Label
+                    Print Label
                     </span>
-<!--                </t>-->
+                <!--                </t>-->
                 <h1>Change: <span class='change-value'>0.00</span></h1>
                 <span class='button next'>
                     <i class='fa fa-angle-double-right'></i>
@@ -922,12 +922,12 @@
                 </span>
             </div>
         </t>
-       <t t-jquery="div.pos-receipt-container" t-operation="before">
+        <t t-jquery="div.pos-receipt-container" t-operation="before">
            <div class="pos-label-container">
            </div>
        </t>
     </t>
-    
+
     <t t-extend="PaymentScreenWidget">
         <t t-jquery="div.top-content" t-operation="append">
             <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
@@ -992,7 +992,7 @@
     <t t-name="OrderDetails">
             <section class='order-details'>
             <div class='order-name'><t t-esc='order.name' /></div>
-            <div class='order-details-box clearfix'>
+                <div class='order-details-box clearfix'>
                 <div class='order-details-left'>
                     <div class='order-detail'>
                         <span class='label'>Client: </span>
@@ -1031,7 +1031,7 @@
                         </t>
                     </div>
                 </div>
-                <div class='order-details-right'>
+                    <div class='order-details-right'>
                     <div class='order-detail'>
                         <span class='label'>Total: </span>
                         <t t-if='order.amount_total'>
@@ -1041,37 +1041,37 @@
                             <span class='detail empty'>N/A</span>
                         </t>
                     </div>
-                    <div class='order-detail'>
+                        <div class='order-detail'>
                         <span class='label'>Due: </span>
-                        <t t-if='order.amount_due'>
+                            <t t-if='order.amount_due'>
                             <span class='detail'><t t-esc='widget.format_currency(order.amount_due)' /></span>
                         </t>
-                        <t t-if='!order.amount_due'>
+                            <t t-if='!order.amount_due'>
                             <span class='detail empty'>N/A</span>
                         </t>
                     </div>
-                    <div class='order-detail'>
+                        <div class='order-detail'>
                         <span class='label'>Status: </span>
-                        <t t-if='order.state'>
+                            <t t-if='order.state'>
                             <span class='detail'><t t-esc='order.state' /></span>
                         </t>
-                        <t t-if='!order.state'>
+                            <t t-if='!order.state'>
                             <span class='detail empty'>N/A</span>
                         </t>
                     </div>
-                    <div class='order-detail'>
+                        <div class='order-detail'>
                         <span class='label'>Client Mobile: </span>
-                        <t t-if='order &amp;&amp; order.partner_id'>
+                            <t t-if='order &amp;&amp; order.partner_id'>
                             <t t-set="partner" t-value="order.partner_id[0]"/>
-                            <t t-set="partner_obj" t-value="widget.pos.db.get_partner_by_id(partner)"/>
-                            <t t-if='partner_obj.mobile'>
+                                <t t-set="partner_obj" t-value="widget.pos.db.get_partner_by_id(partner)"/>
+                                <t t-if='partner_obj.mobile'>
                                 <span class='detail'><t t-esc="partner_obj.mobile"/></span>
                             </t>
-                            <t t-if='!partner_obj.mobile'>
+                                <t t-if='!partner_obj.mobile'>
                                 <span class='detail empty'>N/A</span>
                             </t>
                         </t>
-                        <t t-if='!order.partner_id'>
+                            <t t-if='!order.partner_id'>
                             <span class='detail empty'>N/A</span>
                         </t>
                     </div>
@@ -1110,14 +1110,27 @@
         </t>
     </t>
     <t t-extend="ActionpadWidget">
-        <t t-jquery="button.pay" t-operation="replace">
-            <button class='button payext'>
+        <t t-jquery="div.actionpad" t-operation="replace">
+               <div class="actionpad">
+            <button t-attf-class='button set-customer #{ ( widget.pos.get_client() and widget.pos.get_client().name.length > 10) ? "decentered" : "" }' >
+                <i class='fa fa-user' role="img" aria-label="Customer" title="Customer"/>
+                <t t-if="widget.pos.get_client()">
+                    <t t-esc="widget.pos.get_client().name +' '+  widget.pos.get_membership_remain() " />
+                 </t>
+                <t t-if="!widget.pos.get_client()">
+                    Customer
+                </t>
+            </button>
+                   <button class='button payext'>
                 <div class='pay-circle'>
                     <i class='fa fa-chevron-right' role="img" aria-label="Pay" title="Pay"/>
                 </div>
-                Payment
+                       Payment
             </button>
+               </div>
+
         </t>
+
     </t>
 
     <t t-extend="ClientDetails">
@@ -1281,8 +1294,8 @@
                         <t t-if="partner.customer_preference_ids">
                             <t t-foreach="partner.customer_preference_ids" t-as="preference">
     <!--                            <t t-if="widget.pos.customer_preference_by_id">-->
-                                    <t t-esc='widget.pos.db.get_preference_by_id(preference).name'/>,
-    <!--                            </t>-->
+                                <t t-esc='widget.pos.db.get_preference_by_id(preference).name'/>,
+                                <!--                            </t>-->
                             </t>
                         </t>
                     </span>
@@ -1366,7 +1379,7 @@
             </div>
             <div class='client-detail'>
                 <span class='label'>Customer Preference</span>
-                    <div class='cal_cust_css' id="customer_preference" style="height:24px;width:350px">
+                <div class='cal_cust_css' id="customer_preference" style="height:24px;width:350px">
                     </div>
             </div>
         </t>
@@ -1417,13 +1430,13 @@
     <t t-extend="PaymentScreenWidget">
         <t t-jquery="div.paymentmethods-container" t-operation="before">
 <!--            <t t-if="widget.pos.config and widget.pos.config.enable_order_note">-->
-                <div style="text-align: center;margin-top: 15px;">
+            <div style="text-align: center;margin-top: 15px;">
                           <label for="promise_date" style="font-size: 20px;">Promise Date</label>
-                    <span>
+                <span>
 	                    <input class="promise_date" id="promise_date" style="width: 90%; height: 40px;text-align: center;font-size: 20px;" type="text"></input>
 	                </span>
 	            </div>
-<!--            </t>-->
+            <!--            </t>-->
         </t>
     </t>
 
@@ -1556,7 +1569,7 @@
     </t>
 
     /********************Previous Payment *******************************************/
-        <t t-name="CreatePreviousPopupWidget">
+    <t t-name="CreatePreviousPopupWidget">
         <div class="modal-dialog">
             <div class="popup popup-textinput create_previous">
                 <p class="title">Create Customer previous payment</p>
@@ -1574,7 +1587,7 @@
                                <input type="text" id="previous_amount" class="previous_amount" autocomplete="off"/>
                             </td>
                         </tr>
-                         <tr id="note_row">
+                        <tr id="note_row">
                             <td>Note </td>
                             <td>
                                <input type="text" id="previous_note" class="previous_note" autocomplete="off"/>
@@ -1593,7 +1606,7 @@
             </div>
         </div>
     </t>
-   <t t-name="PaymentInfoWidget">
+    <t t-name="PaymentInfoWidget">
         <div class='modal-dialog'>
             <div class='popup popup-paymentrefinfo'>
                 <p class='title'>Please enter Payment Reference</p>
@@ -1723,19 +1736,19 @@
                 <button class="input-button number-char">2</button>
                 <button class="input-button number-char">3</button>
                 <button class="mode-button" data-mode='quantity'>Qty</button>
-            <br />
+                <br />
                 <button class="input-button number-char">4</button>
                 <button class="input-button number-char">5</button>
                 <button class="input-button number-char">6</button>
                 <button class="mode-button" data-mode='price'>Price</button>
-            <br />
+                <br />
                 <button class="input-button number-char">7</button>
                 <button class="input-button number-char">8</button>
                 <button class="input-button number-char">9</button>
                 <button class="input-button numpad-backspace">
                     <img style="pointer-events: none;" src="/point_of_sale/static/src/img/backspace.png" width="24" height="21" alt="Backspace"/>
                 </button>
-            <br />
+                <br />
                 <button class="input-button numpad-minus" >+/-</button>
                 <button class="input-button number-char">0</button>
                 <button class="input-button number-char">.</button>

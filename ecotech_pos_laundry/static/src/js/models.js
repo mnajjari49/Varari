@@ -167,6 +167,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             return res;
         },
 
+
         set_rack: function(rack){
             this.rack = rack;
         },
@@ -458,6 +459,17 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             this.set({
                 'pos_order_list':[],
             });
+        },
+      get_membership_remain:function(){
+      var res = "";
+        var client=this.get_order().get("client");
+        console.log(client);
+        var membership=this.db.membership_card_by_partner_id[client.id];
+        if (membership){
+        res="[ "+membership.card_value+" ]";
+        }
+        return res;
+
         },
         fetch: function(model, fields, domain, ctx){
             this._load_progress = (this._load_progress || 0) + 0.05;
