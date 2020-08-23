@@ -829,7 +829,8 @@ odoo.define('ecotech_pos_laundry.popups', function (require) {
                                     'membership_card_card_no': $('#card_no').val(),
                                     'membership_card_customer': select_customer ? select_customer : false,
                                     'membership_card_expire_date': moment($('#text_expire_date').val(), 'YYYY/MM/DD').format('YYYY-MM-DD'),
-                                    'membership_amount': input_amount,
+                                    'membership_amount': parseInt(input_amount)+parseInt(
+$(".text_amount").find("option:selected").attr("offer")),
                                     'membership_card_customer_name': $("#select_customer").val(),
                                     'membership_card_type': $('#select_card_type').val(),
                                 }

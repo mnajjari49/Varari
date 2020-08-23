@@ -889,6 +889,18 @@ this.pos.gui.show_popup('create_prev_popup',{});
             var result = self.pos.db.get_membership_card_by_id(card_id);
             var order = self.pos.get_order();
             var client = order.get_client();
+            if (!result){
+                        self.pos.gui.chrome.screens.membershipcardlistscreen.reloading_membership_cards().then(
+                                                                        function(){
+                                                                                    var result = self.pos.db.get_membership_card_by_id(card_id);
+                                                                         self.gui.show_popup('recharge_membership_card_popup',{
+                'card_id':result.id,
+                'card_no':result.card_no,
+                'card_value':result.card_value,
+                'customer_id':result.customer_id
+            });
+                                                                        });
+            }else
             self.gui.show_popup('recharge_membership_card_popup',{
                 'card_id':result.id,
                 'card_no':result.card_no,
@@ -896,6 +908,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                 'customer_id':result.customer_id
             });
         },
+
 
         click_edit_membership_card: function(event){
             var self  = this;
