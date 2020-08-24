@@ -48,14 +48,17 @@
             <field name="code">003</field>
         </record>
 
-        <record id="delivery_stat_on_call" model="pos.order.delivery.state">
-            <field name="name">On Call</field>
-            <field name="short_code">on_call</field>
-        </record>
-        <record id="delivery_stat_receive_by_driver" model="pos.order.delivery.state">
-            <field name="name">Received By The Driver</field>
-            <field name="short_code">receive_by_driver</field>
-        </record>
+        <delete model = "pos.order.delivery.state" id="delivery_stat_on_call"/>
+        <delete model = "pos.order.delivery.state" id="delivery_stat_receive_by_driver"/>
+
+<!--        <record id="delivery_stat_on_call" model="pos.order.delivery.state">-->
+<!--            <field name="name">On Call</field>-->
+<!--            <field name="short_code">on_call</field>-->
+<!--        </record>-->
+<!--        <record id="delivery_stat_receive_by_driver" model="pos.order.delivery.state">-->
+<!--            <field name="name">Received By The Driver</field>-->
+<!--            <field name="short_code">receive_by_driver</field>-->
+<!--        </record>-->
         <record id="delivery_stat_receive" model="pos.order.delivery.state">
             <field name="name">Received</field>
             <field name="short_code">receive</field>
