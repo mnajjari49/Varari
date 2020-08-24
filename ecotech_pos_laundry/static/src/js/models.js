@@ -463,12 +463,27 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
       get_membership_remain:function(){
       var res = "";
         var client=this.get_order().get("client");
-        console.log(client);
+//         self.reloading_membership_cards(); todo check if the rendering list value = to db value then should update the db
+//         this.pos.get('membership_card_order_list');
         var membership=this.db.membership_card_by_partner_id[client.id];
         if (membership){
         res="[ "+membership.card_value+" ]";
         }
         return res;
+
+        },
+        get_partner_card_details:function(client){
+      var res = {value:0,card_no:0};
+//        var client=this.get_order().get("client");
+//         self.reloading_membership_cards(); todo check if the rendering list value = to db value then should update the db
+//         this.pos.get('membership_card_order_list');
+        var membership=this.db.membership_card_by_partner_id[client.id];
+        if (membership){
+        res.value="[ "+membership.card_value+" ]";
+        res.card_no=membership.card_no;
+        return res;
+        }
+        return null;
 
         },
         fetch: function(model, fields, domain, ctx){

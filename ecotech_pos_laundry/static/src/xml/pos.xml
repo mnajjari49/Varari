@@ -1298,6 +1298,26 @@
                     <span class='detail date_of_birth empty'>N/A</span>
                 </t>
             </div>
+            <!--            card number and card balance-->
+            <div class='client-detail'>
+                <span class='label'>Card Number</span>
+                <t t-if='widget.pos.get_partner_card_details(partner)'>
+                    <span class='detail date_of_birth'><t t-esc='widget.pos.get_partner_card_details(partner).card_no'/></span>
+                </t>
+                <t t-if='!widget.pos.get_partner_card_details(partner)'>
+                    <span class='detail date_of_birth empty'>N/A</span>
+                </t>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Card Balance</span>
+                <t t-if='widget.pos.get_partner_card_details(partner)'>
+                    <span class='detail date_of_birth'><t t-esc='widget.pos.get_partner_card_details(partner).value'/></span>
+                </t>
+                <t t-if='!widget.pos.get_partner_card_details(partner)'>
+                    <span class='detail date_of_birth empty'>N/A</span>
+                </t>
+            </div>
+
         </t>
     </t>
 
