@@ -158,7 +158,7 @@
     </t>
     <t t-name="PosReportScreenWidget">
         <div class="pos-report-screen screen">
-            <div class="screen-content">
+            <div class="screen-content-custom">
                 <section class="top-content">
                     <span class='button back' style="margin-left:5px">
                         <i class='fa fa-angle-double-left'></i>
@@ -227,7 +227,7 @@
 
     <t t-name="OrderListScreenWidget">
         <div class="orderlist-screen screen">
-            <div class="screen-content" style="max-width: 1275px;">
+            <div class="screen-content-custom" style="max-width: 1275px;">
                 <section class="top-content">
                     <span class='button back'>
                         <i class='fa fa-angle-double-left'></i>
@@ -325,25 +325,18 @@
                 <td><t t-esc='widget.format_currency(order.amount_due) or ""' /></td>
             </t>
             <td class="order_operation_button">
-<!--                <t t-if="!widget.from">-->
-                <select class="delivery_state_id" style="width:175px;height:25px">
-                        <t t-foreach="state" t-as="state">
-                            <t t-if="order.delivery_state_id[0] == state.id">
-                                <option t-att-value="state.id" t-att-data-id='order.id' selected="true">
-                                    <t t-esc="state.name"/>
-                                </option>
-                            </t>
-                            <t t-else="">
-                                <option t-att-value="state.id" t-att-data-id='order.id'>
-                                    <t t-esc="state.name"/>
-                                </option>
-                            </t>
-                        </t>
-                    </select>
-                <!--                </t>-->
-                <!--                <t t-if="widget.from">-->
-                <!--                    <t t-esc="order_state.name"/>-->
-                <!--                </t>-->
+                <t t-foreach="state" t-as="state">
+                    <t t-if="order.delivery_state_id[0] == state.id">
+                        <button class="btn-state btn-selected" t-att-value="state.id" t-att-data-id='order.id' t-att-data-code='state.short_code' selected="true">
+                            <t t-esc="state.name"/>
+                        </button>
+                    </t>
+                    <t t-else="">
+                        <button class="btn-state" t-att-value="state.id" t-att-data-id='order.id' t-att-data-code='state.short_code'>
+                            <t t-esc="state.name"/>
+                        </button>
+                    </t>
+                </t>
             </td>
             <td class="order_operation_button">
                 <span id="print_order" t-att-data-id='order.id' t-att-data-uid='order.uid' title="Print Receipt" style="cursor:pointer">

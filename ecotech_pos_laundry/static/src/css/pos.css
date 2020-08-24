@@ -755,12 +755,13 @@ object{
     rgb(220,220,220);
 }
 
+/*
 .pos .pos-receipt-container {
     font-size: 0.75em;
     text-align: center;
     direction: ltr;
 }
-
+*/
 .pos .pos-receipt-container > div {
     text-align: left;
     background-color: white;
@@ -920,4 +921,20 @@ object{
     position: relative;
     top: -1px;
     left: 3px;
+}
+
+.screen .screen-content-custom {
+    margin: 0px auto;
+    max-width: 1024px;
+    text-align: left;
+    height: 100%;
+    overflow: hidden;
+    position: static;
+}
+
+.order_operation_button .btn-selected {
+    background: green;
+    color: white;
+    font-size: ;
+    font-weight: bold;
 }

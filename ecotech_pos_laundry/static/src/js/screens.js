@@ -156,6 +156,7 @@
             'click .button.over_due': 'over_due_orders',
             'click .button.late_for_pickup': 'late_for_pickup',
             'click #print_order': 'click_reprint',
+            'click .btn-state': 'change_order_state',
             'click #view_lines': 'click_view_lines',
             'click .order-line td:not(.order_operation_button)': 'click_line',
             'click .pay_due_amt': 'pay_order_due',
@@ -224,9 +225,11 @@
             }
 
         },
+
         change_order_state: function(event){
             var self = this;
-            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+//            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+            var order_id = parseInt($(event.currentTarget).data('id'));
             var order_state = $(event.currentTarget).val();
             var order = self.pos.db.get_order_by_id(order_id);
 
@@ -1184,6 +1187,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
             'click .searchbox .search-clear': 'clear_search',
             'click .order-line td:not(.order_operation_button)': 'click_line',
             'change .delivery_state_id': 'change_order_state',
+            'click .btn-state': 'change_order_state',
         },
         filter:"all",
         date: "all",
@@ -1361,6 +1365,33 @@ this.pos.gui.show_popup('create_prev_popup',{});
                 })
             }
         },
+        state_receive: function(event){
+          var self = this;
+          var order_id = parseInt($(event.currentTarget).data('id'));
+          var order = self.pos.db.get_order_by_id(order_id);
+          console.log(order);
+          Array.from($( "select[data-id="+parseInt($(event.currentTarget).data('id'))+"]")[0].options).forEach(function(option_element) {
+            if (option_element.getAttribute('data-code') === 'receive') {
+                option_element.selected = true;
+//                alert("true");
+            } else {
+                option_element.selected = false;
+                }
+            });
+          alert("state_receive");
+        },
+        state_in_progress: function(event){
+         alert("in_progress");
+        },
+        state_ready_to_deliver: function(event){
+         alert("ready_to_deliver");
+        },
+        state_pickup_by_driver: function(event){
+         alert("pickup_by_driver");
+        },
+        state_delivered: function(event){
+         alert("delivered");
+        },
         click_edit_or_duplicate_order: function(event){
             var self = this;
             var order_id = parseInt($(event.currentTarget).data('id'));
@@ -1463,7 +1494,8 @@ this.pos.gui.show_popup('create_prev_popup',{});
         },
         change_order_state: function(event){
             var self = this;
-            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+//            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+            var order_id = parseInt($(event.currentTarget).data('id'));
             var order_state = $(event.currentTarget).val();
             var order = self.pos.db.get_order_by_id(order_id);
             var old_order_state = self.pos.db.get_delivery_state_by_id(Number(order.delivery_state_id[0]||order.delivery_state_id));
