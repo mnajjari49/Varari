@@ -397,7 +397,7 @@
                                     <!-- <input type="text" id="text_recharge_amount" t-att-value="widget.pending_card.recharge_card_amount"/> -->
                                 </td>
                             </tr>
-                            <tr><td></td><td><span id="membership_offer" class="membership_offer">  recharge_amount_row1</span></td></tr>
+                            <tr><td></td><td><span id="membership_offer" class="membership_offer">  </span></td></tr>
                         </t>
                         <t t-if="!widget.pending_card or !widget.pending_card.recharge_card_amount">
                             <tr id="recharge_amount_row">
@@ -414,7 +414,7 @@
                                     </t>
                                 <!--     <input type="text" id="text_recharge_amount" /> -->
                                 </td>
-                              <tr id="offer_row"><td></td><td><span id="membership_offer" class="membership_offer">  recharge_amount_row2</span></td></tr>
+                              <tr id="offer_row"><td></td><td><span id="membership_offer" class="membership_offer">  </span></td></tr>
 
                             </tr>
                         </t>
