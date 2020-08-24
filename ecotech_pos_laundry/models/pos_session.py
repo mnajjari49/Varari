@@ -84,6 +84,11 @@ class PosSession(models.Model):
             self._debit_amounts(memebership_args, memebership_amount['amount'],
                                  memebership_amount['amount_converted'])
         ]
+        if name == "offer":
+            if self.config_id.account_analytic_id and self.config_id.offer_account.user_type_id.name  in ['Income','Expenses']:
+                analytic_account_id = self.config_id.account_analytic_id
+                memebership_vals[0]["analytic_account_id"]=analytic_account_id.id
+
         self.env['account.move.line'].with_context(check_move_validity=False).create(
             memebership_vals)
 
