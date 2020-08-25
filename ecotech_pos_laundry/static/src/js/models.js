@@ -410,7 +410,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 membership_card: this.get_membership_card() || false,
                 redeem: this.get_redeem_membership_card() || false,
                 recharge: this.get_recharge_membership_card() || false,
-                free:this.get_free_data()|| false
+                free:this.get_free_data()|| false,
+                offer:this.membership_offer
             };
             $.extend(orders, new_val);
             return orders;

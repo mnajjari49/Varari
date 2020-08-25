@@ -646,6 +646,17 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <t t-if="receipt.offer">
+                                <tr>
+
+                                   <td>Offer</td>
+<td style="color:transparent;">-</td>
+                                    <td valign="top" align="center">1</td>
+                                    <td valign="top" class="price_display pos-receipt-right-align"><t t-esc="receipt.offer"/> </td>
+                        </tr>
+                        </t>
+
                     </t>
                     <tr>
                         <td style="line-height: 1em;color: transparent;"> - </td>
