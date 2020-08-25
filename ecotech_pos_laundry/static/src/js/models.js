@@ -395,7 +395,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                     }
                 });
             }
-
+//testing hook
             var total_paid_amt = this.get_total_paid()-last_paid_amt
             var new_val = {
                 reprint_payment: this.get_journal() || false,
