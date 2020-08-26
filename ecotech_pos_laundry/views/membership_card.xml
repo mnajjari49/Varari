@@ -182,16 +182,18 @@
                         <group >
                             <group>
                                 <field name="customer"   options="{'no_create_edit': True, 'no_open': True}" required="1"/>
-                                 <field name="card_value"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                                <field name="card_value"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
                                 <field name="promotion" attrs="{'invisible':[('promotion','=',0)]}" required="1"/>
                                 <field name="session_id"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
-
+                                <field name="manual_card_number" invisible="1"/>
                             </group>
                             <group>
-                                <field name="card_number" required="1"/>
-                                <field name="expire_date" required="1"/>
-                                <field name="card_type"  options="{'no_create_edit': True, 'no_open': True}"/>
-
+                                <field name="recharge" invisible="1"/>
+                                <field name="card_number"  required="1"/>
+                                <field name="expire_date" required="1" attrs="{'readonly':[('recharge','=',True)]}"/>
+                                <field name="card_type"  options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':[('recharge','=',True)]}"/>
+                                <field name="recharge" invisible="0"/>
+                                <field name="card_id" />
                             </group>
                         </group>
                     </sheet>
@@ -204,10 +206,10 @@
         </record>
         <act_window id="launch_membership_wizard"
                     name="Membership Card"
-                     res_model="membership.wizard"
+                    res_model="membership.wizard"
                     view_mode="form"
                     target="new"
-                   />
+        />
         <!--       Wizard Action-->
 
 
@@ -347,7 +349,7 @@
                   parent="point_of_sale.menu_point_root" />
 
 
-            <menuitem id="membership_wizard" name="Membership Wizard"
+        <menuitem id="membership_wizard" name="Membership Wizard"
                   parent="membership_card_main_menu" sequence="1"
                   action="launch_membership_wizard" />
         <menuitem id="membership_card_details" name="Membership Card"

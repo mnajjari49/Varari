@@ -16,6 +16,8 @@ from datetime import datetime, timedelta
 from odoo.exceptions import ValidationError
 import time
 import time
+from dateutil.relativedelta import relativedelta
+
 
 _logger = logging.getLogger(__name__)
 
@@ -56,7 +58,7 @@ class MembershipCard(models.Model):
     def random_cardno(self):
         return int(time.time())
 
-    card_no = fields.Char(string="Card No", default=random_cardno, readonly=True)
+    card_no = fields.Char(string="Card No", default=random_cardno,  )
     card_value = fields.Float(string="Card Value")
     card_type = fields.Many2one('membership.card.type', string="Card Type")
     customer_id = fields.Many2one('res.partner', string="Customer")
@@ -79,6 +81,7 @@ class MembershipCard(models.Model):
             except Exception as e:
                 _logger.error('Unable to send email for mail %s', e)
         return res
+
 
 class MembershipCardUse(models.Model):
     _name = 'membership.card.use'
@@ -138,19 +141,45 @@ class MembershipAmount(models.Model):
     promotion = fields.Float("Offer")
 
 
+#Todo:change to journal entry and make short cut in partners
 class Membershipwizard(models.TransientModel):
     _name = 'membership.wizard'
     _description = 'Wizard Of MembershipCard'
 
     customer = fields.Many2one("res.partner")
-    card_number=fields.Integer()
+    card_number=fields.Char()
     expire_date=fields.Date()
     card_value=fields.Many2one('membership.amount')
     promotion = fields.Float("Offer",related="card_value.promotion")
     card_type=fields.Many2one("membership.card.type")
     session_id=fields.Many2one("pos.session",domain=[("state","!=","closed")])
+    manual_card_number=fields.Boolean(related="session_id.config_id.manual_card_number")
+    recharge = fields.Boolean()
+    amount = fields.Float()
+    card_id=fields.Many2one('membership.card')
 
-
+    @api.onchange("session_id","customer")
+    def setParams(self):
+        res={}
+        if self.session_id:
+            if self.session_id.config_id.default_exp_date:
+                self.expire_date = datetime.now() + relativedelta(months=self.session_id.config_id.default_exp_date)
+        if self.customer:
+            res=self.env["membership.card"].search([("customer_id","=",self.customer.id)],limit=1)
+            if res:
+                self.card_number=res.card_no
+                self.expire_date=res.expire_date
+                self.card_type=res.card_type
+                self.card_id=res
+                self.recharge=True
+            else:
+                self.card_number=False
+                self.expire_date=False
+                self.card_type=False
+                self.recharge=False
+                self.card_id=False
+        if not self.manual_card_number and not self.card_number and not self.recharge:
+            self.card_number = int(time.time())
 
     def action_done(self):
         membership_product_id=self.session_id.config_id.membership_card_product_id.id
@@ -175,14 +204,21 @@ class Membershipwizard(models.TransientModel):
               'creation_date': creation_date,
         'fiscal_position_id': False, 'server_id': False, 'to_invoice': False, 'draft_order': False, 'amount_due': self.card_value.name,
               'promise_date': '2020-08-14T06:34:02.000Z',
-        'is_membership_order': True ,
+        'is_membership_order': True if not self.recharge else False,
+        'recharge': [] if  not self.recharge else[ {
+            'card_customer_id': self.customer.id,
+            'recharge_card_id': self.card_id.id,
+            'recharge_card_amount': self.card_value.name
+
+        }],
+
         'membership_card': [{'membership_card_card_no': self.card_number,
                              'membership_card_customer':self.customer.id,
                              'membership_card_expire_date': self.expire_date,
                              'membership_amount': self.card_value.name if not self.promotion else self.card_value.name+self.promotion,
                              'membership_card_customer_name': self.customer.name,
-                             'membership_card_type': self.card_type.id}],
-        'redeem': [], 'recharge': [],
+                             'membership_card_type': self.card_type.id}] if not self.recharge else [],
+        'redeem': [],
         'is_partial_paid': False,
         'is_adjustment': False, 'is_previous_order': False, 'membership_offer':self.promotion,
         'delivery_state_id': 3, 'order_rack_id': [], 'adjustment': [],  },

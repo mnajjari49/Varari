@@ -52,7 +52,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         fields: ['name','street','city','state_id','country_id','vat',
                  'phone','zip','mobile','email','barcode','write_date',
                  'property_account_position_id','property_product_pricelist','customer_preference_ids',
-                 'governorate_id','city_id','block_id','jaddah','house','flat','paci'],
+                 'governorate_id','city_id','block_id','jaddah','house','flat','paci','remain_membership'],
         loaded: function(self,partners){
             self.partners = partners;
             self.partner_customer_preference = {};
@@ -166,6 +166,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             this.membership_offer=0;
             return res;
         },
+
 
         set_rack: function(rack){
             this.rack = rack;
@@ -394,6 +395,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                     }
                 });
             }
+//testing hook
             var total_paid_amt = this.get_total_paid()-last_paid_amt
             var new_val = {
                 reprint_payment: this.get_journal() || false,
@@ -409,7 +411,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 membership_card: this.get_membership_card() || false,
                 redeem: this.get_redeem_membership_card() || false,
                 recharge: this.get_recharge_membership_card() || false,
-                free:this.get_free_data()|| false
+                free:this.get_free_data()|| false,
+                offer:this.membership_offer
             };
             $.extend(orders, new_val);
             return orders;
@@ -458,6 +461,30 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             this.set({
                 'pos_order_list':[],
             });
+        },
+      get_membership_remain:function(){
+      var res = "";
+        var client=this.get_order().get("client");
+        var membership=this.db.membership_card_by_partner_id[client.id];
+        if (membership){
+        res="[ "+membership.card_value+" ]";
+        }
+        return res;
+
+        },
+        get_partner_card_details:function(client){
+      var res = {value:0,card_no:0};
+//        var client=this.get_order().get("client");
+//         self.reloading_membership_cards(); todo check if the rendering list value = to db value then should update the db
+//         this.pos.get('membership_card_order_list');
+        var membership=this.db.membership_card_by_partner_id[client.id];
+        if (membership){
+        res.value="[ "+membership.card_value+" ]";
+        res.card_no=membership.card_no;
+        return res;
+        }
+        return null;
+
         },
         fetch: function(model, fields, domain, ctx){
             this._load_progress = (this._load_progress || 0) + 0.05;
@@ -541,6 +568,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 self.gui.chrome.screens.orderlist.reloading_orders();
                 self.gui.chrome.screens.posreportscreen.reloading_orders();
                 self.gui.chrome.screens.customeradjustmentlistscreen.reloading_adjustment();
+
                 if (server_ids[0]){
                     if(server_ids.length > 0 && self.config.enable_partial_payment){
                         new Promise(function (resolve, reject) {
@@ -564,6 +592,9 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                                     var new_orders = _.sortBy(self.get('pos_order_list'), 'id').reverse();
                                     self.db.add_orders(new_orders);
                                     self.load_orders();
+                                    self.gui.chrome.screens.membershipcardlistscreen.reloading_membership_cards().then(function(){
+self.gui.chrome.screens.membershipcardlistscreen.reload_membership_cards();
+console.log("Membership Refreshed");}); //after each process refresh
 //                                    self.set({ 'pos_order_list' : new_orders });
                                     resolve();
                                 } else {
@@ -573,6 +604,9 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                         });
                     }
                 }
+
+
+
             });
         },
         // reload the list of partner, returns as a deferred that resolves if there were

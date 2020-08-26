@@ -11,8 +11,8 @@
             </xpath>
         </field>
     </record>
-    
-    <record id="view_pos_payment_form_in" model="ir.ui.view">
+
+    <record id="view_pos_payment_form_inherot" model="ir.ui.view">
         <field name="name">pos.payment.inherit.form</field>
         <field name="model">pos.payment</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_payment_form"/>
@@ -23,7 +23,7 @@
         </field>
     </record>
 
-    <record id="view_pos_payment_tree_inhe" model="ir.ui.view">
+    <record id="view_pos_payment_tree_inherot" model="ir.ui.view">
         <field name="name">pos.payment.inherit.tree</field>
         <field name="model">pos.payment</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_payment_tree"/>
@@ -33,7 +33,6 @@
             </xpath>
         </field>
     </record>
-
 
 
     <record id="pos_payment_method_view_form_inherit" model="ir.ui.view">

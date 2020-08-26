@@ -156,6 +156,7 @@
             'click .button.over_due': 'over_due_orders',
             'click .button.late_for_pickup': 'late_for_pickup',
             'click #print_order': 'click_reprint',
+            'click .btn-state': 'change_order_state',
             'click #view_lines': 'click_view_lines',
             'click .order-line td:not(.order_operation_button)': 'click_line',
             'click .pay_due_amt': 'pay_order_due',
@@ -224,9 +225,11 @@
             }
 
         },
+
         change_order_state: function(event){
             var self = this;
-            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+//            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+            var order_id = parseInt($(event.currentTarget).data('id'));
             var order_state = $(event.currentTarget).val();
             var order = self.pos.db.get_order_by_id(order_id);
 
@@ -250,7 +253,7 @@
                     }
                 }
                 if(state.short_code === "ready_to_deliver" && old_order_state.short_code != "delivered"){
-//                    self.gui.show_popup("rack_selection", {order:order})
+                    self.gui.show_popup("rack_selection", {order:order})
                 }
 
                 if(state.short_code != old_order_state.short_code){
@@ -889,6 +892,18 @@ this.pos.gui.show_popup('create_prev_popup',{});
             var result = self.pos.db.get_membership_card_by_id(card_id);
             var order = self.pos.get_order();
             var client = order.get_client();
+            if (!result){
+                        self.pos.gui.chrome.screens.membershipcardlistscreen.reloading_membership_cards().then(
+                                                                        function(){
+                                                                                    var result = self.pos.db.get_membership_card_by_id(card_id);
+                                                                         self.gui.show_popup('recharge_membership_card_popup',{
+                'card_id':result.id,
+                'card_no':result.card_no,
+                'card_value':result.card_value,
+                'customer_id':result.customer_id
+            });
+                                                                        });
+            }else
             self.gui.show_popup('recharge_membership_card_popup',{
                 'card_id':result.id,
                 'card_no':result.card_no,
@@ -896,6 +911,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                 'customer_id':result.customer_id
             });
         },
+
 
         click_edit_membership_card: function(event){
             var self  = this;
@@ -1104,8 +1120,11 @@ this.pos.gui.show_popup('create_prev_popup',{});
             _.each(currentOrderLines,function(item) {
                 return orderLines.push(item.export_as_JSON());
             });
-            if (orderLines.length === 0) {
-                return alert ('Please select product !');
+            if(!client){
+                return alert ('Please Select Customer !');
+            }
+            else if (orderLines.length === 0) {
+                return alert ('Please Select product !');
             } else {
                 if( this.pos.config.require_customer && !selectedOrder.get_client()){
                     self.gui.show_popup('error',{
@@ -1168,6 +1187,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
             'click .searchbox .search-clear': 'clear_search',
             'click .order-line td:not(.order_operation_button)': 'click_line',
             'change .delivery_state_id': 'change_order_state',
+            'click .btn-state': 'change_order_state',
         },
         filter:"all",
         date: "all",
@@ -1345,6 +1365,33 @@ this.pos.gui.show_popup('create_prev_popup',{});
                 })
             }
         },
+        state_receive: function(event){
+          var self = this;
+          var order_id = parseInt($(event.currentTarget).data('id'));
+          var order = self.pos.db.get_order_by_id(order_id);
+          console.log(order);
+          Array.from($( "select[data-id="+parseInt($(event.currentTarget).data('id'))+"]")[0].options).forEach(function(option_element) {
+            if (option_element.getAttribute('data-code') === 'receive') {
+                option_element.selected = true;
+//                alert("true");
+            } else {
+                option_element.selected = false;
+                }
+            });
+          alert("state_receive");
+        },
+        state_in_progress: function(event){
+         alert("in_progress");
+        },
+        state_ready_to_deliver: function(event){
+         alert("ready_to_deliver");
+        },
+        state_pickup_by_driver: function(event){
+         alert("pickup_by_driver");
+        },
+        state_delivered: function(event){
+         alert("delivered");
+        },
         click_edit_or_duplicate_order: function(event){
             var self = this;
             var order_id = parseInt($(event.currentTarget).data('id'));
@@ -1447,7 +1494,8 @@ this.pos.gui.show_popup('create_prev_popup',{});
         },
         change_order_state: function(event){
             var self = this;
-            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+//            var order_id = event ? parseInt($(event.currentTarget).find(':selected').data('id')) : order_id;
+            var order_id = parseInt($(event.currentTarget).data('id'));
             var order_state = $(event.currentTarget).val();
             var order = self.pos.db.get_order_by_id(order_id);
             var old_order_state = self.pos.db.get_delivery_state_by_id(Number(order.delivery_state_id[0]||order.delivery_state_id));
@@ -1889,6 +1937,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                     }
                 }
             });
+
         },
         order_changes: function(){
             var self = this;
@@ -1989,6 +2038,12 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         });
     },
         click_paymentmethods: function(id) {
+        var selectedOrder = this.pos.get_order();
+        selectedOrder.initialize_validation_date();
+        var client = selectedOrder.get_client();
+        if(!client){
+                return alert ('Please Select Customer !');
+        }
         var self = this;
 
            //*************************
@@ -2014,10 +2069,52 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         }
 
     },
+    validate_order: function(force_validation) {
+         var self = this;
+         var order = self.pos.get_order();
+         var client = order.get_client();
+         if(!client){
+            return alert ('Please Select Customer !');
+         }
+        else{
+            if (this.order_is_valid(force_validation)) {
+                this.finalize_validation();
+            }
+        }
+    },
 
 
     });
-
+    screens.ActionpadWidget.include({
+        renderElement: function() {
+            var self = this;
+            this._super();
+            this.$('.payext').click(function(){
+                var order = self.pos.get_order();
+                var client = order.get_client();
+                if(!client){
+                    return alert ('Please Select Customer !');
+                }
+                else{
+                    var order = self.pos.get_order();
+                    var has_valid_product_lot = _.every(order.orderlines.models, function(line){
+                        return line.has_valid_product_lot();
+                    });
+                    if(!has_valid_product_lot){
+                        self.gui.show_popup('confirm',{
+                            'title': _t('Empty Serial/Lot Number'),
+                            'body':  _t('One or more product(s) required serial/lot number.'),
+                            confirm: function(){
+                                self.gui.show_screen('payment');
+                            },
+                        });
+                    }else{
+                        self.gui.show_screen('payment');
+                    }
+                }
+            });
+        }
+    });
     screens.OrderWidget.include({
         set_value: function(val) {
             var order = this.pos.get_order();
@@ -2461,6 +2558,21 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
     });
 
     screens.ProductListWidget.include({
+        init: function(parent, options) {
+        var self = this;
+        this._super(parent,options);
+        this.click_product_handler = function(){
+            var order = self.pos.get_order();
+            var client = order.get_client();
+            if(!client){
+                return alert ('Please Select Customer !');
+            }
+            else{
+                var product = self.pos.db.get_product_by_id(this.dataset.productId);
+                options.click_product_action(product);
+            }
+        };
+        },
         set_product_list: function(product_list){
             var self = this;
             var new_product_list = [];
