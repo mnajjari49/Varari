@@ -761,11 +761,11 @@ object{
     text-align: center;
     direction: ltr;
 }
-
+/*
 .pos .pos-receipt-container > div {
     text-align: left;
     background-color: white;
-    width: 60%;
+    width: 100%;
     margin: 20px;
     padding: 15px;
     font-size: 16px;
@@ -775,7 +775,7 @@ object{
     border-radius: 3px;
     overflow: hidden;
 }
-
+*/
 .pos .pos-label-container {
         text-align: left;
     }
