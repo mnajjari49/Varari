@@ -724,6 +724,7 @@ object{
 
 .pos .pos-label-container {
     font-size: 0.75em;
+    l
     text-align: center;
     direction: ltr;
 }
@@ -755,13 +756,12 @@ object{
     rgb(220,220,220);
 }
 
-/*
 .pos .pos-receipt-container {
     font-size: 0.75em;
     text-align: center;
     direction: ltr;
 }
-*/
+/*
 .pos .pos-receipt-container > div {
     text-align: left;
     background-color: white;
@@ -775,7 +775,7 @@ object{
     border-radius: 3px;
     overflow: hidden;
 }
-
+*/
 .pos .pos-label-container {
         text-align: left;
     }
@@ -882,6 +882,7 @@ object{
     display:block;
 }
 
+//last
 .pos .pos-receipt-container {
     font-size: 0.75em;
     text-align: center;
@@ -899,7 +900,6 @@ object{
     font-size: 85%;
     line-height: 1.4em;
 }
-
 
 .pos .actionpad .button.payext {
     height: 162px;

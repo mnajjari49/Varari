@@ -470,7 +470,6 @@
             var selectedOrder = this.pos.get_order();
             var order_id = parseInt($(event.currentTarget).data('id'));
             var order_uid = parseInt($(event.currentTarget).data('uid'));
-            self.clear_cart();
             selectedOrder.set_client(null);
             var result = self.pos.db.get_order_by_id(order_id);
             if (result && result.lines.length > 0) {
@@ -1469,7 +1468,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                     .then(function(res){
                         if(res){
                             self.reloading_racks();
-                            resolve(res);
+                            resolvprint_ordere(res);
                         }
                     });
                 })
