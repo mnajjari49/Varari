@@ -40,7 +40,7 @@ class ResPartner(models.Model):
         for record in self:
             name =  record.name
             if record.phone:
-                name +=" - " +record.mobile
+                name +=" - " +record.phone
             result.append((record.id, name))
         return result
 
