@@ -34,12 +34,12 @@ class ResPartner(models.Model):
             partner.remaining_credit_limit = partner.credit_limit - total_credited
 
 
-    @api.depends('name', 'mobile')
+    @api.depends('name', 'phone')
     def name_get(self):
         result = []
         for record in self:
             name =  record.name
-            if record.mobile:
+            if record.phone:
                 name +=" - " +record.mobile
             result.append((record.id, name))
         return result
@@ -49,7 +49,7 @@ class ResPartner(models.Model):
         args = args or []
         recs = self.browse()
         if name:
-            recs = self.search(["|",('mobile', 'ilike', name),("name","ilike",name)] + args, limit=limit)
+            recs = self.search(["|",('phone', 'ilike', name),("name","ilike",name)] + args, limit=limit)
         if not recs:
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
