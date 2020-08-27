@@ -34,12 +34,13 @@ class ResPartner(models.Model):
             partner.remaining_credit_limit = partner.credit_limit - total_credited
 
 
-    @api.model
+    @api.depends('name', 'mobile')
     def name_get(self):
         result = []
         for record in self:
             name =  record.name
-            name +=" - " +record.mobile if record.mobile else ""
+            if record.mobile:
+                name +=" - " +record.mobile
             result.append((record.id, name))
         return result
 
