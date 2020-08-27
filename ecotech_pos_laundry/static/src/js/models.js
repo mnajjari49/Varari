@@ -463,6 +463,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             });
         },
       get_membership_remain:function(){
+//      this.gui.chrome.screens.membershipcardlistscreen.reload_btn();
       var res = "";
         var client=this.get_order().get("client");
         var membership=this.db.membership_card_by_partner_id[client.id];
@@ -473,6 +474,9 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
 
         },
         get_partner_card_details:function(client){
+//              this.gui.chrome.screens.membershipcardlistscreen.reload_btn();
+
+
       var res = {value:0,card_no:0};
 //        var client=this.get_order().get("client");
 //         self.reloading_membership_cards(); todo check if the rendering list value = to db value then should update the db
@@ -568,6 +572,10 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 self.gui.chrome.screens.orderlist.reloading_orders();
                 self.gui.chrome.screens.posreportscreen.reloading_orders();
                 self.gui.chrome.screens.customeradjustmentlistscreen.reloading_adjustment();
+                self.gui.chrome.screens.membershipcardlistscreen.reloading_membership_cards().then(function(){
+//                console.log("reloading_membership_finished ===> must check the DB here")
+                });
+
 
                 if (server_ids[0]){
                     if(server_ids.length > 0 && self.config.enable_partial_payment){
@@ -592,9 +600,9 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                                     var new_orders = _.sortBy(self.get('pos_order_list'), 'id').reverse();
                                     self.db.add_orders(new_orders);
                                     self.load_orders();
-                                    self.gui.chrome.screens.membershipcardlistscreen.reloading_membership_cards().then(function(){
-self.gui.chrome.screens.membershipcardlistscreen.reload_membership_cards();
-console.log("Membership Refreshed");}); //after each process refresh
+//                                    self.gui.chrome.screens.membershipcardlistscreen.reloading_membership_cards().then(function(){
+//self.gui.chrome.screens.membershipcardlistscreen.reload_membership_cards();
+//console.log("Membership Refreshed");}); //after each process refresh
 //                                    self.set({ 'pos_order_list' : new_orders });
                                     resolve();
                                 } else {

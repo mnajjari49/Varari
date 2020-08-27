@@ -942,8 +942,8 @@ this.pos.gui.show_popup('create_prev_popup',{});
         show: function(){
             var self = this;
             this._super();
-            this.reload_membership_cards();
             this.reloading_membership_cards();
+            this.reload_membership_cards();
             $('.issue_date_filter').datepicker({
                 dateFormat: 'dd/mm/yy',
                 autoclose: true,
@@ -1068,11 +1068,13 @@ this.pos.gui.show_popup('create_prev_popup',{});
         },
 
         reload_membership_cards: function(){
+//        console.log(" reload_membership_cards refreshing rendered list")
             var self = this;
             this.render_list(self.get_membership_cards());
         },
 
         reloading_membership_cards: function(){
+//        console.log("  reloading_membership_cards : set values to  self.pos.set({'membership_card_order_list' : result});")
             var self = this;
             var params = {
                 model: 'membership.card',
@@ -1887,6 +1889,13 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
 
             this.$('.js_membership_card').click(function(){
                 var order = self.pos.get_order();
+                console.log("Client remain from this.db",self.pos.get_membership_remain());
+                console.log("Client details",self.pos.get_partner_card_details(order.get_client()));
+                console.log("*********************************");
+                var client = order.get_client();
+                var card = self.pos.db.membership_card_by_partner_id[client.id];
+                console.log("Client remain from this.pos.db",card.card_value);
+
                 var client = order.get_client();
                 var due = order.get_due();
                 if(client){
