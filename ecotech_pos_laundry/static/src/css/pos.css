@@ -938,3 +938,10 @@ object{
     font-size: ;
     font-weight: bold;
 }
+
+.pos .clientlist-screen .client-details input.client-phone {
+    font-size: 24px;
+    line-height: 24px;
+    margin: 0.4em 1em;
+    width: 340px;
+}

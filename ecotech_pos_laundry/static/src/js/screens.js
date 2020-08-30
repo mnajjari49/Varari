@@ -2466,6 +2466,26 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                         }
                     });
                 });
+                contents.find('.client-phone').on('change', function (ev) {
+                var value = this.value;
+                var clientname = document.getElementById("client-name").value;
+                if (value != '' && clientname != ''){
+                document.getElementById("button-save").style.color = 'green';
+                }
+                else{
+                    document.getElementById("button-save").style.color = 'gray';
+                    }
+                });
+                contents.find('.client-name').on('change', function (ev) {
+                var value = this.value;
+                var clientphone = document.getElementById("client-phone").value;
+                if (value != '' && clientphone != ''){
+                document.getElementById("button-save").style.color = 'green';
+                }
+                else{
+                    document.getElementById("button-save").style.color = 'gray';
+                    }
+                });
             } else if (visibility === 'hide') {
                 contents.empty();
                 parent.height('100%');

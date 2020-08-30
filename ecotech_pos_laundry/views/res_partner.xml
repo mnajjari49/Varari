@@ -85,4 +85,16 @@
         </field>
     </record>
 
+    <record id="res_partner_select_inherit" model="ir.ui.view">
+        <field name="name">res.partner.select.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="phone" position="replace"></field>
+            <field name="name" position="replace">
+                <field name="phone" filter_domain="['|', ('phone', 'ilike', self), ('mobile', 'ilike', self)]"/>
+                <field name="name" filter_domain="['|', '|', ('display_name', 'ilike', self), ('ref', '=', self), ('email', 'ilike', self)]"/>
+            </field>
+        </field>
+    </record>
 </odoo>

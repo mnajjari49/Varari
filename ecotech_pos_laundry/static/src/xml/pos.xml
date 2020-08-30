@@ -496,7 +496,7 @@
                         <td class="pos-receipt-right"><span>Tel: 22280808</span></td>
                     </tr>
                     <tr>
-                        <td><b style="font-size: 130%;"><t t-esc='receipt.name' /></b></td>
+                        <td><b style="font-size: 130%;"><t t-esc='order.name' /></b></td>
                         <td></td>
                     </tr>
                     <tr>
@@ -1142,15 +1142,6 @@
             <div class='client-details-left'>
                 <!--          address  start       -->
                 <div class='client-detail'>
-                    <span class='label'>Street</span>
-                    <t t-if="partner.street">
-                        <span class='detail client-address'><t t-esc="partner.street" /></span>
-                    </t>
-                    <t t-if="!partner.street">
-                        <span class='detail client-address empty'>N/A</span>
-                    </t>
-                </div>
-                <div class='client-detail'>
                     <span class='label'>Governorate</span>
                     <t t-if="partner.governorate_id">
                         <span class='detail client-governorate_id'><t t-esc="partner.governorate_id[1]" /></span>
@@ -1175,6 +1166,15 @@
                     </t>
                     <t t-if="!partner.block_id">
                         <span class='detail client-block_id empty'>N/A</span>
+                    </t>
+                </div>
+                <div class='client-detail'>
+                    <span class='label'>Street</span>
+                    <t t-if="partner.street">
+                        <span class='detail client-address'><t t-esc="partner.street" /></span>
+                    </t>
+                    <t t-if="!partner.street">
+                        <span class='detail client-address empty'>N/A</span>
                     </t>
                 </div>
                 <div class='client-detail'>
@@ -1215,15 +1215,6 @@
                 </div>
                 <!--          address  end  -->
                 <div class='client-detail'>
-                    <span class='label'>Email</span>
-                    <t t-if='partner.email'>
-                        <span class='detail client-email'><t t-esc='partner.email' /></span>
-                    </t>
-                    <t t-if='!partner.email'>
-                        <span class='detail client-email empty'>N/A</span>
-                    </t>
-                </div>
-                <div class='client-detail'>
                     <span class='label'>Phone</span>
                     <t t-if='partner.phone'>
                         <span class='detail client-phone'><t t-esc='partner.phone' /></span>
@@ -1232,9 +1223,16 @@
                         <span class='detail client-phone empty'>N/A</span>
                     </t>
                 </div>
+                <div class='client-detail'>
+                    <span class='label'>Phone 2</span>
+                    <t t-if='partner.mobile'>
+                        <span class='detail mobile'><t t-esc='partner.mobile'/></span>
+                    </t>
+                    <t t-if='!partner.mobile'>
+                        <span class='detail mobile empty'>N/A</span>
+                    </t>
+                </div>
             </div>
-        </t>
-        <t t-jquery="div.client-details-left" t-operation="append">
             <div class='client-detail'>
                 <span class='label'>Credit Limit</span>
                 <t t-if='partner.credit_limit'>
@@ -1263,6 +1261,7 @@
                 </t>
             </div>
         </t>
+
         <t t-jquery="div.client-details-right" t-operation="append">
             <div class='client-detail'>
                 <span class='label'>Remaining Credit</span>
@@ -1273,15 +1272,7 @@
                     <span class='detail vat empty'>N/A</span>
                 </t>
             </div>
-            <div class='client-detail'>
-                <span class='label'>Mobile</span>
-                <t t-if='partner.mobile'>
-                    <span class='detail mobile'><t t-esc='partner.mobile'/></span>
-                </t>
-                <t t-if='!partner.mobile'>
-                    <span class='detail mobile empty'>N/A</span>
-                </t>
-            </div>
+
             <div class='client-detail'>
                 <span class='label'>Birth Date</span>
                 <t t-if='partner.date_of_birth'>
@@ -1333,13 +1324,18 @@
     </t>
 
     <t t-extend="ClientDetailsEdit">
+        <t t-jquery="div.button.save" t-operation="replace">
+            <div id="button-save" class='button save'><i  class='fa fa-floppy-o' role="img" aria-label="Save" title="Save"/></div>
+        </t>
+        <t t-jquery="input.client-name" t-operation="replace">
+            <input id="client-name" class='detail client-name' name='name' t-att-value='partner.name' placeholder='Name'></input>
+        </t>
+        <t t-jquery="div.edit-buttons" t-operation="before">
+            <input id="client-phone" class='detail client-phone' name='phone' t-att-value='partner.phone' placeholder='Phone'></input>
+        </t>
         <t t-jquery="div.client-details-left" t-operation="replace">
             <div class='client-details-left'>
                 <!--          address  start       -->
-                <div class='client-detail'>
-                    <span class='label'>Street</span>
-                    <input class='detail client-address-street' name='street' t-att-value='partner.street || ""' placeholder='Street'></input>
-                </div>
                 <div class='client-detail'>
                     <span class='label'>Governorate</span>
                     <select class='detail client-address-governator needsclick' name='governorate_id'>
@@ -1378,6 +1374,10 @@
                     </select>
                 </div>
                 <div class='client-detail'>
+                    <span class='label'>Street</span>
+                    <input class='detail client-address-street' name='street' t-att-value='partner.street || ""' placeholder='Street'></input>
+                </div>
+                <div class='client-detail'>
                     <span class='label'>Jaddah</span>
                     <input class='detail client-address-jaddah'   name='jaddah'         t-att-value='partner.jaddah || ""' placeholder='Jaddah'></input>
                 </div>
@@ -1407,7 +1407,15 @@
                     </div>
             </div>
         </t>
-        <t t-jquery="div.client-details-right" t-operation="append">
+        <t t-jquery="div.client-details-right" t-operation="replace">
+            <div class='client-detail'>
+                <span class='label'>Phone 2</span>
+                <input class='detail client-mobile'  name='mobile'  type='text'    t-att-value='partner.mobile || ""'></input>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>Barcode</span>
+                <input class='detail barcode'       name='barcode'    t-att-value='partner.barcode || ""'></input>
+            </div>
             <div class='client-detail'>
                 <span class='label'>Birth Date</span>
                 <input class='detail client-date_of_birth'  name='date_of_birth'  type='date'    t-att-value='partner.date_of_birth || ""'></input>
@@ -1416,11 +1424,8 @@
                 <span class='label'>Civil ID</span>
                 <input class='detail client-civil_id'  name='civil_id'  type='text'    t-att-value='partner.civil_id || ""'></input>
             </div>
-            <div class='client-detail'>
-                <span class='label'>Mobile</span>
-                <input class='detail client-mobile'  name='mobile'  type='text'    t-att-value='partner.mobile || ""'></input>
-            </div>
         </t>
+
     </t>
 
     <t t-name="ClientHistoryLine">

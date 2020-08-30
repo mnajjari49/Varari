@@ -10,11 +10,28 @@
 # You should have received a copy of the License along with this program.
 #################################################################################
 
-from odoo import models, fields, api
-
+from odoo import models, fields, api,_
+from odoo.exceptions import UserError, ValidationError
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
+
+    phone = fields.Char(
+        string='Phone',
+        required=True,
+        copy = False)
+    mobile = fields.Char(
+        string='Phone 2',
+        required=False,
+        copy=False)
+
+    @api.constrains('phone')
+    def _check_phone_unique_length(self):
+        if len(self.phone) != 8 :
+            raise UserError(_("Phone Lenth must be 8 digits"))
+        if len(self.env['res.partner'].search([('phone','=', self.phone),('id','!=',self.id)])) > 1:
+            raise UserError("Phone Number Must Be Unique")
+
 
     @api.depends('used_ids', 'recharged_ids')
     def compute_amount(self):
