@@ -61,6 +61,7 @@ class PosSession(models.Model):
                                     adjustment_amount['amount_converted'])
             ]
 
+
         self.env['account.move.line'].with_context(check_move_validity=False).create(
             customer_adjust_vals)
 
@@ -233,6 +234,10 @@ class PosSession(models.Model):
                         self._debit_amounts(customer_adjustment_args, adjustment_amount['amount'],
                                             adjustment_amount['amount_converted'])
                     ]
+                if self.config_id.account_analytic_id:
+                    analytic_account_id = self.config_id.account_analytic_id
+                    adjustment_vals[0]["analytic_account_id"] = analytic_account_id.id
+
                 self.env['account.move.line'].with_context(check_move_validity=False).create(adjustment_vals)
             elif order.is_membership_order or order.is_previous_order:
                 memebership_amount = {'amount': 0.0, 'amount_converted': 0.0}
