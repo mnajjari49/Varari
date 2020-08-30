@@ -75,4 +75,5 @@ class CustomerAdjustment(models.Model):
     reason_id = fields.Many2one("adjustment.reason", string="Adjustment Reason")
     amount = fields.Float(string="Amount")
     adjustment_date = fields.Date(string="Adjustment Date")
+    move_id = fields.Many2one("account.move")
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

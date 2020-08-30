@@ -239,5 +239,46 @@ class Membershipwizard(models.TransientModel):
                    }
 
 
+class AdjustmentWizard(models.TransientModel):
+    _name = 'adjustment.wizard'
+    _description = 'Wizard Of Adjustment'
+
+    customer = fields.Many2one("res.partner")
+    amount=fields.Float()
+    reason=fields.Many2one("adjustment.reason")
+    config_id=fields.Many2one("pos.config")
+
+    def action_done(self):
+        move_id=self.env["account.move"].create({
+            'journal_id':1,
+            'ref':"test"
+        })
+        customer_adjustment_account = self.config_id.acc_for_adjustment.id
+        customer_receivable_account = self.customer.property_account_receivable_id.id
+        if self.amount > 0:
+             adjustment_vals= [{'debit': self.amount, 'credit': 0.0, 'name': 'Customer Adjustment', 'partner_id':self.customer.id, 'move_id': move_id.id, 'account_id': customer_adjustment_account,}] #'analytic_account_id': 16}]
+             customer_vals= [{'debit': 0.0, 'credit': self.amount, 'name': 'Customer Adjustment', 'partner_id':self.customer.id, 'move_id': move_id.id, 'account_id': customer_receivable_account,}] #'analytic_account_id': 16}]
+        else:
+            adjustment_vals = [
+                {'debit': 0.0, 'credit':  self.amount, 'name': 'Customer Adjustment', 'partner_id': self.customer.id,
+                 'move_id': move_id.id, 'account_id': customer_adjustment_account, }]  # 'analytic_account_id': 16}]
+            customer_vals = [
+                {'debit':  self.amount, 'credit':0.0, 'name': 'Customer Adjustment', 'partner_id': self.customer.id,
+                 'move_id': move_id.id, 'account_id': customer_receivable_account, }]  # 'analytic_account_id': 16}]
+
+        self.env['account.move.line'].with_context(check_move_validity=False).create(customer_vals)
+        self.env['account.move.line'].with_context(check_move_validity=False).create(adjustment_vals)
+        move_id.post()
+        self.env["customer.adjustment"].create(
+            {
+                "partner_id":self.customer.id,
+                "reason_id":self.reason.id,
+                "amount":self.amount,
+                "move_id":move_id.id,
+                "adjustment_date":fields.Date.today()
+            }
+        )
+        pass
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

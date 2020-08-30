@@ -210,6 +210,34 @@
                     view_mode="form"
                     target="new"
         />
+        <!--       Wizard Action-->    <!--      Wizard-->
+
+        <record id="adjustment_create_wizard" model="ir.ui.view">
+            <field name="name">adjustment card </field>
+            <field name="model">adjustment.wizard</field>
+            <field name="arch" type="xml">
+                <form  >
+                    <sheet>
+                        <group >
+                            <field name="customer"   options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                            <field name="amount" required="1"/>
+                            <field name="config_id" required="1"/>
+                            <field name="reason" widget="selection"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_done" string="Confirm" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window id="launch_adjustment_wizard"
+                    name="adjustment Card"
+                    res_model="adjustment.wizard"
+                    view_mode="form"
+                    target="new"
+        />
         <!--       Wizard Action-->
 
 
@@ -326,7 +354,7 @@
                   parent="point_of_sale.menu_point_root" />
 
         <menuitem id="order_rack_details_id" name="Rack"
-                  parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="1"
+                  parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="2"
                   action="ecotech_pos_laundry.action_pos_order_rack" />
 
         <menuitem id="order_delivery_state_details" name="Delivery State"
@@ -352,6 +380,9 @@
         <menuitem id="membership_wizard" name="Membership Wizard"
                   parent="membership_card_main_menu" sequence="1"
                   action="launch_membership_wizard" />
+        <menuitem id="adjustment_wizard_action" name="Adjustment  Wizard"
+                  parent="pos_laundry_main_menu" sequence="1"
+                  action="launch_adjustment_wizard" />
         <menuitem id="membership_card_details" name="Membership Card"
                   parent="membership_card_main_menu" sequence="2"
                   action="action_membership_card_form" />
