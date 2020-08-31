@@ -80,6 +80,7 @@ class PosOrder(models.Model):
             'is_previous_order': ui_order.get('is_previous_order'),
             'is_adjustment' : ui_order.get('is_adjustment') or False,
             'membership_offer':ui_order.get('membership_offer') or False,
+            'note':ui_order.get('note') or False,
         })
         return res
 

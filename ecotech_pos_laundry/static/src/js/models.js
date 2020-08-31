@@ -164,6 +164,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             this.is_adjustment = false;
             this.is_previous_order = false;
             this.membership_offer=0;
+            this.note="";
             return res;
         },
 
@@ -378,6 +379,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 order_rack_id: this.get_rack() || [],
                 adjustment: this.get_customer_adjustment() || [],
                 membership_offer:this.membership_offer,
+                note:this.note
             }
             $.extend(orders, new_val);
             return orders;
