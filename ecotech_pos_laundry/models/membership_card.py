@@ -152,18 +152,19 @@ class Membershipwizard(models.TransientModel):
     card_value=fields.Many2one('membership.amount')
     promotion = fields.Float("Offer",related="card_value.promotion")
     card_type=fields.Many2one("membership.card.type")
-    session_id=fields.Many2one("pos.session",domain=[("state","!=","closed")])
-    manual_card_number=fields.Boolean(related="session_id.config_id.manual_card_number")
+    config_id=fields.Many2one("pos.config")
+    journal_id = fields.Many2one("account.journal")
+    manual_card_number=fields.Boolean(related="config_id.manual_card_number")
     recharge = fields.Boolean()
     amount = fields.Float()
     card_id=fields.Many2one('membership.card')
 
-    @api.onchange("session_id","customer")
+    @api.onchange("config_id","customer")
     def setParams(self):
         res={}
-        if self.session_id:
-            if self.session_id.config_id.default_exp_date:
-                self.expire_date = datetime.now() + relativedelta(months=self.session_id.config_id.default_exp_date)
+        if self.config_id:
+            if self.config_id.default_exp_date:
+                self.expire_date = datetime.now() + relativedelta(months=self.config_id.default_exp_date)
         if self.customer:
             res=self.env["membership.card"].search([("customer_id","=",self.customer.id)],limit=1)
             if res:
@@ -174,7 +175,7 @@ class Membershipwizard(models.TransientModel):
                 self.recharge=True
             else:
                 self.card_number=False
-                self.expire_date=False
+                #self.expire_date=False
                 self.card_type=False
                 self.recharge=False
                 self.card_id=False
@@ -182,61 +183,108 @@ class Membershipwizard(models.TransientModel):
             self.card_number = int(time.time())
 
     def action_done(self):
-        membership_product_id=self.session_id.config_id.membership_card_product_id.id
-        creation_date=str(fields.Datetime().now())
-        orderName="[Order] "+str(int(time.time()))
-        create_from_ui={'id': "membershipUi",
-         'data':
-             {'name': orderName,
+        '''Create the membership or if it recharge do a recharge and make the Entry associate with it '''
+        analytic_account_id = self.config_id.account_analytic_id.id
+        customer_adjustment_account = self.journal_id.default_credit_account_id.id
+        customer_receivable_account = self.customer.property_account_receivable_id.id
 
-              'amount_paid': 0,
-              'amount_total': self.card_value.name,
-              'amount_tax': 0, 'amount_return': 0,
-              'pos_reference':orderName,
-              'sequence_number':0,
-              'lines': [[0, 0,
-                         {'qty': 1, 'price_unit':self.card_value.name, 'price_subtotal': self.card_value.name, 'price_subtotal_incl': self.card_value.name, 'discount': 0,
-                          'product_id': membership_product_id,
-                          'tax_ids': [[6, False, []]], 'id': 2, 'pack_lot_ids': []}]],
-              'statement_ids': [],
-        'pos_session_id': self.session_id.id, 'pricelist_id':  self.session_id.config_id.pricelist_id.id, 'partner_id': self.customer.id, 'user_id': self.env.user.id, 'employee_id': None,
-        # 'uid': 7300442582, 'sequence_number': 5,
-              'creation_date': creation_date,
-        'fiscal_position_id': False, 'server_id': False, 'to_invoice': False, 'draft_order': False, 'amount_due': self.card_value.name,
-              'promise_date': '2020-08-14T06:34:02.000Z',
-        'is_membership_order': True if not self.recharge else False,
-        'recharge': [] if  not self.recharge else[ {
-            'card_customer_id': self.customer.id,
-            'recharge_card_id': self.card_id.id,
-            'recharge_card_amount': self.card_value.name
+        if self.config_id:
+            if not self.recharge:
+                self.env['membership.card'].create({
+                    "card_no":self.card_number,
+                    "card_value":self.card_value.name + self.promotion,
+                    "expire_date":self.expire_date,
+                    "customer_id":self.customer.id,
+                    "card_type":self.card_type.id,
 
-        }],
+                })
+            move_id = self.env["account.move"].create({
+                'journal_id': self.journal_id.id,
+                'ref': "Customer Membership "
+            })
 
-        'membership_card': [{'membership_card_card_no': self.card_number,
-                             'membership_card_customer':self.customer.id,
-                             'membership_card_expire_date': self.expire_date,
-                             'membership_amount': self.card_value.name if not self.promotion else self.card_value.name+self.promotion,
-                             'membership_card_customer_name': self.customer.name,
-                             'membership_card_type': self.card_type.id}] if not self.recharge else [],
-        'redeem': [],
-        'is_partial_paid': False,
-        'is_adjustment': False, 'is_previous_order': False, 'membership_offer':self.promotion,
-        'delivery_state_id': 3, 'order_rack_id': [], 'adjustment': [],  },
-        'to_invoice': False}
-        order=self.env["pos.order"]
-        res=order.create_from_ui([create_from_ui])
-        res_id=self.env.ref("point_of_sale.view_pos_pos_form").id
-        return  {
-                    'name': 'Pos Orders',
-                    'view_type': 'form',
-                    'view_mode': 'form',
-                    'view_id': [res_id],
-                    'res_model': 'pos.order',
-                    'type': 'ir.actions.act_window',
-                    'nodestroy': True,
-                    'target': 'current',
-                    'res_id': res[0]["id"],
-                   }
+            self.amount = self.card_value.name + self.promotion
+            if self.card_value.name > 0 and not self.promotion:
+                adjustment_vals = [
+                    {'debit': self.amount, 'credit': 0.0, 'name': 'membership', 'partner_id': self.customer.id,
+                     'move_id': move_id.id, 'account_id': customer_adjustment_account,}]
+                customer_vals = [
+                    {'debit': 0.0, 'credit': self.amount, 'name': 'membership', 'partner_id': self.customer.id,
+                     'move_id': move_id.id, 'account_id': customer_receivable_account, }]  # 'analytic_account_id': 16}]
+                self.env['account.move.line'].with_context(check_move_validity=False).create(customer_vals)
+                self.env['account.move.line'].with_context(check_move_validity=False).create(adjustment_vals)
+            elif self.card_value.name > 0 and  self.promotion :
+                adjustment_vals = [
+                    {'debit': self.amount - self.promotion, 'credit': 0.0, 'name': 'membership',
+                     'partner_id': self.customer.id,
+                     'move_id': move_id.id, 'account_id': customer_adjustment_account, }]  # 'analytic_account_id': 16}]adjustment_vals = [
+                offer_vals =   [{'debit': self.promotion, 'credit': 0.0, 'name': 'membership offer', 'partner_id': self.customer.id,
+                     'move_id': move_id.id, 'account_id': self.config_id.offer_account.id,   'analytic_account_id': analytic_account_id}]
+                customer_vals = [
+                    {'debit': 0.0, 'credit': self.amount, 'name': 'membership', 'partner_id': self.customer.id,
+                     'move_id': move_id.id, 'account_id': customer_receivable_account, }]  # 'analytic_account_id': 16}]
+                self.env['account.move.line'].with_context(check_move_validity=False).create(customer_vals)
+                self.env['account.move.line'].with_context(check_move_validity=False).create(adjustment_vals)
+                self.env['account.move.line'].with_context(check_move_validity=False).create(offer_vals)
+            else:raise UserError("Can not do Negative number")
+
+
+            move_id.post()
+        if self.recharge:
+            recharge_vals = {
+                'user_id': self.env.user.id,
+                'recharge_date': fields.Date().today(),
+                'customer_id': self.customer.id,
+                'card_id': self.card_id.id,
+                'amount': self.amount,
+            }
+            recharge_membership = self.env['membership.card.recharge'].create(recharge_vals)
+            if recharge_membership:
+                recharge_membership.card_id.write(
+                    {'card_value': self.card_id.card_value + recharge_membership.amount})
+
+
+class AdjustmentWizard(models.TransientModel):
+    _name = 'adjustment.wizard'
+    _description = 'Wizard Of Adjustment'
+
+    customer = fields.Many2one("res.partner")
+    amount=fields.Float()
+    reason=fields.Many2one("adjustment.reason")
+    config_id=fields.Many2one("pos.config")
+    journal_id = fields.Many2one("account.journal")
+
+    def action_done(self):
+        move_id=self.env["account.move"].create({
+            'journal_id':self.journal_id.id,
+            'ref':"Customer Adjustment "
+        })
+        customer_adjustment_account = self.config_id.acc_for_adjustment.id
+        customer_receivable_account = self.customer.property_account_receivable_id.id
+        analytic_account_id = self.config_id.account_analytic_id.id
+        if self.amount > 0:
+             adjustment_vals= [{'debit': self.amount, 'credit': 0.0, 'name': 'Customer Adjustment', 'partner_id':self.customer.id, 'move_id': move_id.id, 'account_id': customer_adjustment_account,'analytic_account_id': analytic_account_id}]
+             customer_vals= [{'debit': 0.0, 'credit': self.amount, 'name': 'Customer Adjustment', 'partner_id':self.customer.id, 'move_id': move_id.id, 'account_id': customer_receivable_account}]
+        else:
+            adjustment_vals = [
+                {'debit': 0.0, 'credit':  self.amount, 'name': 'Customer Adjustment', 'partner_id': self.customer.id,
+                 'move_id': move_id.id, 'account_id': customer_adjustment_account, 'analytic_account_id': analytic_account_id}]
+            customer_vals = [
+                {'debit':  self.amount, 'credit':0.0, 'name': 'Customer Adjustment', 'partner_id': self.customer.id,
+                 'move_id': move_id.id, 'account_id': customer_receivable_account, }]  # 'analytic_account_id': 16}]
+
+        self.env['account.move.line'].with_context(check_move_validity=False).create(customer_vals)
+        self.env['account.move.line'].with_context(check_move_validity=False).create(adjustment_vals)
+        move_id.post()
+        self.env["customer.adjustment"].create(
+            {
+                "partner_id":self.customer.id,
+                "reason_id":self.reason.id,
+                "amount":self.amount,
+                "move_id":move_id.id,
+                "adjustment_date":fields.Date.today()
+            }
+        )
 
 
 

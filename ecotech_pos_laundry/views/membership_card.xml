@@ -184,7 +184,8 @@
                                 <field name="customer"   options="{'no_create_edit': True, 'no_open': True}" required="1"/>
                                 <field name="card_value"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
                                 <field name="promotion" attrs="{'invisible':[('promotion','=',0)]}" required="1"/>
-                                <field name="session_id"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                                <field name="config_id"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                                <field name="journal_id" widget="selection" domain="[('type','in',['bank','cash'])]"/>
                                 <field name="manual_card_number" invisible="1"/>
                             </group>
                             <group>
@@ -192,8 +193,8 @@
                                 <field name="card_number"  required="1"/>
                                 <field name="expire_date" required="1" attrs="{'readonly':[('recharge','=',True)]}"/>
                                 <field name="card_type"  options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':[('recharge','=',True)]}"/>
-                                <field name="recharge" invisible="0"/>
-                                <field name="card_id" />
+                                <field name="recharge" invisible="1"/>
+                                <field name="card_id" invisible="1" />
                             </group>
                         </group>
                     </sheet>
@@ -207,6 +208,35 @@
         <act_window id="launch_membership_wizard"
                     name="Membership Card"
                     res_model="membership.wizard"
+                    view_mode="form"
+                    target="new"
+        />
+        <!--       Wizard Action-->    <!--      Wizard-->
+
+        <record id="adjustment_create_wizard" model="ir.ui.view">
+            <field name="name">adjustment card </field>
+            <field name="model">adjustment.wizard</field>
+            <field name="arch" type="xml">
+                <form  >
+                    <sheet>
+                        <group >
+                            <field name="customer"   options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                            <field name="amount" required="1"/>
+                            <field name="config_id" required="1" widget="selection"/>
+                            <field name="journal_id" required="1" widget="selection"/>
+                            <field name="reason" widget="selection"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_done" string="Confirm" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window id="launch_adjustment_wizard"
+                    name="adjustment Card"
+                    res_model="adjustment.wizard"
                     view_mode="form"
                     target="new"
         />
@@ -326,7 +356,7 @@
                   parent="point_of_sale.menu_point_root" />
 
         <menuitem id="order_rack_details_id" name="Rack"
-                  parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="1"
+                  parent="ecotech_pos_laundry.pos_laundry_main_menu" sequence="2"
                   action="ecotech_pos_laundry.action_pos_order_rack" />
 
         <menuitem id="order_delivery_state_details" name="Delivery State"
@@ -352,6 +382,9 @@
         <menuitem id="membership_wizard" name="Membership Wizard"
                   parent="membership_card_main_menu" sequence="1"
                   action="launch_membership_wizard" />
+        <menuitem id="adjustment_wizard_action" name="Adjustment  Wizard"
+                  parent="pos_laundry_main_menu" sequence="1"
+                  action="launch_adjustment_wizard" />
         <menuitem id="membership_card_details" name="Membership Card"
                   parent="membership_card_main_menu" sequence="2"
                   action="action_membership_card_form" />

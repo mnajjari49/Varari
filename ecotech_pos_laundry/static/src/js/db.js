@@ -206,7 +206,7 @@ odoo.define('ecotech_pos_laundry.db', function (require) {
             for(var i = 0, len = membership_cards.length; i < len; i++){
                 var membership_card = membership_cards[i];
                 if (    this.card_write_date &&
-                        new Date(membership_card.write_date).getTime() ) {
+                        new Date(membership_card.write_date).getTime() && false) {
                     continue;
                 } else if ( new_write_date < membership_card.write_date ) {
                     new_write_date  = membership_card.write_date;
@@ -228,6 +228,8 @@ odoo.define('ecotech_pos_laundry.db', function (require) {
                     this.membership_card_search_string += this._membership_card_search_string(membership_card);
                 }
             }
+            console.log("received result is",membership_cards);
+            console.log("New membership by id is",this.membership_card_by_id);
             return updated_count;
         },
 
