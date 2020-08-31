@@ -184,7 +184,8 @@
                                 <field name="customer"   options="{'no_create_edit': True, 'no_open': True}" required="1"/>
                                 <field name="card_value"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
                                 <field name="promotion" attrs="{'invisible':[('promotion','=',0)]}" required="1"/>
-                                <field name="session_id"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                                <field name="config_id"  options="{'no_create_edit': True, 'no_open': True}" required="1"/>
+                                <field name="journal_id" widget="selection" domain="[('type','in',['bank','cash'])]"/>
                                 <field name="manual_card_number" invisible="1"/>
                             </group>
                             <group>
@@ -192,8 +193,8 @@
                                 <field name="card_number"  required="1"/>
                                 <field name="expire_date" required="1" attrs="{'readonly':[('recharge','=',True)]}"/>
                                 <field name="card_type"  options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':[('recharge','=',True)]}"/>
-                                <field name="recharge" invisible="0"/>
-                                <field name="card_id" />
+                                <field name="recharge" invisible="1"/>
+                                <field name="card_id" invisible="1" />
                             </group>
                         </group>
                     </sheet>
@@ -221,7 +222,8 @@
                         <group >
                             <field name="customer"   options="{'no_create_edit': True, 'no_open': True}" required="1"/>
                             <field name="amount" required="1"/>
-                            <field name="config_id" required="1"/>
+                            <field name="config_id" required="1" widget="selection"/>
+                            <field name="journal_id" required="1" widget="selection"/>
                             <field name="reason" widget="selection"/>
                         </group>
                     </sheet>
