@@ -1335,6 +1335,7 @@
             <input id="client-name" class='detail client-name' name='name' t-att-value='partner.name' placeholder='Name'></input>
         </t>
         <t t-jquery="div.edit-buttons" t-operation="before">
+            <span class='label' style="font-size: 2em;padding-left: 1em;">Phone</span>
             <input id="client-phone" class='detail client-phone' name='phone' t-att-value='partner.phone' placeholder='Phone'></input>
         </t>
         <t t-jquery="div.client-details-left" t-operation="replace">

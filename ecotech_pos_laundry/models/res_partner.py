@@ -29,7 +29,7 @@ class ResPartner(models.Model):
     def _check_phone_unique_length(self):
         if len(self.phone) != 8 :
             raise UserError(_("Phone Lenth must be 8 digits"))
-        if len(self.env['res.partner'].search([('phone','=', self.phone),('id','!=',self.id)])) > 1:
+        if len(self.env['res.partner'].search([('phone','=', self.phone),('id','!=',self.id)])) > 0:
             raise UserError("Phone Number Must Be Unique")
 
 
