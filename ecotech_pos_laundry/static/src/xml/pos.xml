@@ -464,6 +464,10 @@
                             <span t-esc="(order).split(' ')[1] || ''" class="pos-receipt-left-align"/>
                             <span  t-esc='promise_date' />
                         </div>
+                <div>
+                    <span >Phone :</span>
+                    <span t-esc="client.phone"/>
+                </div>
                 <t t-if="client">
                             <t t-if="client.preference">
                                 <div>
