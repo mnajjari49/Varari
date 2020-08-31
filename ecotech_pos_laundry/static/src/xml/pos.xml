@@ -616,51 +616,45 @@
                 </thead>
                 <tbody>
                     <t t-foreach='receipt.orderlines' t-as='line'>
-                        <tr>
-                            <td style="line-height: 1em;color: transparent;"> - </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <t>
-                                <t t-if="line.product_name_arabic">
+                        <t t-if="line.product_name_wrapped[0] != 'Paid Amount'">
+                            <tr>
+                                <td style="line-height: 1em;color: transparent;"> - </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <t>
+                                    <t t-if="line.product_name_arabic">
+                                            <td t-esc='line.product_name_wrapped[0]'></td>
+                                        <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
+                                    </t>
+                                    <t t-else="">
                                         <td t-esc='line.product_name_wrapped[0]'></td>
-                                    <td style="text-align: right;direction: rtl;" t-esc="line.product_name_arabic"></td>
+                                        <td style="color:transparent;">-</td>
+                                    </t>
                                 </t>
-                                <t t-else="">
-                                    <td t-esc='line.product_name_wrapped[0]'></td>
-                                    <td style="color:transparent;">-</td>
-                                </t>
+                                <td valign="top" align="center">
+                                     <t t-set="pieces" t-value="pieces + (line.quantity*line.label_count)"/>
+                                    <t t-esc="Math.round(line.quantity * Math.pow(10, pos.dp['Product Unit of Measure'])) / Math.pow(10, pos.dp['Product Unit of Measure'])"/>
+                                    <t t-if='line.unit_name !== "Units"' t-esc='line.unit_name'/>
+                                </td>
+                                <td valign="top">
+                                    <div class="pos-receipt-right-padding">
+                                        <span t-esc='widget.format_currency_no_symbol(line.price_display)' class="price_display pos-receipt-right-align"/>
+                                    </div>
+                                </td>
+                            </tr>
 
-                                <!--                            <t t-if='line.discount !== 0'>-->
-                                <!--                                <div class="pos-receipt-left-padding">-->
-                                <!--                                    Discount: <t t-esc='line.discount' />%-->
-                                <!--                                </div>-->
-                                <!--                            </t>-->
+                            <t t-if="receipt.offer">
+                                    <tr>
+                                        <td>Offer</td>
+                                        <td style="color:transparent;">-</td>
+                                        <td valign="top" align="center">1</td>
+                                        <td valign="top" class="price_display pos-receipt-right-align"><t t-esc="receipt.offer"/> </td>
+                                    </tr>
                             </t>
-                            <td valign="top" align="center">
-                                 <t t-set="pieces" t-value="pieces + (line.quantity*line.label_count)"/>
-                                <t t-esc="Math.round(line.quantity * Math.pow(10, pos.dp['Product Unit of Measure'])) / Math.pow(10, pos.dp['Product Unit of Measure'])"/>
-                                <t t-if='line.unit_name !== "Units"' t-esc='line.unit_name'/>
-                            </td>
-                            <td valign="top">
-                                <div class="pos-receipt-right-padding">
-                                    <span t-esc='widget.format_currency_no_symbol(line.price_display)' class="price_display pos-receipt-right-align"/>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <t t-if="receipt.offer">
-                                <tr>
-
-                                   <td>Offer</td>
-<td style="color:transparent;">-</td>
-                                    <td valign="top" align="center">1</td>
-                                    <td valign="top" class="price_display pos-receipt-right-align"><t t-esc="receipt.offer"/> </td>
-                        </tr>
                         </t>
-
                     </t>
                     <tr>
                         <td style="line-height: 1em;color: transparent;"> - </td>

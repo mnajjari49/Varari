@@ -498,9 +498,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             return new Model(model).query(fields).filter(domain).context(ctx).all()
         },
         get_valid_promise_date: function (date) {
-            var formatted_validation_date = field_utils.format.datetime(
-                moment(date), {}, {timezone: true});
-            return moment(formatted_validation_date).format('DD/MM/YYYY HH:mm:ss');
+            return date;
         },
         load_server_data: function(){
             var self = this;
