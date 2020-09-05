@@ -479,6 +479,7 @@
                         selectedOrder.set_client(partner);
                     }
                 }
+                selectedOrder.set_name(result.pos_reference);
                 selectedOrder.set_amount_paid(result.amount_paid);
                 selectedOrder.set_amount_return(Math.abs(result.amount_return));
                 selectedOrder.set_amount_tax(result.amount_tax);
@@ -1313,6 +1314,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                         selectedOrder.set_client(partner);
                     }
                 }
+                selectedOrder.set_name(result.pos_reference);
                 selectedOrder.set_amount_paid(result.amount_paid);
                 selectedOrder.set_amount_return(Math.abs(result.amount_return));
                 selectedOrder.set_amount_tax(result.amount_tax);
@@ -1370,7 +1372,6 @@ this.pos.gui.show_popup('create_prev_popup',{});
           var self = this;
           var order_id = parseInt($(event.currentTarget).data('id'));
           var order = self.pos.db.get_order_by_id(order_id);
-          console.log(order);
           Array.from($( "select[data-id="+parseInt($(event.currentTarget).data('id'))+"]")[0].options).forEach(function(option_element) {
             if (option_element.getAttribute('data-code') === 'receive') {
                 option_element.selected = true;
@@ -2654,6 +2655,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         },
         get_receipt_render_env: function() {
             var order = this.pos.get_order();
+//            console.log(order);
             var barcode_val = order.get_membership_card();
             var barcode_recharge_val = order.get_recharge_membership_card();
             var barcode_free_val = order.get_free_data();
