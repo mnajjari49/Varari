@@ -97,4 +97,17 @@
             </field>
         </field>
     </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_partner_property_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.product.property.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="product.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_product_pricelist']" position="replace">
+                <field name="property_product_pricelist" groups="point_of_sale.group_pos_manager" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}"/>
+            </xpath>
+
+        </field>
+    </record>
 </odoo>

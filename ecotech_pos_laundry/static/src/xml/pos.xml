@@ -504,8 +504,8 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td><span>Date : <t t-esc='moment(receipt.date.localestring).format("DD/MM/YYYY")' /></span></td>
-                        <td></td>
+                        <td><span>Date : <t t-esc='moment(receipt.date.localestring).format("DD/MM/YYYY hh:mm:ss")' /></span></td>
+                        <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
                 </table>
                 <table>
@@ -681,6 +681,12 @@
                     <td>Total (الاجمالي)</td>
                     <td>
                         <span t-esc='widget.format_currency(receipt.total_with_tax)' class="pos-receipt-right-align"/>
+                    </td>
+                </tr>
+                <tr t-if="order.get_total_discount_amt() > 0">
+                    <td>Discount</td>
+                    <td>
+                        <span t-esc='widget.format_currency(order.get_total_discount_amt())' class="pos-receipt-right-align"/>
                     </td>
                 </tr>
                 <tr>
@@ -1137,6 +1143,15 @@
 
     <t t-extend="ClientDetails">
         <t t-jquery="div.client-details-left" t-operation="replace">
+            <div t-attf-class='client-detail'>
+                <span class='label'>Pricelist</span>
+                <t t-if='partner.property_product_pricelist'>
+                    <span class='detail property_product_pricelist'><t t-esc='partner.property_product_pricelist[1]'/></span>
+                </t>
+                <t t-if='!partner.property_product_pricelist'>
+                    <span class='detail property_product_pricelist empty'>N/A</span>
+                </t>
+            </div>
             <div class='client-details-left'>
                 <!--          address  start       -->
                 <div class='client-detail'>
@@ -1212,6 +1227,15 @@
                     </t>
                 </div>
                 <!--          address  end  -->
+                <div t-attf-class='client-detail #{widget.pos.pricelists.length &lt;= 1 ? "oe_hidden" : ""}'>
+                    <span class='label'>Pricelist</span>
+                    <t t-if='partner.property_product_pricelist'>
+                        <span class='detail property_product_pricelist'><t t-esc='partner.property_product_pricelist[1]'/></span>
+                    </t>
+                    <t t-if='!partner.property_product_pricelist'>
+                        <span class='detail property_product_pricelist empty'>N/A</span>
+                    </t>
+                </div>
                 <div class='client-detail'>
                     <span class='label'>Phone</span>
                     <t t-if='partner.phone'>
