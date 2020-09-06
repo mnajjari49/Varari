@@ -1468,7 +1468,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                     .then(function(res){
                         if(res){
                             self.reloading_racks();
-                            resolvprint_ordere(res);
+                            #resolvprint_ordere(res);
                         }
                     });
                 })
