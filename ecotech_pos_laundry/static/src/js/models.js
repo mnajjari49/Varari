@@ -364,7 +364,9 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
            var discount = 0.0;
            this.orderlines.each(function(orderline){
                 var o_line = orderline.export_for_printing();
-                discount = discount + o_line.discount;
+                if (o_line.product_name != 'Paid Amount'){
+                     discount = discount + o_line.discount;
+                }
            });
            return discount;
         },
