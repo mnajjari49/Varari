@@ -641,7 +641,7 @@
                                 </td>
                                 <td valign="top">
                                     <div class="pos-receipt-right-padding">
-                                        <span t-esc='widget.format_currency_no_symbol(line.price_display)' class="price_display pos-receipt-right-align"/>
+                                        <span t-esc='widget.format_currency_no_symbol(line.price_lst)' class="price_display pos-receipt-right-align"/>
                                     </div>
                                 </td>
                             </tr>
@@ -680,13 +680,19 @@
                 <tr>
                     <td>Total (الاجمالي)</td>
                     <td>
-                        <span t-esc='widget.format_currency(receipt.total_with_tax)' class="pos-receipt-right-align"/>
+                        <span t-esc='widget.format_currency(order.get_total_amt())' class="pos-receipt-right-align"/>
                     </td>
                 </tr>
                 <tr t-if="order.get_total_discount_amt() > 0">
                     <td>Discount</td>
                     <td>
-                        <span t-esc='widget.format_currency(order.get_total_discount_amt())' class="pos-receipt-right-align"/>
+                        <span t-esc='order.get_total_discount_per()' class="pos-receipt-right-align"/> <span class="pos-receipt-right-align">%</span>
+                    </td>
+                </tr>
+                <tr t-if="order.get_total_discount_amt() > 0">
+                    <td>Net Total </td>
+                    <td>
+                        <span t-esc='widget.format_currency(order.get_total_amt() - order.get_total_discount_amt())' class="pos-receipt-right-align"/>
                     </td>
                 </tr>
                 <tr>
