@@ -312,13 +312,9 @@
             </t>
             <td><t t-esc='order.pos_reference' /></td>
             <td><t t-esc='order.partner_id[1]' /></td>
-            <t t-if="!widget.from">
+            <t>
                 <td><t t-esc='moment(order.date_order, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
                 <td><t t-esc='moment(order.promise_date, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
-            </t>
-            <t t-if="widget.from">
-                <td><t t-esc='widget.pos.get_valid_promise_date(order.date_order) or ""' /></td>
-                <td><t t-esc='widget.pos.get_valid_promise_date(order.promise_date) or ""' /></td>
             </t>
             <td><t t-esc='widget.format_currency(order.amount_total) or ""' /></td>
             <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
