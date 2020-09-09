@@ -227,8 +227,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             this.promise_date = date;
         },
         get_order_promise_date: function(){
-//            var time1 =  time.getLangDatetimeFormat()
-//            this.promise_date = moment(field_utils.format.datetime(moment(this.promise_date), {}, {timezone: false}),time1);
+            var time1 =  time.getLangDatetimeFormat()
+            this.promise_date = moment(field_utils.format.datetime(moment(this.promise_date), {}, {timezone: false}),time1);
             return this.promise_date;
         },
         generateUniqueId_barcode: function() {
