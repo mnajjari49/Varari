@@ -133,7 +133,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             var new_val = {
             product_name_arabic: this.get_product().arabic_name,
             label_count: this.get_product().label_count,
-            discount : (orderlines.price_lst - orderlines.price) * orderlines.quantity ,
+            discount_ext : (orderlines.price_lst - orderlines.price) * orderlines.quantity ,
             };
             $.extend(orderlines, new_val);
             return orderlines;
@@ -360,13 +360,39 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         get_is_previous_ordert: function(){
             return this.is_previous_order;
         },
-       get_total_discount_amt: function() {
+        get_total_amt: function() {
+           var total = 0.0;
+           this.orderlines.each(function(orderline){
+                var o_line = orderline.export_for_printing();
+                if (o_line.product_name != 'Paid Amount'){
+                     total = total + o_line.price_lst*o_line.quantity;
+                }
+           });
+           return total;
+        },
+        get_total_discount_amt: function() {
            var discount = 0.0;
            this.orderlines.each(function(orderline){
                 var o_line = orderline.export_for_printing();
-                discount = discount + o_line.discount;
+                if (o_line.product_name != 'Paid Amount'){
+                     discount = discount + o_line.discount_ext;
+                }
            });
            return discount;
+        },
+        get_total_discount_per: function() {
+           var discount = 0.0;
+           var discount_perc = 0.0;
+           this.orderlines.each(function(orderline){
+                var o_line = orderline.export_for_printing();
+                if (o_line.product_name != 'Paid Amount'){
+                     discount = discount + o_line.discount_ext;
+                }
+           });
+           if (discount > 0){
+            discount_perc = (discount/this.get_total_amt())*100
+           }
+           return discount_perc;
         },
 
         export_as_JSON: function() {
@@ -429,6 +455,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 amt_discount:this.get_total_discount_amt(),
             };
             $.extend(orders, new_val);
+            console.log(orders);
             return orders;
         },
         set_date_order: function(val){
