@@ -90,7 +90,7 @@ class ResPartner(models.Model):
     civil_id = fields.Char(String="Civil ID")
     last_visit_date = fields.Date(string="Last Visit Date")
     customer_preference_ids = fields.Many2many('customer.preference', string="Customer Preference")
-
+    branch_id = fields.Many2one("pos.config")
     #Address
     @api.onchange('governorate_id')
     def onchange_governorate_id(self):
