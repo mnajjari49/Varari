@@ -8,13 +8,13 @@
             <field name="type" position="before">
                 <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                 <field name="governorate_id"/>
+                <field name="branch_id"/>
                 <field name="city_id"/>
                 <field name="block_id"/>
                 <field name="jaddah"/>
                 <field name="house"/>
                 <field name="flat"/>
                 <field name="paci"/>
-                <field name="branch_id"/>
             </field>
             <label name="address_name" position="replace">
             </label>

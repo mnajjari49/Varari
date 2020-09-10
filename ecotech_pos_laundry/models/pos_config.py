@@ -48,6 +48,7 @@ class PosConfig(models.Model):
     default_customer_credit_limit = fields.Integer(string="Customer Credit Limit")
     offer_account = fields.Many2one("account.account")
     offer_product = fields.Many2one("product.product")
+    branch_id = fields.Many2one("pos.branch")
 
 class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'

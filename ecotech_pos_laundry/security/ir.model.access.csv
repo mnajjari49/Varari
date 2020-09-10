@@ -6,6 +6,7 @@ access_membership_card_use,access_membership_card_use,model_membership_card_use,
 access_membership_card_recharge,access_membership_card_recharge,model_membership_card_recharge,base.group_user,1,1,1,1
 access_membership_card_type,access_membership_card_type,model_membership_card_type,base.group_user,1,1,1,1
 access_membership_amount,access_membership_amount,model_membership_amount,base.group_user,1,1,1,1
+access_pos_branches,access_pos_branches,model_pos_branch,base.group_user,1,1,1,1
 access_pos_order_delivery_state,access_pos_order_delivery_state,model_pos_order_delivery_state,base.group_user,1,1,1,1
 access_adjustment_reason,access_adjustment_reason,model_adjustment_reason,base.group_user,1,1,1,1
 access_customer_adjustment,access_customer_adjustment,model_customer_adjustment,base.group_user,1,1,1,1

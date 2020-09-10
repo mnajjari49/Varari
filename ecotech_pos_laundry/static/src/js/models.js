@@ -15,6 +15,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                                         'enable_pos_report', 'enable_membership_card']);
     models.load_fields("pos.payment.method", ['allow_for_adjustment','allow_for_membership_card','pos_payment_ref']);
     models.load_fields("product.product", ['arabic_name','label_count']);
+    models.load_fields("pos.config",["branch_id"]);
 
     models.PosModel.prototype.models.push({
         model:  'customer.preference',
@@ -31,6 +32,13 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         loaded: function(self,governorates){
             self.governorates = governorates;
         },
+    },
+    {
+    model: "pos.branch",
+    fields:[],
+    loaded: function(self,branches){
+    self.branches=branches;
+    }
     },
     {
         model:  'address.city',
@@ -65,14 +73,16 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         loaded: function(self,card_type){
             self.membership_card_type = card_type;
         },
-    },{
+    },
+    {
         model:  'pos.session',
         fields: [],
         domain: function(self) { return [['config_id', '=', self.config.id]]; },
         loaded: function(self,sessions){
             self.session_ids = _.pluck(sessions, 'id');
         },
-    },{
+    },
+    {
         model:  'adjustment.reason',
         fields: [],
         loaded: function(self,reasons){
@@ -82,7 +92,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 self.adjustment_reason_by_id[reason['id']] = reason;
             });
         },
-    },{
+    },
+    {
         model:  'customer.adjustment',
         fields: [],
         loaded: function(self,adjustment){
@@ -90,7 +101,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             self.db.add_adjustment(adjustment);
             self.set('adjustment_list', adjustment);
         },
-    },{
+    },
+    {
         model:  'membership.amount',
         loaded: function(self,amount){
             self.membership_amounts=amount;
@@ -99,7 +111,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 self.membership_amount_by_id[each_amount['id']] = each_amount;
             });
         },
-    },{
+    },
+    {
         model:  'pos.order.delivery.state',
         loaded: function(self,state){
             self.delivery_state = [];
@@ -108,14 +121,16 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 self.delivery_state.push(res);
             });
         },
-    },{
+    },
+    {
         model:  'pos.order.rack',
         domain: function(self) { return [['config_id', '=', self.config.id]]; },
         loaded: function(self,rack){
             self.db.add_rack(rack);
             self.set({'rack_list' : rack});
         },
-    },{
+    },
+    {
         model:  'membership.card',
         fields: ['card_no','card_value','card_type','customer_id','issue_date','expire_date','is_active'],
         domain: [['is_active', '=', true]],

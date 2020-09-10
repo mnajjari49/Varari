@@ -1377,6 +1377,17 @@
                     </select>
                 </div>
                 <div class='client-detail'>
+                    <span class='label'>Branch</span>
+                    <select class='detail client-address-governator needsclick' name='branch_id'>
+                        <option value=''>None</option>
+                        <t t-foreach='widget.pos.branches' t-as='branch'>
+                            <option t-att-value='branch.id' t-att-selected="partner.branch_id ? ((branch.id === partner.branch_id[0]) ? true : undefined) : undefined">
+                                <t t-esc='branch.name'/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div class='client-detail'>
                     <span class='label'>City</span>
                     <select class='detail client-address-city needsclick' name='city_id'>
                         <option value=''>None</option>

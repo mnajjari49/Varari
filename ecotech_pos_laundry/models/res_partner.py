@@ -90,7 +90,7 @@ class ResPartner(models.Model):
     civil_id = fields.Char(String="Civil ID")
     last_visit_date = fields.Date(string="Last Visit Date")
     customer_preference_ids = fields.Many2many('customer.preference', string="Customer Preference")
-    branch_id = fields.Many2one("pos.config")
+    branch_id = fields.Many2one("pos.branch")
     #Address
     @api.onchange('governorate_id')
     def onchange_governorate_id(self):
@@ -127,5 +127,19 @@ class ResPartner(models.Model):
     paci = fields.Char(
         string='PACI',
         required=False)
+
+class PosBranch(models.Model):
+    _name="pos.branch"
+
+    name = fields.Char(related="point.name" , readonly=True)
+    point = fields.Many2one("pos.config" , required=True)
+
+    @api.constrains('point')
+    def check_point(self):
+        for rec in self:
+            count=self.search_count([('point','=',rec.point.id)])
+            if count and count > 1:
+                raise UserError(_("You Can not define more than branch for the same point"))
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
