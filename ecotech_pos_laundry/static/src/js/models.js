@@ -169,8 +169,51 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             return res;
         },
 
+        objSize : function(obj) {
+            var count = 0;
+            if (typeof obj == "object") {
+                if (Object.keys) {
+                    count = Object.keys(obj).length;
+                } else if (window._) {
+                    count = _.keys(obj).length;
+                } else if (window.$) {
+                    count = $.map(obj, function() { return 1; }).length;
+                } else {
+                    for (var key in obj) if (obj.hasOwnProperty(key)) count++;
+                }
+            }
+            return count;
+        },
         set_name: function(name) {
             this.name = name;
+        },
+        get_total_paid_ext: function(name) {
+            console.log(this.name);
+            var paid = 0.0
+            _.each(this.pos.db.order_by_id,function (order) {
+                if (order.pos_reference === name)
+                 {
+                  paid = order.amount_paid;
+                 }
+            });
+            if (this.paymentlines.length == 0){
+                console.log(paid);
+                return paid;
+            }
+            else{
+                console.log("other");
+                return round_pr(this.paymentlines.reduce((function(sum, paymentLine) {
+                    if (paymentLine.get_payment_status()) {
+                        if (paymentLine.get_payment_status() == 'done') {
+                            sum += paymentLine.get_amount();
+                        }
+                    } else {
+                        sum += paymentLine.get_amount();
+                    }
+
+                    return sum + paid;
+                    }), 0), this.pos.currency.rounding);
+            }
         },
         set_rack: function(rack){
             this.rack = rack;

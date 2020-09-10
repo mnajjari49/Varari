@@ -2674,25 +2674,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         get_receipt_render_env: function() {
             var order_backend = false;
             var order = this.pos.get_order();
-            // *********************************************
-//            rpc.query({
-//                        model: 'pos.order',
-//                        method: 'search_read',
-//                        domain: [['pos_reference', '=', order.name]],
-//                    }, {
-//                        timeout: 300,
-//                        shadow: true,
-//                    })
-//                    .then(function(order){
-//                        if(order && order[0]){
-//                            result = order[0];
-//                            return result;
-//                        } else {
-//                        return false;
-//                    }
-//                });
-//            console.log(result);
-            //**********************************************
             var barcode_val = order.get_membership_card();
             var barcode_recharge_val = order.get_recharge_membership_card();
             var barcode_free_val = order.get_free_data();
