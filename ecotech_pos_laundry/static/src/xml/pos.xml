@@ -854,7 +854,9 @@
                     <span>7-</span><span>الشركة غير مسؤولة عن الملابس التي يتم تركها لفترة  تتجاوز 30 يوم وفي حينها يحق للشركة التصرف بالملابس  بدون الرجوع للعميل</span>
                     <br></br>
                     <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
+
                 </div>
+                <span t-esc="moment(receipt.promise_date).format('DD/MM/YYYY HH:mm:ss')"/>
             </div>
         </t>
     </t>
