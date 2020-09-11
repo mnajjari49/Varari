@@ -8,7 +8,7 @@
     'maintainer': 'Odooist',
     'support': 'odooist@gmail.com',
     'license': 'OPL-1',
-    'category': 'Phone',
+    'category': 'Phone, VOIP',
     'summary': 'VoIP call tracking and management',
     'description': 'Asterisk based VoIP application.',
     'depends': ['asterisk_common', 'mail', 'board'],
