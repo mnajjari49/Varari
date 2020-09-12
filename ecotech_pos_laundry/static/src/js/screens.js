@@ -1735,7 +1735,6 @@ this.pos.gui.show_popup('create_prev_popup',{});
             if(self.date !== "" && self.date !== "all"){
                 for (var i=0; i<orders.length;i++){
                     var date_order = $.datepicker.formatDate("dd/mm/yy",new Date(orders[i].date_order));
-                    console.log(self.date, date_order)
                     if(self.date === date_order){
                         date_filtered_orders.push(orders[i]);
                     }
@@ -1909,7 +1908,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 var order = self.pos.get_order();
                 console.log("Client remain from this.db",self.pos.get_membership_remain());
                 console.log("Client details",self.pos.get_partner_card_details(order.get_client()));
-                console.log("*********************************");
                 var client = order.get_client();
                 var card = self.pos.db.membership_card_by_partner_id[client.id];
                 console.log("Client remain from this.pos.db",card.card_value);
@@ -2747,7 +2745,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 var line = order_lines[i];
                 for (var j=0 ;j<line.product.label_count*line.quantity;j++){
                 count += 1;
-                console.log(line.product.display_name);
                 vals ={
                       widget: this,
                      'product' : line.product.display_name,

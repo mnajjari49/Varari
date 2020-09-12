@@ -499,7 +499,11 @@
                         <td><b style="font-size: 130%;"><t t-esc='order.name' /></b></td>
                         <td></td>
                     </tr>
-                    <tr>
+                    <tr t-if="order.get_order_date(order.name)!=''">
+                        <td><span>Date : <t t-esc='order.get_order_date(order.name)' /></span></td>
+                        <td style="color:#FFF;"><span>--------------------</span></td>
+                    </tr>
+                    <tr t-if="order.get_order_date(order.name)==''">
                         <td><span>Date : <t t-esc='moment(receipt.date.localestring).format("DD/MM/YYYY hh:mm:ss")' /></span></td>
                         <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
@@ -637,7 +641,7 @@
                                 </td>
                                 <td valign="top">
                                     <div class="pos-receipt-right-padding">
-                                        <span t-esc='widget.format_currency_no_symbol(line.price_lst)' class="price_display pos-receipt-right-align"/>
+                                        <span t-esc='widget.format_currency_no_symbol(line.price_lst*line.quantity)' class="price_display pos-receipt-right-align"/>
                                     </div>
                                 </td>
                             </tr>
@@ -856,7 +860,7 @@
                     <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
 
                 </div>
-                <span t-esc="moment(receipt.promise_date).format('DD/MM/YYYY HH:mm:ss')"/>
+                <span t-esc="moment(receipt.date).format('DD/MM/YYYY HH:mm:ss')"/>
             </div>
         </t>
     </t>
