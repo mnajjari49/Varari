@@ -211,13 +211,12 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 return round_pr(this.paymentlines.reduce((function(sum, paymentLine) {
                     if (paymentLine.get_payment_status()) {
                         if (paymentLine.get_payment_status() == 'done') {
-                            sum += paymentLine.get_amount();
+                            paid += paymentLine.get_amount();
                         }
                     } else {
-                        sum += paymentLine.get_amount();
+                        paid += paymentLine.get_amount();
                     }
-
-                    return sum + paid;
+                    return paid;
                     }), 0), this.pos.currency.rounding);
             }
         },
@@ -438,7 +437,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                      discount = discount + o_line.discount_ext;
                 }
            });
-           return Math.round(discount);
+           return discount;
         },
         get_total_discount_per: function() {
            var discount = 0.0;
