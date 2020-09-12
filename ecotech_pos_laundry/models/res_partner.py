@@ -18,7 +18,7 @@ class ResPartner(models.Model):
 
     phone = fields.Char(
         string='Phone',
-        required=True,
+        required=False,
         copy = False)
     mobile = fields.Char(
         string='Phone 2',
