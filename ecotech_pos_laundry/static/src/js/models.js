@@ -145,12 +145,21 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         export_for_printing: function(){
             var self =  this;
             var orderlines = _super_Orderline.export_for_printing.call(this);
+            var discount_ext = 0.0;
+            if (orderlines.product_name != 'Paid Amount'){
+               this.discount_ext = (orderlines.price_lst - orderlines.price) * orderlines.quantity;
+            };
+            if (orderlines.product_name == 'Paid Amount'){
+               this.discount_ext = 0.0;
+            };
             var new_val = {
             product_name_arabic: this.get_product().arabic_name,
             label_count: this.get_product().label_count,
-            discount_ext : (orderlines.price_lst - orderlines.price) * orderlines.quantity ,
+            discount_ext : this.discount_ext,
             };
             $.extend(orderlines, new_val);
+            console.log(orderlines.product_name);
+            console.log(this.discount_ext);
             return orderlines;
         },
     });
@@ -184,8 +193,58 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             return res;
         },
 
+        objSize : function(obj) {
+            var count = 0;
+            if (typeof obj == "object") {
+                if (Object.keys) {
+                    count = Object.keys(obj).length;
+                } else if (window._) {
+                    count = _.keys(obj).length;
+                } else if (window.$) {
+                    count = $.map(obj, function() { return 1; }).length;
+                } else {
+                    for (var key in obj) if (obj.hasOwnProperty(key)) count++;
+                }
+            }
+            return count;
+        },
         set_name: function(name) {
             this.name = name;
+        },
+        get_total_paid_ext: function(name) {
+            var paid = 0.0
+            _.each(this.pos.db.order_by_id,function (order) {
+                if (order.pos_reference === name)
+                 {
+                  paid = order.amount_paid;
+                 }
+            });
+            if (this.paymentlines.length == 0){
+                return paid;
+            }
+            else{
+                return round_pr(this.paymentlines.reduce((function(sum, paymentLine) {
+                    if (paymentLine.get_payment_status()) {
+                        if (paymentLine.get_payment_status() == 'done') {
+                            paid += paymentLine.get_amount();
+                        }
+                    } else {
+                        paid += paymentLine.get_amount();
+                    }
+                    return paid;
+                    }), 0), this.pos.currency.rounding);
+            }
+        },
+        get_order_date: function(name) {
+            var date = '';
+            _.each(this.pos.db.order_by_id,function (order) {
+                if (order.pos_reference === name)
+                 {
+                  var time1 =  time.getLangDatetimeFormat()
+                  date = moment(field_utils.format.datetime(moment(order.create_date), {}, {timezone: true}),time1);
+                 }
+            });
+            return date;
         },
         set_rack: function(rack){
             this.rack = rack;
@@ -470,7 +529,6 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                 amt_discount:this.get_total_discount_amt(),
             };
             $.extend(orders, new_val);
-            console.log(orders);
             return orders;
         },
         set_date_order: function(val){

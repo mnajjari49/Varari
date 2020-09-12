@@ -312,13 +312,9 @@
             </t>
             <td><t t-esc='order.pos_reference' /></td>
             <td><t t-esc='order.partner_id[1]' /></td>
-            <t t-if="!widget.from">
+            <t>
                 <td><t t-esc='moment(order.date_order, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
                 <td><t t-esc='moment(order.promise_date, "YYYY-MM-DD").format("DD/MM/YYYY HH:mm:ss") or ""' /></td>
-            </t>
-            <t t-if="widget.from">
-                <td><t t-esc='widget.pos.get_valid_promise_date(order.date_order) or ""' /></td>
-                <td><t t-esc='widget.pos.get_valid_promise_date(order.promise_date) or ""' /></td>
             </t>
             <td><t t-esc='widget.format_currency(order.amount_total) or ""' /></td>
             <t t-if="widget.pos.config and widget.pos.config.enable_partial_payment">
@@ -503,8 +499,12 @@
                         <td><b style="font-size: 130%;"><t t-esc='order.name' /></b></td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td><span>Date : <t t-esc='moment(receipt.date.localestring).format("DD/MM/YYYY hh:mm:ss")' /></span></td>
+                    <tr t-if="order.get_order_date(order.name)!=''">
+                        <td><span>Date : <t t-esc='moment(order.get_order_date(order.name)).format("DD/MM/YYYY HH:mm:ss")' /></span></td>
+                        <td style="color:#FFF;"><span>--------------------</span></td>
+                    </tr>
+                    <tr t-if="order.get_order_date(order.name)==''">
+                        <td><span>Date : <t t-esc='moment().format("DD/MM/YYYY HH:mm:ss")' /></span></td>
                         <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
                 </table>
@@ -641,7 +641,7 @@
                                 </td>
                                 <td valign="top">
                                     <div class="pos-receipt-right-padding">
-                                        <span t-esc='widget.format_currency_no_symbol(line.price_lst)' class="price_display pos-receipt-right-align"/>
+                                        <span t-esc='widget.format_currency_no_symbol(line.price_lst*line.quantity)' class="price_display pos-receipt-right-align"/>
                                     </div>
                                 </td>
                             </tr>
@@ -697,12 +697,14 @@
                 </tr>
                 <tr>
                     <td>Total Paid Amount</td>
-                    <td><span t-esc='widget.format_currency(order.get_total_with_tax() - order.get_due())' class="pos-receipt-right-align"/></td>
+                    <td><span t-esc='widget.format_currency(order.get_total_paid_ext(order.name))' class="pos-receipt-right-align"/></td>
                 </tr>
                 <tr>
                     <td> Amount Due</td>
-                    <td><span t-esc='widget.format_currency(order.get_due())' class="pos-receipt-right-align"/></td>
+                        <td><span t-esc='widget.format_currency(order.get_total_amt() - order.get_total_discount_amt() - order.get_total_paid_ext(order.name))' class="pos-receipt-right-align"/>
+                    </td>
                 </tr>
+
             </table>
         </t>
 
@@ -852,7 +854,9 @@
                     <span>7-</span><span>الشركة غير مسؤولة عن الملابس التي يتم تركها لفترة  تتجاوز 30 يوم وفي حينها يحق للشركة التصرف بالملابس  بدون الرجوع للعميل</span>
                     <br></br>
                     <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
+
                 </div>
+                <span t-esc="moment().format('DD/MM/YYYY HH:mm:ss')"/>
             </div>
         </t>
     </t>

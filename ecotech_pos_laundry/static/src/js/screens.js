@@ -298,6 +298,18 @@
                 self.pos.db.add_rack(racks);
             })
         },
+        clear_cart: function(){
+            var self = this;
+            var order = this.pos.get_order();
+            var currentOrderLines = order.get_orderlines();
+            if(currentOrderLines && currentOrderLines.length > 0){
+                _.each(currentOrderLines,function(item) {
+                    order.remove_orderline(item);
+                });
+            } else {
+                return
+            }
+        },
         pay_order_due: function(event, order_id){
             var self = this;
             var i;
@@ -343,11 +355,12 @@
                             selectedOrder.set_client(partner);
                         }
                     }
+                    selectedOrder.set_name(result.pos_reference);
                     selectedOrder.set_pos_reference(result.pos_reference);
                     selectedOrder.set_paying_order(true);
                     selectedOrder.set_order_id(result.id);
                     selectedOrder.set_sequence(result.name);
-                    selectedOrder.set_order_promise_date(result.promise_date)
+                    selectedOrder.set_order_promise_date(result.promise_date);
                     if(result.lines.length > 0){
                         var order_lines = self.get_orderlines_from_order(result.lines).then(function(order_lines){
                             if(order_lines.length > 0){
@@ -480,6 +493,7 @@
                     }
                 }
                 selectedOrder.set_name(result.pos_reference);
+                selectedOrder.set_order_promise_date(result.promise_date);
                 selectedOrder.set_amount_paid(result.amount_paid);
                 selectedOrder.set_amount_return(Math.abs(result.amount_return));
                 selectedOrder.set_amount_tax(result.amount_tax);
@@ -1315,6 +1329,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                     }
                 }
                 selectedOrder.set_name(result.pos_reference);
+                selectedOrder.set_order_promise_date(result.promise_date);
                 selectedOrder.set_amount_paid(result.amount_paid);
                 selectedOrder.set_amount_return(Math.abs(result.amount_return));
                 selectedOrder.set_amount_tax(result.amount_tax);
@@ -1537,6 +1552,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                 }
             }
         },
+
         pay_order_due: function(event, order_id){
             var self = this;
             var i;
@@ -1582,11 +1598,12 @@ this.pos.gui.show_popup('create_prev_popup',{});
                             selectedOrder.set_client(partner);
                         }
                     }
+                    selectedOrder.set_name(result.pos_reference);
                     selectedOrder.set_pos_reference(result.pos_reference);
                     selectedOrder.set_paying_order(true);
                     selectedOrder.set_order_id(result.id);
                     selectedOrder.set_sequence(result.name);
-                    selectedOrder.set_order_promise_date(result.promise_date)
+                    selectedOrder.set_order_promise_date(result.promise_date);
                     if(result.lines.length > 0){
                         var order_lines = self.get_orderlines_from_order(result.lines).then(function(order_lines){
                             if(order_lines.length > 0){
@@ -1718,7 +1735,6 @@ this.pos.gui.show_popup('create_prev_popup',{});
             if(self.date !== "" && self.date !== "all"){
                 for (var i=0; i<orders.length;i++){
                     var date_order = $.datepicker.formatDate("dd/mm/yy",new Date(orders[i].date_order));
-                    console.log(self.date, date_order)
                     if(self.date === date_order){
                         date_filtered_orders.push(orders[i]);
                     }
@@ -1738,6 +1754,7 @@ this.pos.gui.show_popup('create_prev_popup',{});
                 }
                 for(var i = 0, len = Math.min(orders.length,1000); i < len; i++){
                     var order    = orders[i];
+
                     order.amount_total = parseFloat(order.amount_total).toFixed(2);
                     var order_state = self.pos.db.get_delivery_state_by_id(order.delivery_state_id[0]);
                     var clientline_html = QWeb.render('OrderlistLine',{widget: this, order:order, state:self.pos.delivery_state, order_state:order_state});
@@ -1891,7 +1908,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 var order = self.pos.get_order();
                 console.log("Client remain from this.db",self.pos.get_membership_remain());
                 console.log("Client details",self.pos.get_partner_card_details(order.get_client()));
-                console.log("*********************************");
                 var client = order.get_client();
                 var card = self.pos.db.membership_card_by_partner_id[client.id];
                 console.log("Client remain from this.pos.db",card.card_value);
@@ -2656,25 +2672,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
         get_receipt_render_env: function() {
             var order_backend = false;
             var order = this.pos.get_order();
-            // *********************************************
-//            rpc.query({
-//                        model: 'pos.order',
-//                        method: 'search_read',
-//                        domain: [['pos_reference', '=', order.name]],
-//                    }, {
-//                        timeout: 300,
-//                        shadow: true,
-//                    })
-//                    .then(function(order){
-//                        if(order && order[0]){
-//                            result = order[0];
-//                            return result;
-//                        } else {
-//                        return false;
-//                    }
-//                });
-//            console.log(result);
-            //**********************************************
             var barcode_val = order.get_membership_card();
             var barcode_recharge_val = order.get_recharge_membership_card();
             var barcode_free_val = order.get_free_data();
@@ -2693,6 +2690,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 img.id = "test-barcode";
                 $(img).JsBarcode(barcode.toString());
             }
+            console.log(order);
             return {
                 widget: this,
                 pos: this.pos,
@@ -2748,7 +2746,6 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 var line = order_lines[i];
                 for (var j=0 ;j<line.product.label_count*line.quantity;j++){
                 count += 1;
-                console.log(line.product.display_name);
                 vals ={
                       widget: this,
                      'product' : line.product.display_name,
