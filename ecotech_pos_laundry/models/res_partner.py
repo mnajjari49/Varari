@@ -130,7 +130,7 @@ class ResPartner(models.Model):
 
 class PosBranch(models.Model):
     _name="pos.branch"
-
+    _description="Branch of the customer"
     name = fields.Char(related="point.name" , readonly=True)
     point = fields.Many2one("pos.config" , required=True)
 
