@@ -500,11 +500,11 @@
                         <td></td>
                     </tr>
                     <tr t-if="order.get_order_date(order.name)!=''">
-                        <td><span>Date : <t t-esc='order.get_order_date(order.name)' /></span></td>
+                        <td><span>Date : <t t-esc='moment(order.get_order_date(order.name)).format("DD/MM/YYYY HH:mm:ss")' /></span></td>
                         <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
                     <tr t-if="order.get_order_date(order.name)==''">
-                        <td><span>Date : <t t-esc='moment(receipt.date.localestring).format("DD/MM/YYYY hh:mm:ss")' /></span></td>
+                        <td><span>Date : <t t-esc='moment(receipt.date).format("DD/MM/YYYY HH:mm:ss")' /></span></td>
                         <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
                 </table>
@@ -699,16 +699,12 @@
                     <td>Total Paid Amount</td>
                     <td><span t-esc='widget.format_currency(order.get_total_paid_ext(order.name))' class="pos-receipt-right-align"/></td>
                 </tr>
-                <tr t-if="order.get_total_paid_ext(order.name) &lt;= order.get_total_with_tax()">
+                <tr>
                     <td> Amount Due</td>
                         <td><span t-esc='widget.format_currency(order.get_total_amt() - order.get_total_discount_amt() - order.get_total_paid_ext(order.name))' class="pos-receipt-right-align"/>
                     </td>
                 </tr>
-                <tr t-if="order.get_total_paid_ext(order.name) &gt; order.get_total_with_tax()">
-                    <td> Amount Due</td>
-                        <td><span class="pos-receipt-right-align">0.0</span>
-                    </td>
-                </tr>
+
             </table>
         </t>
 

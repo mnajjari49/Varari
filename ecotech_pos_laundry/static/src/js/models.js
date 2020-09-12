@@ -217,7 +217,8 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
             _.each(this.pos.db.order_by_id,function (order) {
                 if (order.pos_reference === name)
                  {
-                  date = order.create_date;
+                  var time1 =  time.getLangDatetimeFormat()
+                  date = moment(field_utils.format.datetime(moment(order.create_date), {}, {timezone: true}),time1);
                  }
             });
             return date;
@@ -428,7 +429,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                      discount = discount + o_line.discount_ext;
                 }
            });
-           return discount;
+           return Math.round(discount);
         },
         get_total_discount_per: function() {
            var discount = 0.0;

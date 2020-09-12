@@ -2690,6 +2690,7 @@ return (!(order.is_adjustment || order.is_membership_order || order.is_previous_
                 img.id = "test-barcode";
                 $(img).JsBarcode(barcode.toString());
             }
+            console.log(order);
             return {
                 widget: this,
                 pos: this.pos,
