@@ -130,12 +130,21 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         export_for_printing: function(){
             var self =  this;
             var orderlines = _super_Orderline.export_for_printing.call(this);
+            var discount_ext = 0.0;
+            if (orderlines.product_name != 'Paid Amount'){
+               this.discount_ext = (orderlines.price_lst - orderlines.price) * orderlines.quantity;
+            };
+            if (orderlines.product_name == 'Paid Amount'){
+               this.discount_ext = 0.0;
+            };
             var new_val = {
             product_name_arabic: this.get_product().arabic_name,
             label_count: this.get_product().label_count,
-            discount_ext : (orderlines.price_lst - orderlines.price) * orderlines.quantity ,
+            discount_ext : this.discount_ext,
             };
             $.extend(orderlines, new_val);
+            console.log(orderlines.product_name);
+            console.log(this.discount_ext);
             return orderlines;
         },
     });

@@ -504,7 +504,7 @@
                         <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
                     <tr t-if="order.get_order_date(order.name)==''">
-                        <td><span>Date : <t t-esc='moment(receipt.date).format("DD/MM/YYYY HH:mm:ss")' /></span></td>
+                        <td><span>Date : <t t-esc='moment().format("DD/MM/YYYY HH:mm:ss")' /></span></td>
                         <td style="color:#FFF;"><span>--------------------</span></td>
                     </tr>
                 </table>
@@ -856,7 +856,7 @@
                     <span style="direction:rtl;text-align:center;font-weight:bold;">شكرا لحسن تعاونكم معنا</span> <span>. . .</span>
 
                 </div>
-                <span t-esc="moment(receipt.date).format('DD/MM/YYYY HH:mm:ss')"/>
+                <span t-esc="moment().format('DD/MM/YYYY HH:mm:ss')"/>
             </div>
         </t>
     </t>
