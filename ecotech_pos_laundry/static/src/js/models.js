@@ -211,6 +211,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
         set_name: function(name) {
             this.name = name;
         },
+
         get_total_paid_ext: function(name) {
             var paid = 0.0
             _.each(this.pos.db.order_by_id,function (order) {
@@ -235,6 +236,7 @@ odoo.define('ecotech_pos_laundry.models', function (require) {
                     }), 0), this.pos.currency.rounding);
             }
         },
+
         get_order_date: function(name) {
             var date = '';
             _.each(this.pos.db.order_by_id,function (order) {
