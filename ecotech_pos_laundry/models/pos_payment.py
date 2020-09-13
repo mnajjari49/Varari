@@ -19,6 +19,6 @@ class PosPayment(models.Model):
     session_id = fields.Many2one('pos.session', related="",string='Session' , store=True)
     note = fields.Char('Payment Reference')
     payment_ref = fields.Char('Payment Reference')
-
+    pos_id = fields.Many2one(related="session_id.config_id" ,store=True)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -12,6 +12,22 @@
         </field>
     </record>
 
+
+        <record id="view_payment_filter" model="ir.ui.view">
+            <field name="name">pos.payment.search</field>
+            <field name="model">pos.payment</field>
+            <field name="inherit_id"  ref="point_of_sale.view_pos_payment_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="pos_id" string="POS"/>
+                </field>
+                <filter name="group_by_session" position="after">
+                   <filter name="group_by_config" string="POS" domain="[]" context="{'group_by':'pos_id'}"/>
+                </filter>
+            </field>
+        </record>
+
+
     <record id="view_pos_payment_form_inherot" model="ir.ui.view">
         <field name="name">pos.payment.inherit.form</field>
         <field name="model">pos.payment</field>
