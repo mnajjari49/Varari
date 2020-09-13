@@ -11,7 +11,7 @@
 
 {
     'name': 'Ecotech POS Laundry v2',
-    'version': '2.0',
+    'version': '2.1',
     'category': 'Point of Sale',
     'website': 'http://www.acespritech.com',
     'price': 00.0,
